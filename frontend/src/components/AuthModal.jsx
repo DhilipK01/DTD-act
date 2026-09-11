@@ -233,11 +233,11 @@ export default function AuthModal() {
               ) : (
                 <>
                   <span>MEN ARE BRAVE</span>
-                  <div className="h-6 w-12 rounded-lg overflow-hidden bg-black/50 border border-white/20 p-0.5 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform shrink-0">
+                  <div className="h-7 w-14 rounded-lg overflow-hidden bg-black/60 border border-white/20 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0 shadow-[0_0_8px_rgba(255,255,255,0.1)]">
                     <img
                       src="/batarang.png"
                       alt="Batarang"
-                      className="w-full h-full object-contain"
+                      className="w-full h-full object-cover"
                     />
                   </div>
                 </>
@@ -369,11 +369,11 @@ export default function AuthModal() {
               ) : (
                 <>
                   <span>I AM INEVITABLE</span>
-                  <div className="h-6 w-12 rounded-lg overflow-hidden bg-white/90 border border-white/30 p-0.5 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform shrink-0">
+                  <div className="h-7 w-14 rounded-lg overflow-hidden bg-black/60 border border-purple-500/40 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0 shadow-[0_0_10px_rgba(168,85,247,0.3)]">
                     <img
                       src="/thanos-sword.png"
                       alt="Thanos Sword"
-                      className="w-full h-full object-contain"
+                      className="w-full h-full object-cover"
                     />
                   </div>
                 </>
