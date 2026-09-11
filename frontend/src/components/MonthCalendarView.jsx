@@ -71,8 +71,8 @@ export default function MonthCalendarView({
               <h1 className="text-2xl sm:text-3xl font-display font-black text-white tracking-tight">
                 {MONTH_NAMES[month - 1]} {year}
               </h1>
-              <span className="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-xs px-2.5 py-0.5 rounded-full badge-theme font-bold flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: 'var(--theme-accent)' }} />
                 {activeDaysCount} active days
               </span>
             </div>
@@ -85,9 +85,9 @@ export default function MonthCalendarView({
         {/* Right: Controls & Monthly Total Pill */}
         <div className="flex items-center justify-between sm:justify-end gap-2 flex-wrap w-full sm:w-auto">
           {/* Monthly Total Pill */}
-          <div className="bg-black/50 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-2xl border border-emerald-500/30 flex items-center gap-2 shadow-inner">
+          <div className="bg-black/50 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-2xl border flex items-center gap-2 shadow-inner" style={{ borderColor: 'rgba(var(--theme-accent-rgb), 0.35)' }}>
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total:</span>
-            <span className="text-base sm:text-lg font-black text-emerald-400 font-mono tracking-tight drop-shadow-[0_0_10px_rgba(16,185,129,0.3)]">
+            <span className="text-base sm:text-lg font-black text-theme-light font-mono tracking-tight" style={{ textShadow: '0 0 10px var(--theme-glow)' }}>
               {formatCurrency(monthData?.monthlyTotal || 0)}
             </span>
           </div>
@@ -99,7 +99,7 @@ export default function MonthCalendarView({
                 onClick={() => setViewMode('grid')}
                 className={`p-1.5 sm:p-2 rounded-xl transition-all ${
                   viewMode === 'grid'
-                    ? 'bg-emerald-500 text-slate-950 font-bold shadow-glow'
+                    ? 'tab-theme-active'
                     : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
                 }`}
                 title="Calendar Grid"
@@ -110,7 +110,7 @@ export default function MonthCalendarView({
                 onClick={() => setViewMode('list')}
                 className={`p-1.5 sm:p-2 rounded-xl transition-all ${
                   viewMode === 'list'
-                    ? 'bg-emerald-500 text-slate-950 font-bold shadow-glow'
+                    ? 'tab-theme-active'
                     : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
                 }`}
                 title="Day List"
@@ -239,32 +239,39 @@ export default function MonthCalendarView({
                   onClick={() => onSelectDate(dateStr)}
                   className={`min-h-[56px] sm:min-h-[92px] p-1.5 sm:p-3 rounded-xl sm:rounded-2xl text-left border flex flex-col justify-between transition-all duration-200 cursor-pointer group relative overflow-hidden ${
                     isToday
-                      ? 'border-emerald-400/80 bg-gradient-to-br from-emerald-950/40 via-emerald-900/20 to-transparent shadow-glow ring-1 sm:ring-2 ring-emerald-400/50'
+                      ? 'cell-theme-today ring-1 sm:ring-2'
                       : hasEntries
-                      ? 'border-white/10 bg-white/[0.03] hover:border-emerald-500/40 hover:bg-white/[0.06] hover:shadow-lg'
+                      ? 'border-white/10 bg-white/[0.03] hover:border-white/30 hover:bg-white/[0.06] hover:shadow-lg'
                       : 'border-white/[0.04] bg-white/[0.01] hover:border-white/15 hover:bg-white/[0.03]'
                   }`}
+                  style={isToday ? { '--tw-ring-color': 'var(--theme-accent)' } : {}}
                 >
                   {/* Top: Day number & today marker */}
                   <div className="flex items-center justify-between">
                     <span
                       className={`text-[11px] sm:text-sm font-bold rounded-lg sm:rounded-xl w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center transition-transform group-hover:scale-105 ${
                         isToday
-                          ? 'bg-emerald-400 text-slate-950 font-black shadow-glow'
+                          ? 'btn-theme-primary font-black'
                           : 'text-slate-300 group-hover:text-white'
                       }`}
                     >
                       {dayNum}
                     </span>
                     {hasEntries && (
-                      <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+                      <span
+                        className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full"
+                        style={{ backgroundColor: 'var(--theme-accent)', boxShadow: '0 0 8px var(--theme-glow)' }}
+                      />
                     )}
                   </div>
 
                   {/* Bottom: Daily Total */}
                   <div className="mt-1">
                     {hasEntries ? (
-                      <span className="text-[10px] sm:text-xs font-black text-emerald-400 font-mono tracking-tight block truncate drop-shadow-[0_0_6px_rgba(16,185,129,0.3)]">
+                      <span
+                        className="text-[10px] sm:text-xs font-black text-theme-light font-mono tracking-tight block truncate"
+                        style={{ textShadow: '0 0 8px var(--theme-glow)' }}
+                      >
                         {formatCurrency(total)}
                       </span>
                     ) : (
@@ -295,16 +302,16 @@ export default function MonthCalendarView({
                 onClick={() => onSelectDate(dateStr)}
                 className={`p-3.5 sm:p-4 rounded-2xl border transition-all cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
                   isToday
-                    ? 'border-emerald-500/50 bg-emerald-950/20 shadow-glow'
+                    ? 'border-theme cell-theme-today shadow-theme-glow'
                     : hasEntries
-                    ? 'border-white/10 bg-white/[0.02] hover:bg-white/[0.05] hover:border-emerald-500/30'
+                    ? 'border-white/10 bg-white/[0.02] hover:bg-white/[0.05] hover:border-white/25'
                     : 'border-white/[0.03] bg-white/[0.01] hover:border-white/10 opacity-70'
                 }`}
               >
                 {/* Date & Indicator */}
                 <div className="flex items-center gap-3">
                   <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold ${
-                    isToday ? 'bg-emerald-400 text-slate-950 font-black' : 'bg-white/[0.06] text-white'
+                    isToday ? 'btn-theme-primary font-black' : 'bg-white/[0.06] text-white'
                   }`}>
                     {dayNum}
                   </div>
@@ -314,7 +321,7 @@ export default function MonthCalendarView({
                         {MONTH_NAMES[month - 1]} {dayNum}, {year}
                       </span>
                       {isToday && (
-                        <span className="text-[10px] font-bold px-2 py-0.2 rounded-full bg-emerald-500 text-slate-950">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full tab-theme-active">
                           Today
                         </span>
                       )}
@@ -329,12 +336,12 @@ export default function MonthCalendarView({
                 <div className="flex items-center justify-between sm:justify-end gap-4">
                   {hasEntries ? (
                     <div className="text-right">
-                      <span className="text-base sm:text-lg font-black text-emerald-400 font-mono tracking-tight block">
+                      <span className="text-base sm:text-lg font-black text-theme-light font-mono tracking-tight block" style={{ textShadow: '0 0 10px var(--theme-glow)' }}>
                         {formatCurrency(total)}
                       </span>
                       <span className="text-[11px] text-slate-400 flex items-center gap-1 justify-end">
                         <span>Details</span>
-                        <ArrowUpRight className="w-3 h-3 text-emerald-400" />
+                        <ArrowUpRight className="w-3 h-3 text-theme-light" />
                       </span>
                     </div>
                   ) : (

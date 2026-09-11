@@ -315,7 +315,7 @@ export default function DayEntrySheet({
                 {formatDisplayDate(date)}
               </h2>
               {dayOfWeek && (
-                <span className="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold uppercase tracking-wider">
+                <span className="text-xs px-2.5 py-0.5 rounded-full badge-theme font-bold uppercase tracking-wider">
                   {dayOfWeek}
                 </span>
               )}
@@ -344,15 +344,15 @@ export default function DayEntrySheet({
           )}
 
           {successMsg && (
-            <div className="p-3.5 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2.5 shadow-sm">
-              <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-400" />
+            <div className="p-3.5 rounded-2xl bg-theme-subtle border border-theme-subtle text-theme-light text-xs flex items-center gap-2.5 shadow-sm">
+              <CheckCircle2 className="w-4 h-4 shrink-0 text-theme" />
               <span className="font-medium">{successMsg}</span>
             </div>
           )}
 
           {loading ? (
             <div className="py-16 text-center text-slate-400 flex flex-col items-center justify-center gap-3">
-              <RefreshCw className="w-8 h-8 animate-spin text-emerald-400" />
+              <RefreshCw className="w-8 h-8 animate-spin text-theme-light" />
               <span className="text-sm font-medium">Loading day entries...</span>
             </div>
           ) : (
@@ -518,7 +518,7 @@ export default function DayEntrySheet({
             <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
               Day Total:
             </span>
-            <span className="text-2xl sm:text-3xl font-black text-emerald-400 font-mono tracking-tight drop-shadow-[0_0_12px_rgba(16,185,129,0.3)]">
+            <span className="text-2xl sm:text-3xl font-black text-theme-light font-mono tracking-tight" style={{ textShadow: '0 0 14px var(--theme-glow)' }}>
               {formatCurrency(dailyTotal)}
             </span>
           </div>
@@ -550,7 +550,7 @@ export default function DayEntrySheet({
               type="submit"
               form="day-form"
               disabled={saving || loading}
-              className="flex-1 sm:flex-none px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-400 hover:brightness-110 active:scale-95 text-slate-950 text-xs font-black tracking-wide transition-all shadow-glow flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+              className="flex-1 sm:flex-none px-6 py-2.5 rounded-xl btn-theme-primary text-xs font-black tracking-wide transition-all shadow-theme-glow flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
             >
               {saving ? (
                 <>

@@ -196,7 +196,7 @@ export default function App() {
       <div className="fixed bottom-20 right-4 sm:hidden z-20">
         <button
           onClick={handleOpenToday}
-          className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-400 to-teal-300 text-slate-950 flex items-center justify-center shadow-glow active:scale-95 transition-all"
+          className="w-14 h-14 rounded-2xl btn-theme-primary flex items-center justify-center shadow-theme-glow active:scale-95 transition-all"
           title="Log Today's Spending"
         >
           <Plus className="w-7 h-7 stroke-[3]" />
@@ -208,7 +208,7 @@ export default function App() {
         <button
           onClick={() => setActiveTab('yearGrid')}
           className={`flex flex-col items-center gap-1 text-[10px] font-bold transition-colors ${
-            activeTab === 'yearGrid' ? 'text-emerald-400' : 'text-slate-400'
+            activeTab === 'yearGrid' ? 'text-theme-light drop-shadow-[0_0_8px_var(--theme-glow)]' : 'text-slate-400'
           }`}
         >
           <LayoutGrid className="w-5 h-5" />
@@ -218,7 +218,7 @@ export default function App() {
         <button
           onClick={() => setActiveTab('monthView')}
           className={`flex flex-col items-center gap-1 text-[10px] font-bold transition-colors ${
-            activeTab === 'monthView' ? 'text-emerald-400' : 'text-slate-400'
+            activeTab === 'monthView' ? 'text-theme-light drop-shadow-[0_0_8px_var(--theme-glow)]' : 'text-slate-400'
           }`}
         >
           <Calendar className="w-5 h-5" />
@@ -228,7 +228,7 @@ export default function App() {
         <button
           onClick={() => setActiveTab('analytics')}
           className={`flex flex-col items-center gap-1 text-[10px] font-bold transition-colors ${
-            activeTab === 'analytics' ? 'text-emerald-400' : 'text-slate-400'
+            activeTab === 'analytics' ? 'text-theme-light drop-shadow-[0_0_8px_var(--theme-glow)]' : 'text-slate-400'
           }`}
         >
           <BarChart3 className="w-5 h-5" />
@@ -237,7 +237,7 @@ export default function App() {
 
         <button
           onClick={() => setIsProfileOpen(true)}
-          className="flex flex-col items-center gap-1 text-[10px] font-bold transition-colors text-slate-400 hover:text-emerald-400"
+          className="flex flex-col items-center gap-1 text-[10px] font-bold transition-colors text-slate-400 hover:text-theme-light"
         >
           <User className="w-5 h-5" />
           <span>Profile</span>

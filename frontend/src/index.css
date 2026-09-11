@@ -9,22 +9,22 @@
   --theme-accent-light: #34d399;
   --theme-accent-dark: #059669;
   --theme-accent-rgb: 16, 185, 129;
-  --theme-glow: rgba(16, 185, 129, 0.35);
-  --theme-mesh-1: rgba(16, 185, 129, 0.12);
-  --theme-mesh-2: rgba(99, 102, 241, 0.08);
-  --theme-mesh-3: rgba(6, 182, 212, 0.08);
+  --theme-glow: rgba(16, 185, 129, 0.50);
+  --theme-mesh-1: rgba(16, 185, 129, 0.32);
+  --theme-mesh-2: rgba(99, 102, 241, 0.18);
+  --theme-mesh-3: rgba(6, 182, 212, 0.16);
 }
 
 /* 2. Electric Violet */
 [data-theme="violet"] {
-  --theme-accent: #8b5cf6;
-  --theme-accent-light: #a78bfa;
-  --theme-accent-dark: #7c3aed;
-  --theme-accent-rgb: 139, 92, 246;
-  --theme-glow: rgba(139, 92, 246, 0.40);
-  --theme-mesh-1: rgba(139, 92, 246, 0.18);
-  --theme-mesh-2: rgba(236, 72, 153, 0.10);
-  --theme-mesh-3: rgba(99, 102, 241, 0.10);
+  --theme-accent: #a855f7;
+  --theme-accent-light: #c084fc;
+  --theme-accent-dark: #9333ea;
+  --theme-accent-rgb: 168, 85, 247;
+  --theme-glow: rgba(168, 85, 247, 0.55);
+  --theme-mesh-1: rgba(168, 85, 247, 0.34);
+  --theme-mesh-2: rgba(236, 72, 153, 0.20);
+  --theme-mesh-3: rgba(99, 102, 241, 0.18);
 }
 
 /* 3. Crimson Blaze */
@@ -33,10 +33,10 @@
   --theme-accent-light: #f87171;
   --theme-accent-dark: #dc2626;
   --theme-accent-rgb: 239, 68, 68;
-  --theme-glow: rgba(239, 68, 68, 0.40);
-  --theme-mesh-1: rgba(239, 68, 68, 0.16);
-  --theme-mesh-2: rgba(249, 115, 22, 0.09);
-  --theme-mesh-3: rgba(236, 72, 153, 0.08);
+  --theme-glow: rgba(239, 68, 68, 0.55);
+  --theme-mesh-1: rgba(239, 68, 68, 0.32);
+  --theme-mesh-2: rgba(249, 115, 22, 0.18);
+  --theme-mesh-3: rgba(236, 72, 153, 0.16);
 }
 
 /* 4. Cyber Pink */
@@ -45,10 +45,10 @@
   --theme-accent-light: #f472b6;
   --theme-accent-dark: #db2777;
   --theme-accent-rgb: 236, 72, 153;
-  --theme-glow: rgba(236, 72, 153, 0.40);
-  --theme-mesh-1: rgba(236, 72, 153, 0.16);
-  --theme-mesh-2: rgba(139, 92, 246, 0.10);
-  --theme-mesh-3: rgba(251, 113, 133, 0.09);
+  --theme-glow: rgba(236, 72, 153, 0.55);
+  --theme-mesh-1: rgba(236, 72, 153, 0.34);
+  --theme-mesh-2: rgba(168, 85, 247, 0.20);
+  --theme-mesh-3: rgba(251, 113, 133, 0.16);
 }
 
 /* 5. Sapphire Ocean */
@@ -57,10 +57,10 @@
   --theme-accent-light: #38bdf8;
   --theme-accent-dark: #0284c7;
   --theme-accent-rgb: 14, 165, 233;
-  --theme-glow: rgba(14, 165, 233, 0.38);
-  --theme-mesh-1: rgba(14, 165, 233, 0.14);
-  --theme-mesh-2: rgba(99, 102, 241, 0.10);
-  --theme-mesh-3: rgba(20, 184, 166, 0.09);
+  --theme-glow: rgba(14, 165, 233, 0.55);
+  --theme-mesh-1: rgba(14, 165, 233, 0.32);
+  --theme-mesh-2: rgba(99, 102, 241, 0.18);
+  --theme-mesh-3: rgba(20, 184, 166, 0.16);
 }
 
 /* 6. Sunset Gold */
@@ -69,10 +69,10 @@
   --theme-accent-light: #fbbf24;
   --theme-accent-dark: #d97706;
   --theme-accent-rgb: 245, 158, 11;
-  --theme-glow: rgba(245, 158, 11, 0.38);
-  --theme-mesh-1: rgba(245, 158, 11, 0.14);
-  --theme-mesh-2: rgba(239, 68, 68, 0.09);
-  --theme-mesh-3: rgba(249, 115, 22, 0.09);
+  --theme-glow: rgba(245, 158, 11, 0.55);
+  --theme-mesh-1: rgba(245, 158, 11, 0.32);
+  --theme-mesh-2: rgba(239, 68, 68, 0.18);
+  --theme-mesh-3: rgba(249, 115, 22, 0.16);
 }
 
 /* 7. Lime Fresh */
@@ -81,10 +81,10 @@
   --theme-accent-light: #a3e635;
   --theme-accent-dark: #65a30d;
   --theme-accent-rgb: 132, 204, 22;
-  --theme-glow: rgba(132, 204, 22, 0.38);
-  --theme-mesh-1: rgba(132, 204, 22, 0.14);
-  --theme-mesh-2: rgba(16, 185, 129, 0.09);
-  --theme-mesh-3: rgba(234, 179, 8, 0.08);
+  --theme-glow: rgba(132, 204, 22, 0.55);
+  --theme-mesh-1: rgba(132, 204, 22, 0.32);
+  --theme-mesh-2: rgba(16, 185, 129, 0.18);
+  --theme-mesh-3: rgba(234, 179, 8, 0.16);
 }
 
 /* 8. Neon Orange */
@@ -93,10 +93,10 @@
   --theme-accent-light: #fb923c;
   --theme-accent-dark: #ea580c;
   --theme-accent-rgb: 249, 115, 22;
-  --theme-glow: rgba(249, 115, 22, 0.40);
-  --theme-mesh-1: rgba(249, 115, 22, 0.16);
-  --theme-mesh-2: rgba(239, 68, 68, 0.10);
-  --theme-mesh-3: rgba(245, 158, 11, 0.09);
+  --theme-glow: rgba(249, 115, 22, 0.55);
+  --theme-mesh-1: rgba(249, 115, 22, 0.34);
+  --theme-mesh-2: rgba(239, 68, 68, 0.20);
+  --theme-mesh-3: rgba(245, 158, 11, 0.16);
 }
 
 /* 9. Teal Aqua */
@@ -105,10 +105,10 @@
   --theme-accent-light: #2dd4bf;
   --theme-accent-dark: #0d9488;
   --theme-accent-rgb: 20, 184, 166;
-  --theme-glow: rgba(20, 184, 166, 0.38);
-  --theme-mesh-1: rgba(20, 184, 166, 0.14);
-  --theme-mesh-2: rgba(6, 182, 212, 0.10);
-  --theme-mesh-3: rgba(16, 185, 129, 0.08);
+  --theme-glow: rgba(20, 184, 166, 0.55);
+  --theme-mesh-1: rgba(20, 184, 166, 0.32);
+  --theme-mesh-2: rgba(6, 182, 212, 0.18);
+  --theme-mesh-3: rgba(16, 185, 129, 0.16);
 }
 
 /* 10. Rose Petal */
@@ -117,10 +117,10 @@
   --theme-accent-light: #fda4af;
   --theme-accent-dark: #f43f5e;
   --theme-accent-rgb: 251, 113, 133;
-  --theme-glow: rgba(251, 113, 133, 0.40);
-  --theme-mesh-1: rgba(251, 113, 133, 0.16);
-  --theme-mesh-2: rgba(236, 72, 153, 0.10);
-  --theme-mesh-3: rgba(239, 68, 68, 0.08);
+  --theme-glow: rgba(251, 113, 133, 0.55);
+  --theme-mesh-1: rgba(251, 113, 133, 0.32);
+  --theme-mesh-2: rgba(236, 72, 153, 0.18);
+  --theme-mesh-3: rgba(239, 68, 68, 0.16);
 }
 
 /* 11. Deep Indigo */
@@ -129,10 +129,10 @@
   --theme-accent-light: #818cf8;
   --theme-accent-dark: #4f46e5;
   --theme-accent-rgb: 99, 102, 241;
-  --theme-glow: rgba(99, 102, 241, 0.40);
-  --theme-mesh-1: rgba(99, 102, 241, 0.18);
-  --theme-mesh-2: rgba(139, 92, 246, 0.12);
-  --theme-mesh-3: rgba(14, 165, 233, 0.08);
+  --theme-glow: rgba(99, 102, 241, 0.55);
+  --theme-mesh-1: rgba(99, 102, 241, 0.34);
+  --theme-mesh-2: rgba(168, 85, 247, 0.20);
+  --theme-mesh-3: rgba(14, 165, 233, 0.16);
 }
 
 /* 12. Cyber Yellow */
@@ -141,10 +141,10 @@
   --theme-accent-light: #facc15;
   --theme-accent-dark: #ca8a04;
   --theme-accent-rgb: 234, 179, 8;
-  --theme-glow: rgba(234, 179, 8, 0.38);
-  --theme-mesh-1: rgba(234, 179, 8, 0.14);
-  --theme-mesh-2: rgba(249, 115, 22, 0.09);
-  --theme-mesh-3: rgba(132, 204, 22, 0.08);
+  --theme-glow: rgba(234, 179, 8, 0.55);
+  --theme-mesh-1: rgba(234, 179, 8, 0.32);
+  --theme-mesh-2: rgba(249, 115, 22, 0.18);
+  --theme-mesh-3: rgba(132, 204, 22, 0.16);
 }
 
 /* 13. Fuchsia Pulse */
@@ -153,10 +153,10 @@
   --theme-accent-light: #e879f9;
   --theme-accent-dark: #c026d3;
   --theme-accent-rgb: 217, 70, 239;
-  --theme-glow: rgba(217, 70, 239, 0.40);
-  --theme-mesh-1: rgba(217, 70, 239, 0.18);
-  --theme-mesh-2: rgba(139, 92, 246, 0.12);
-  --theme-mesh-3: rgba(236, 72, 153, 0.10);
+  --theme-glow: rgba(217, 70, 239, 0.55);
+  --theme-mesh-1: rgba(217, 70, 239, 0.34);
+  --theme-mesh-2: rgba(168, 85, 247, 0.20);
+  --theme-mesh-3: rgba(236, 72, 153, 0.16);
 }
 
 /* 14. Arctic Cyan */
@@ -165,22 +165,21 @@
   --theme-accent-light: #22d3ee;
   --theme-accent-dark: #0891b2;
   --theme-accent-rgb: 6, 182, 212;
-  --theme-glow: rgba(6, 182, 212, 0.38);
-  --theme-mesh-1: rgba(6, 182, 212, 0.14);
-  --theme-mesh-2: rgba(14, 165, 233, 0.10);
-  --theme-mesh-3: rgba(20, 184, 166, 0.09);
+  --theme-glow: rgba(6, 182, 212, 0.55);
+  --theme-mesh-1: rgba(6, 182, 212, 0.32);
+  --theme-mesh-2: rgba(14, 165, 233, 0.18);
+  --theme-mesh-3: rgba(20, 184, 166, 0.16);
 }
-
 
 body {
   margin: 0;
   padding: 0;
   -webkit-tap-highlight-color: transparent;
-  background-color: #06080f;
+  background-color: #060810;
   background-image:
-    radial-gradient(ellipse 90% 55% at 50% -15%, var(--theme-mesh-1), transparent),
-    radial-gradient(ellipse 65% 45% at 100% 30%, var(--theme-mesh-2), transparent),
-    radial-gradient(ellipse 60% 45% at 0% 75%, var(--theme-mesh-3), transparent);
+    radial-gradient(ellipse 95% 65% at 50% -12%, var(--theme-mesh-1), transparent 75%),
+    radial-gradient(ellipse 75% 55% at 100% 25%, var(--theme-mesh-2), transparent 75%),
+    radial-gradient(ellipse 70% 55% at 0% 75%, var(--theme-mesh-3), transparent 75%);
   background-attachment: fixed;
   min-height: 100vh;
   color: #f1f5f9;
@@ -230,6 +229,90 @@ body {
   border-color: var(--theme-accent-light);
   box-shadow: 0 0 0 3px rgba(var(--theme-accent-rgb), 0.22), 0 0 20px -6px var(--theme-glow);
   outline: none;
+}
+
+/* ============================================================
+   DYNAMIC THEME UTILITIES (Instant visible impact on all themes)
+   ============================================================ */
+
+/* 1. Theme Primary Button */
+.btn-theme-primary {
+  background: linear-gradient(135deg, var(--theme-accent-light) 0%, var(--theme-accent) 100%) !important;
+  color: #040711 !important;
+  font-weight: 900 !important;
+  box-shadow: 0 0 24px -2px var(--theme-glow), 0 4px 14px rgba(0, 0, 0, 0.4) !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.btn-theme-primary:hover {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+  box-shadow: 0 0 32px -1px var(--theme-glow), 0 6px 20px rgba(0, 0, 0, 0.5) !important;
+}
+.btn-theme-primary:active {
+  transform: scale(0.96) !important;
+}
+
+/* 2. Theme Active Navigation Tab */
+.tab-theme-active {
+  background: linear-gradient(135deg, var(--theme-accent-light) 0%, var(--theme-accent) 100%) !important;
+  color: #040711 !important;
+  font-weight: 800 !important;
+  box-shadow: 0 0 22px -3px var(--theme-glow) !important;
+}
+
+/* 3. Theme Brand Logo Badge */
+.logo-theme {
+  background: linear-gradient(135deg, var(--theme-accent-light) 0%, var(--theme-accent) 55%, var(--theme-accent-dark) 100%) !important;
+  color: #040711 !important;
+  box-shadow: 0 0 20px -2px var(--theme-glow) !important;
+}
+
+/* 4. Theme Text and Badges */
+.text-theme {
+  color: var(--theme-accent) !important;
+}
+.text-theme-light {
+  color: var(--theme-accent-light) !important;
+}
+.badge-theme {
+  background-color: rgba(var(--theme-accent-rgb), 0.14) !important;
+  color: var(--theme-accent-light) !important;
+  border: 1px solid rgba(var(--theme-accent-rgb), 0.35) !important;
+}
+
+/* 5. Theme Borders & Rings */
+.border-theme-subtle {
+  border-color: rgba(var(--theme-accent-rgb), 0.35) !important;
+}
+.border-theme {
+  border-color: var(--theme-accent) !important;
+}
+.ring-theme {
+  box-shadow: 0 0 0 2px rgba(var(--theme-accent-rgb), 0.55), 0 0 22px -4px var(--theme-glow) !important;
+}
+
+/* 6. Theme Glow Shadows */
+.shadow-theme-glow {
+  box-shadow: 0 0 24px -3px var(--theme-glow) !important;
+}
+
+/* 7. Theme Today Calendar Cell */
+.cell-theme-today {
+  border-color: var(--theme-accent) !important;
+  background: linear-gradient(135deg, rgba(var(--theme-accent-rgb), 0.22) 0%, rgba(var(--theme-accent-rgb), 0.06) 100%) !important;
+  box-shadow: 0 0 24px -4px var(--theme-glow) !important;
+}
+
+/* 8. Fully Opaque Theme Dropdown (NO merging with background!) */
+.theme-dropdown-popover {
+  background: #080b14 !important;
+  background-color: #080b14 !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  box-shadow: 0 25px 65px -8px rgba(0, 0, 0, 0.98), 0 0 32px -8px var(--theme-glow) !important;
+  z-index: 100 !important;
+  isolation: isolate;
 }
 
 /* Custom glow accents */

@@ -103,7 +103,7 @@ export default function AuthModal() {
 
         {/* Brand Header */}
         <div className="text-center mb-6 relative z-10">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-500 via-teal-400 to-cyan-400 flex items-center justify-center text-slate-950 font-black text-2xl mx-auto mb-3 shadow-glow transition-transform hover:scale-105">
+          <div className="w-14 h-14 rounded-2xl logo-theme flex items-center justify-center font-black text-2xl mx-auto mb-3 shadow-theme-glow transition-transform hover:scale-105">
             ₹
           </div>
           <h1 className="text-2xl font-display font-black text-white tracking-tight">
@@ -127,7 +127,7 @@ export default function AuthModal() {
             }}
             className={`flex-1 py-2.5 text-xs font-bold rounded-xl transition-all duration-200 ${
               mode === 'signin'
-                ? 'bg-gradient-to-r from-emerald-500 to-teal-400 text-slate-950 font-black shadow-glow'
+                ? 'tab-theme-active font-black'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
@@ -142,7 +142,7 @@ export default function AuthModal() {
             }}
             className={`flex-1 py-2.5 text-xs font-bold rounded-xl transition-all duration-200 ${
               mode === 'signup'
-                ? 'bg-gradient-to-r from-emerald-500 to-teal-400 text-slate-950 font-black shadow-glow'
+                ? 'tab-theme-active font-black'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
@@ -222,7 +222,7 @@ export default function AuthModal() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 px-4 bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-400 hover:brightness-110 active:scale-[0.99] text-slate-950 font-black rounded-2xl text-sm transition-all shadow-glow flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer mt-2"
+              className="w-full py-3.5 px-4 btn-theme-primary text-sm transition-all shadow-theme-glow flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer mt-2 rounded-2xl"
             >
               {loading ? (
                 <>
@@ -246,7 +246,7 @@ export default function AuthModal() {
                   setMode('signup');
                   setError('');
                 }}
-                className="text-emerald-400 hover:text-emerald-300 font-bold hover:underline"
+                className="text-theme-light hover:underline font-bold"
               >
                 Sign Up here
               </button>
@@ -352,7 +352,7 @@ export default function AuthModal() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 px-4 bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-400 hover:brightness-110 active:scale-[0.99] text-slate-950 font-black rounded-2xl text-sm transition-all shadow-glow flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer mt-3"
+              className="w-full py-3.5 px-4 btn-theme-primary text-sm transition-all shadow-theme-glow flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer mt-3 rounded-2xl"
             >
               {loading ? (
                 <>
@@ -376,7 +376,7 @@ export default function AuthModal() {
                   setMode('signin');
                   setError('');
                 }}
-                className="text-emerald-400 hover:text-emerald-300 font-bold hover:underline"
+                className="text-theme-light hover:underline font-bold"
               >
                 Sign In
               </button>

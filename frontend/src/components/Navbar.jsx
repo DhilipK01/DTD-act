@@ -64,14 +64,14 @@ export default function Navbar({
         {/* Brand & Year Selector */}
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2.5 group cursor-default">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-500 via-teal-400 to-cyan-400 flex items-center justify-center text-slate-950 font-black text-xl shadow-glow transition-transform group-hover:scale-105 duration-200">
+            <div className="w-10 h-10 rounded-2xl logo-theme flex items-center justify-center font-black text-xl transition-transform group-hover:scale-105 duration-200">
               ₹
             </div>
             <div>
               <span className="text-lg font-display font-extrabold tracking-tight text-white flex items-center gap-1.5">
                 DailyExpense
               </span>
-              <span className="hidden sm:inline-block text-[11px] font-semibold text-emerald-400 tracking-wide">
+              <span className="hidden sm:inline-block text-[11px] font-semibold text-theme-light tracking-wide">
                 Personal Tracker
               </span>
             </div>
@@ -82,7 +82,7 @@ export default function Navbar({
             <select
               value={selectedYear}
               onChange={(e) => onYearChange(parseInt(e.target.value, 10))}
-              className="appearance-none bg-white/[0.04] hover:bg-white/[0.08] text-white font-mono font-bold text-xs pl-3 pr-8 py-1.5 rounded-xl border border-white/10 hover:border-emerald-500/40 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 transition-all cursor-pointer shadow-sm"
+              className="appearance-none bg-white/[0.04] hover:bg-white/[0.08] text-white font-mono font-bold text-xs pl-3 pr-8 py-1.5 rounded-xl border border-white/10 hover:border-white/25 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all cursor-pointer shadow-sm"
               title="Select Year (2000-2100)"
             >
               {years.map((y) => (
@@ -100,12 +100,12 @@ export default function Navbar({
         </div>
 
         {/* View Switcher Tabs (Hidden on mobile since bottom bar exists, visible on tablet/desktop) */}
-        <nav className="hidden sm:flex items-center bg-black/40 p-1 rounded-2xl border border-white/[0.08] sm:order-2 w-auto justify-around backdrop-blur-md">
+        <nav className="hidden sm:flex items-center bg-black/50 p-1 rounded-2xl border border-white/[0.08] sm:order-2 w-auto justify-around backdrop-blur-md">
           <button
             onClick={() => onTabChange('yearGrid')}
             className={`flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all duration-200 ${
               activeTab === 'yearGrid'
-                ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 shadow-glow font-extrabold'
+                ? 'tab-theme-active'
                 : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
             }`}
           >
@@ -117,7 +117,7 @@ export default function Navbar({
             onClick={() => onTabChange('monthView')}
             className={`flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all duration-200 ${
               activeTab === 'monthView'
-                ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 shadow-glow font-extrabold'
+                ? 'tab-theme-active'
                 : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
             }`}
           >
@@ -129,7 +129,7 @@ export default function Navbar({
             onClick={() => onTabChange('analytics')}
             className={`flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all duration-200 ${
               activeTab === 'analytics'
-                ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 shadow-glow font-extrabold'
+                ? 'tab-theme-active'
                 : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
             }`}
           >
@@ -146,24 +146,24 @@ export default function Navbar({
               onClick={() => setThemeMenuOpen(!themeMenuOpen)}
               className="p-2 bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-white rounded-xl border border-white/10 transition-all"
               title="Change Aesthetic Color Theme"
-              style={themeMenuOpen ? { color: 'var(--theme-accent)', borderColor: 'rgba(var(--theme-accent-rgb), 0.4)' } : {}}
+              style={themeMenuOpen ? { color: 'var(--theme-accent)', borderColor: 'var(--theme-accent)' } : {}}
             >
               <Palette className="w-4 h-4" />
             </button>
 
             {themeMenuOpen && (
-              <div className="absolute right-0 mt-2 w-72 bg-slate-950/98 border border-white/15 rounded-2xl shadow-2xl backdrop-blur-xl z-50 overflow-hidden">
+              <div className="absolute right-0 mt-2 w-72 sm:w-80 theme-dropdown-popover rounded-2xl overflow-hidden">
                 {/* Header */}
-                <div className="px-4 py-3 border-b border-white/10 flex items-center justify-between">
+                <div className="px-4 py-3 border-b border-white/10 flex items-center justify-between bg-black/40">
                   <span className="text-[11px] font-black uppercase tracking-wider text-white flex items-center gap-1.5">
-                    <Palette className="w-3.5 h-3.5" style={{ color: 'var(--theme-accent)' }} />
+                    <Palette className="w-3.5 h-3.5 text-theme" />
                     Choose Your Theme
                   </span>
-                  <span className="text-[10px] text-slate-400 font-medium">{themes.length} themes</span>
+                  <span className="text-[10px] text-slate-400 font-semibold">{themes.length} themes</span>
                 </div>
 
-                {/* 2-column theme grid */}
-                <div className="p-2 grid grid-cols-2 gap-1.5 max-h-80 overflow-y-auto">
+                {/* 2-column theme grid with solid items */}
+                <div className="p-2 grid grid-cols-2 gap-1.5 max-h-80 overflow-y-auto bg-[#080b14]">
                   {themes.map((t) => (
                     <button
                       key={t.id}
@@ -173,32 +173,32 @@ export default function Navbar({
                       }}
                       className={`flex items-center gap-2 px-2.5 py-2 rounded-xl transition-all text-left group ${
                         theme === t.id
-                          ? 'bg-white/[0.10] font-bold border border-white/20'
-                          : 'hover:bg-white/[0.05] border border-transparent hover:border-white/10'
+                          ? 'bg-white/[0.14] font-bold border border-white/30 shadow-sm'
+                          : 'bg-white/[0.02] hover:bg-white/[0.08] border border-white/[0.05] hover:border-white/15'
                       }`}
                     >
                       {/* Color dot */}
                       <span
-                        className={`w-4 h-4 rounded-full shrink-0 shadow-md border-2 border-black/30 ${t.dot}`}
-                        style={theme === t.id ? { boxShadow: `0 0 8px 2px ${t.color}66` } : {}}
+                        className={`w-4 h-4 rounded-full shrink-0 shadow-md border-2 border-black/40 ${t.dot}`}
+                        style={{ boxShadow: `0 0 10px 2px ${t.color}88` }}
                       />
-                      <div className="min-w-0">
+                      <div className="min-w-0 flex-1">
                         <span className={`text-[11px] font-bold block truncate ${
                           theme === t.id ? 'text-white' : 'text-slate-300 group-hover:text-white'
                         }`}>
                           {t.name}
                         </span>
-                        <span className="text-[9px] text-slate-500 block">{t.label}</span>
+                        <span className="text-[9px] text-slate-400 block font-medium">{t.label}</span>
                       </div>
                       {theme === t.id && (
-                        <Check className="w-3 h-3 ml-auto shrink-0" style={{ color: t.color }} />
+                        <Check className="w-3.5 h-3.5 shrink-0" style={{ color: t.color }} />
                       )}
                     </button>
                   ))}
                 </div>
 
                 {/* Footer hint */}
-                <div className="px-4 py-2.5 border-t border-white/10 text-[10px] text-slate-500 text-center">
+                <div className="px-4 py-2.5 border-t border-white/10 text-[10px] text-slate-400 text-center bg-black/40 font-medium">
                   Theme saved automatically ✓
                 </div>
               </div>
@@ -217,16 +217,16 @@ export default function Navbar({
           {/* Monthly Budget Target */}
           <button
             onClick={onOpenBudget}
-            className="p-2 bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-emerald-400 rounded-xl border border-white/10 transition-all"
+            className="p-2 bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-theme-light rounded-xl border border-white/10 transition-all"
             title="Set Monthly Budget Target"
           >
             <Target className="w-4 h-4" />
           </button>
 
-          {/* Quick "Log Today" with glowing border */}
+          {/* Quick "Log Today" with glowing theme styling */}
           <button
             onClick={onOpenToday}
-            className="relative group flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-slate-950 bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-400 rounded-xl transition-all shadow-glow hover:brightness-110 active:scale-95"
+            className="relative group flex items-center gap-1.5 px-3.5 py-1.5 text-xs btn-theme-primary rounded-xl cursor-pointer"
             title="Log Today's Spending"
           >
             <Sparkles className="w-3.5 h-3.5 fill-current" />
@@ -239,7 +239,7 @@ export default function Navbar({
             className="flex items-center gap-2 px-2.5 py-1 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 transition-all cursor-pointer group"
             title="View User Profile (Read-Only)"
           >
-            <div className="w-6 h-6 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-[11px] font-black text-emerald-400 font-display">
+            <div className="w-6 h-6 rounded-lg bg-theme-subtle border border-theme-subtle flex items-center justify-center text-[11px] font-black text-theme-light font-display">
               {initials}
             </div>
             <span

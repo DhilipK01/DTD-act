@@ -83,21 +83,21 @@ export default function YearPickerGrid({
                 onClick={() => onSelectMonth(monthNum)}
                 className={`glass-panel glass-panel-interactive p-4 sm:p-5 rounded-[24px] text-left border relative group transition-all duration-200 cursor-pointer flex flex-col justify-between min-h-[125px] overflow-hidden ${
                   isCurrentMonth
-                    ? 'border-emerald-500/60 bg-gradient-to-br from-emerald-950/30 to-transparent shadow-glow'
-                    : 'border-white/[0.06] hover:border-emerald-500/40'
+                    ? 'border-theme cell-theme-today shadow-theme-glow'
+                    : 'border-white/[0.06] hover:border-white/30'
                 }`}
               >
                 {/* Top: Month Name & Current Badge */}
                 <div className="flex items-center justify-between">
-                  <span className="text-base sm:text-lg font-display font-bold text-white group-hover:text-emerald-300 transition-colors">
+                  <span className="text-base sm:text-lg font-display font-bold text-white group-hover:text-theme-light transition-colors">
                     {name}
                   </span>
                   {isCurrentMonth ? (
-                    <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-emerald-400 text-slate-950 shadow-sm">
+                    <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full btn-theme-primary shadow-sm">
                       Current
                     </span>
                   ) : (
-                    <ArrowUpRight className="w-4 h-4 text-slate-500 group-hover:text-emerald-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                    <ArrowUpRight className="w-4 h-4 text-slate-500 group-hover:text-theme-light group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
                   )}
                 </div>
 
@@ -106,9 +106,10 @@ export default function YearPickerGrid({
                   <span
                     className={`text-base sm:text-xl font-black font-mono tracking-tight block ${
                       hasEntries
-                        ? 'text-emerald-400 drop-shadow-[0_0_8px_rgba(16,185,129,0.25)]'
+                        ? 'text-theme-light'
                         : 'text-slate-500 font-medium'
                     }`}
+                    style={hasEntries ? { textShadow: '0 0 10px var(--theme-glow)' } : {}}
                   >
                     {hasEntries ? formatCurrency(total) : '—'}
                   </span>
@@ -118,8 +119,11 @@ export default function YearPickerGrid({
                 <div className="w-full">
                   <div className="w-full bg-black/40 h-1.5 rounded-full overflow-hidden border border-white/[0.04]">
                     <div
-                      className="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full transition-all duration-500 shadow-sm"
-                      style={{ width: `${hasEntries ? Math.max(5, percentageOfMax) : 0}%` }}
+                      className="h-full rounded-full transition-all duration-500 shadow-sm"
+                      style={{
+                        width: `${hasEntries ? Math.max(5, percentageOfMax) : 0}%`,
+                        background: 'linear-gradient(90deg, var(--theme-accent-light), var(--theme-accent))'
+                      }}
                     />
                   </div>
                 </div>
