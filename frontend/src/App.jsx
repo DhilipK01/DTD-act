@@ -33,6 +33,16 @@ export default function App() {
   const [monthData, setMonthData] = useState(null);
   const [dataLoading, setDataLoading] = useState(false);
 
+  // Doctor Doom 5-second splash screen on app boot
+  const [showDoomSplash, setShowDoomSplash] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowDoomSplash(false);
+    }, 5000); // 5 seconds
+    return () => clearTimeout(timer);
+  }, []);
+
   // Load analytics for current year and month
   const loadData = useCallback(async () => {
     if (!isAuthenticated) return;
@@ -87,17 +97,39 @@ export default function App() {
     setEditingDate(todayStr);
   };
 
-  // If checking authentication state on boot
-  if (authLoading) {
+  // 5-second Doctor Doom splash screen on boot
+  if (showDoomSplash || authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#060810] text-slate-400 p-4">
-        <div className="flex flex-col items-center gap-5 text-center max-w-sm">
-          <div className="w-20 h-20 rounded-3xl bg-gradient-to-b from-[#13281b] to-[#07110a] border border-emerald-500/40 flex items-center justify-center shadow-[0_0_35px_-5px_rgba(16,185,129,0.45)] animate-pulse">
-            <DoctorDoomIcon className="w-14 h-14" />
+      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#05070d] text-slate-200 p-4 select-none overflow-hidden">
+        {/* Background ambient lighting */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.22)_0%,transparent_70%)] pointer-events-none" />
+
+        <div className="flex flex-col items-center gap-6 text-center max-w-sm relative z-10 animate-in fade-in zoom-in-95 duration-500">
+          {/* Doctor Doom Real Image Frame */}
+          <div className="relative group">
+            <div className="w-48 h-48 sm:w-56 sm:h-56 rounded-3xl overflow-hidden border-2 border-emerald-500/60 shadow-[0_0_50px_-5px_rgba(16,185,129,0.6)] bg-black">
+              <img
+                src="/doom.png"
+                alt="Doctor Doom"
+                className="w-full h-full object-cover object-top filter brightness-105 contrast-110"
+              />
+            </div>
+            {/* Ambient pulse halo */}
+            <div className="absolute -inset-1.5 rounded-[28px] bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-500 opacity-40 blur-lg -z-10 animate-pulse" />
           </div>
-          <span className="text-sm sm:text-base font-display font-black tracking-wide text-emerald-400 drop-shadow-[0_0_14px_rgba(16,185,129,0.5)]">
-            "Fear is for lesser men...... Never for DOOM!"
-          </span>
+
+          {/* Doom Dialogue */}
+          <div className="space-y-2">
+            <h2 className="text-lg sm:text-xl font-display font-black tracking-wide text-emerald-400 drop-shadow-[0_0_16px_rgba(16,185,129,0.6)] uppercase px-2 leading-snug">
+              "Fear is for lesser men...... Never for DOOM!"
+            </h2>
+            <div className="flex items-center justify-center gap-2 pt-1">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+              <span className="text-[11px] font-mono font-bold tracking-widest text-slate-400 uppercase">
+                DTD • Latveria Protocol
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     );

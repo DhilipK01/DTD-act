@@ -223,7 +223,7 @@ export default function AuthModal() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 px-4 btn-theme-primary text-sm font-black tracking-wider transition-all shadow-theme-glow flex items-center justify-center gap-2.5 disabled:opacity-50 cursor-pointer mt-2 rounded-2xl uppercase"
+              className="w-full py-3.5 px-4 btn-theme-primary text-sm font-black tracking-wider transition-all shadow-theme-glow flex items-center justify-center gap-3 disabled:opacity-50 cursor-pointer mt-2 rounded-2xl uppercase group"
             >
               {loading ? (
                 <>
@@ -233,7 +233,13 @@ export default function AuthModal() {
               ) : (
                 <>
                   <span>MEN ARE BRAVE</span>
-                  <BatarangIcon className="w-5 h-5 shrink-0" />
+                  <div className="h-6 w-12 rounded-lg overflow-hidden bg-black/50 border border-white/20 p-0.5 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform shrink-0">
+                    <img
+                      src="/batarang.png"
+                      alt="Batarang"
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
                 </>
               )}
             </button>
@@ -353,7 +359,7 @@ export default function AuthModal() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 px-4 btn-theme-primary text-sm font-black tracking-wider transition-all shadow-theme-glow flex items-center justify-center gap-2.5 disabled:opacity-50 cursor-pointer mt-3 rounded-2xl uppercase"
+              className="w-full py-3.5 px-4 btn-theme-primary text-sm font-black tracking-wider transition-all shadow-theme-glow flex items-center justify-center gap-3 disabled:opacity-50 cursor-pointer mt-3 rounded-2xl uppercase group"
             >
               {loading ? (
                 <>
@@ -363,7 +369,13 @@ export default function AuthModal() {
               ) : (
                 <>
                   <span>I AM INEVITABLE</span>
-                  <ThanosSwordIcon className="w-5 h-5 shrink-0" />
+                  <div className="h-6 w-12 rounded-lg overflow-hidden bg-white/90 border border-white/30 p-0.5 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform shrink-0">
+                    <img
+                      src="/thanos-sword.png"
+                      alt="Thanos Sword"
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
                 </>
               )}
             </button>
