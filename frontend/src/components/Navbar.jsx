@@ -64,12 +64,12 @@ export default function Navbar({
         {/* Brand & Year Selector */}
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2.5 group cursor-default">
-            <div className="w-10 h-10 rounded-2xl logo-theme flex items-center justify-center font-black text-xl transition-transform group-hover:scale-105 duration-200">
-              ₹
+            <div className="w-10 h-10 rounded-2xl logo-theme flex items-center justify-center font-black text-xs tracking-wider transition-transform group-hover:scale-105 duration-200">
+              DTD
             </div>
             <div>
               <span className="text-lg font-display font-extrabold tracking-tight text-white flex items-center gap-1.5">
-                DailyExpense
+                DTD
               </span>
               <span className="hidden sm:inline-block text-[11px] font-semibold text-theme-light tracking-wide">
                 Personal Tracker
@@ -152,9 +152,9 @@ export default function Navbar({
             </button>
 
             {themeMenuOpen && (
-              <div className="absolute right-0 mt-2 w-72 sm:w-80 theme-dropdown-popover rounded-2xl overflow-hidden">
+              <div className="fixed inset-x-3.5 top-16 sm:absolute sm:top-full sm:right-0 sm:left-auto sm:inset-x-auto sm:mt-2 sm:w-80 theme-dropdown-popover rounded-2xl overflow-hidden max-h-[calc(100vh-85px)] flex flex-col z-[100] shadow-2xl">
                 {/* Header */}
-                <div className="px-4 py-3 border-b border-white/10 flex items-center justify-between bg-black/40">
+                <div className="px-4 py-3 border-b border-white/10 flex items-center justify-between bg-black/40 shrink-0">
                   <span className="text-[11px] font-black uppercase tracking-wider text-white flex items-center gap-1.5">
                     <Palette className="w-3.5 h-3.5 text-theme" />
                     Choose Your Theme
@@ -163,7 +163,7 @@ export default function Navbar({
                 </div>
 
                 {/* 2-column theme grid with solid items */}
-                <div className="p-2 grid grid-cols-2 gap-1.5 max-h-80 overflow-y-auto bg-[#080b14]">
+                <div className="p-2 grid grid-cols-2 gap-1.5 overflow-y-auto bg-[#080b14] flex-1">
                   {themes.map((t) => (
                     <button
                       key={t.id}
@@ -198,7 +198,7 @@ export default function Navbar({
                 </div>
 
                 {/* Footer hint */}
-                <div className="px-4 py-2.5 border-t border-white/10 text-[10px] text-slate-400 text-center bg-black/40 font-medium">
+                <div className="px-4 py-2.5 border-t border-white/10 text-[10px] text-slate-400 text-center bg-black/40 font-medium shrink-0">
                   Theme saved automatically ✓
                 </div>
               </div>

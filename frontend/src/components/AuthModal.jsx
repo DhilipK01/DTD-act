@@ -103,11 +103,11 @@ export default function AuthModal() {
 
         {/* Brand Header */}
         <div className="text-center mb-6 relative z-10">
-          <div className="w-14 h-14 rounded-2xl logo-theme flex items-center justify-center font-black text-2xl mx-auto mb-3 shadow-theme-glow transition-transform hover:scale-105">
-            ₹
+          <div className="w-14 h-14 rounded-2xl logo-theme flex items-center justify-center font-black text-base tracking-wider mx-auto mb-3 shadow-theme-glow transition-transform hover:scale-105">
+            DTD
           </div>
           <h1 className="text-2xl font-display font-black text-white tracking-tight">
-            Daily Expense Tracker
+            DTD
           </h1>
           <p className="text-xs text-slate-400 mt-1 font-medium">
             {mode === 'signin'

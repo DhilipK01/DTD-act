@@ -1,6 +1,6 @@
 {
-  "short_name": "DailyExpense",
-  "name": "Personal Daily Expense Tracker",
+  "short_name": "DTD",
+  "name": "DTD",
   "icons": [
     {
       "src": "/pwa-icon.svg",
