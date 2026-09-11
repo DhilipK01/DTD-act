@@ -83,74 +83,76 @@ export default function MonthCalendarView({
         </div>
 
         {/* Right: Controls & Monthly Total Pill */}
-        <div className="flex items-center justify-between sm:justify-end gap-2.5 flex-wrap">
+        <div className="flex items-center justify-between sm:justify-end gap-2 flex-wrap w-full sm:w-auto">
           {/* Monthly Total Pill */}
-          <div className="bg-black/50 px-4 py-2 rounded-2xl border border-emerald-500/30 flex items-center gap-2.5 shadow-inner">
+          <div className="bg-black/50 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-2xl border border-emerald-500/30 flex items-center gap-2 shadow-inner">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total:</span>
-            <span className="text-lg font-black text-emerald-400 font-mono tracking-tight drop-shadow-[0_0_10px_rgba(16,185,129,0.3)]">
+            <span className="text-base sm:text-lg font-black text-emerald-400 font-mono tracking-tight drop-shadow-[0_0_10px_rgba(16,185,129,0.3)]">
               {formatCurrency(monthData?.monthlyTotal || 0)}
             </span>
           </div>
 
-          {/* Grid vs List toggle */}
-          <div className="flex bg-black/40 p-1 rounded-2xl border border-white/10">
-            <button
-              onClick={() => setViewMode('grid')}
-              className={`p-2 rounded-xl transition-all ${
-                viewMode === 'grid'
-                  ? 'bg-emerald-500 text-slate-950 font-bold shadow-glow'
-                  : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
-              }`}
-              title="Calendar Grid"
-            >
-              <CalendarIcon className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => setViewMode('list')}
-              className={`p-2 rounded-xl transition-all ${
-                viewMode === 'list'
-                  ? 'bg-emerald-500 text-slate-950 font-bold shadow-glow'
-                  : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
-              }`}
-              title="Day List"
-            >
-              <List className="w-4 h-4" />
-            </button>
-          </div>
+          <div className="flex items-center gap-1.5 ml-auto sm:ml-0">
+            {/* Grid vs List toggle */}
+            <div className="flex bg-black/40 p-1 rounded-2xl border border-white/10">
+              <button
+                onClick={() => setViewMode('grid')}
+                className={`p-1.5 sm:p-2 rounded-xl transition-all ${
+                  viewMode === 'grid'
+                    ? 'bg-emerald-500 text-slate-950 font-bold shadow-glow'
+                    : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
+                }`}
+                title="Calendar Grid"
+              >
+                <CalendarIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              </button>
+              <button
+                onClick={() => setViewMode('list')}
+                className={`p-1.5 sm:p-2 rounded-xl transition-all ${
+                  viewMode === 'list'
+                    ? 'bg-emerald-500 text-slate-950 font-bold shadow-glow'
+                    : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
+                }`}
+                title="Day List"
+              >
+                <List className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              </button>
+            </div>
 
-          {/* Action Buttons: Budget & Export */}
-          <button
-            onClick={onOpenBudget}
-            className="p-2 bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-emerald-400 rounded-xl transition-all border border-white/10"
-            title="Set / Adjust Budget Target"
-          >
-            <Target className="w-4 h-4" />
-          </button>
-
-          <button
-            onClick={() => exportMonthToCsv(year, month, MONTH_NAMES[month - 1], monthData?.dailyTotals || [])}
-            className="p-2 bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-emerald-400 rounded-xl transition-all border border-white/10"
-            title="Export Month as CSV Spreadsheet"
-          >
-            <Download className="w-4 h-4" />
-          </button>
-
-          {/* Month Prev/Next Buttons */}
-          <div className="flex items-center gap-1">
+            {/* Action Buttons: Budget & Export */}
             <button
-              onClick={onPrevMonth}
-              className="p-2 bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-white rounded-xl transition-all border border-white/10"
-              title="Previous Month"
+              onClick={onOpenBudget}
+              className="p-1.5 sm:p-2 bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-emerald-400 rounded-xl transition-all border border-white/10"
+              title="Set / Adjust Budget Target"
             >
-              <ChevronLeft className="w-4 h-4" />
+              <Target className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </button>
+
             <button
-              onClick={onNextMonth}
-              className="p-2 bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-white rounded-xl transition-all border border-white/10"
-              title="Next Month"
+              onClick={() => exportMonthToCsv(year, month, MONTH_NAMES[month - 1], monthData?.dailyTotals || [])}
+              className="p-1.5 sm:p-2 bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-emerald-400 rounded-xl transition-all border border-white/10"
+              title="Export Month as CSV Spreadsheet"
             >
-              <ChevronRight className="w-4 h-4" />
+              <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </button>
+
+            {/* Month Prev/Next Buttons */}
+            <div className="flex items-center gap-1">
+              <button
+                onClick={onPrevMonth}
+                className="p-1.5 sm:p-2 bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-white rounded-xl transition-all border border-white/10"
+                title="Previous Month"
+              >
+                <ChevronLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              </button>
+              <button
+                onClick={onNextMonth}
+                className="p-1.5 sm:p-2 bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-white rounded-xl transition-all border border-white/10"
+                title="Next Month"
+              >
+                <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -219,7 +221,7 @@ export default function MonthCalendarView({
           <div className="grid grid-cols-7 gap-1.5 sm:gap-2.5">
             {/* Empty padding cells for start of month */}
             {Array.from({ length: firstDayIndex }).map((_, i) => (
-              <div key={`empty-${i}`} className="min-h-[70px] sm:min-h-[92px] rounded-2xl bg-white/[0.01] border border-white/[0.03] opacity-25" />
+              <div key={`empty-${i}`} className="min-h-[56px] sm:min-h-[92px] rounded-xl sm:rounded-2xl bg-white/[0.01] border border-white/[0.03] opacity-25" />
             ))}
 
             {/* Month Day Cells */}
@@ -235,9 +237,9 @@ export default function MonthCalendarView({
                 <button
                   key={dayNum}
                   onClick={() => onSelectDate(dateStr)}
-                  className={`min-h-[70px] sm:min-h-[92px] p-2 sm:p-3 rounded-2xl text-left border flex flex-col justify-between transition-all duration-200 cursor-pointer group relative overflow-hidden ${
+                  className={`min-h-[56px] sm:min-h-[92px] p-1.5 sm:p-3 rounded-xl sm:rounded-2xl text-left border flex flex-col justify-between transition-all duration-200 cursor-pointer group relative overflow-hidden ${
                     isToday
-                      ? 'border-emerald-400/80 bg-gradient-to-br from-emerald-950/40 via-emerald-900/20 to-transparent shadow-glow ring-2 ring-emerald-400/50'
+                      ? 'border-emerald-400/80 bg-gradient-to-br from-emerald-950/40 via-emerald-900/20 to-transparent shadow-glow ring-1 sm:ring-2 ring-emerald-400/50'
                       : hasEntries
                       ? 'border-white/10 bg-white/[0.03] hover:border-emerald-500/40 hover:bg-white/[0.06] hover:shadow-lg'
                       : 'border-white/[0.04] bg-white/[0.01] hover:border-white/15 hover:bg-white/[0.03]'
@@ -246,7 +248,7 @@ export default function MonthCalendarView({
                   {/* Top: Day number & today marker */}
                   <div className="flex items-center justify-between">
                     <span
-                      className={`text-xs sm:text-sm font-bold rounded-xl w-6 h-6 flex items-center justify-center transition-transform group-hover:scale-105 ${
+                      className={`text-[11px] sm:text-sm font-bold rounded-lg sm:rounded-xl w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center transition-transform group-hover:scale-105 ${
                         isToday
                           ? 'bg-emerald-400 text-slate-950 font-black shadow-glow'
                           : 'text-slate-300 group-hover:text-white'
@@ -255,18 +257,18 @@ export default function MonthCalendarView({
                       {dayNum}
                     </span>
                     {hasEntries && (
-                      <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+                      <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
                     )}
                   </div>
 
                   {/* Bottom: Daily Total */}
-                  <div className="mt-1.5">
+                  <div className="mt-1">
                     {hasEntries ? (
-                      <span className="text-[11px] sm:text-xs font-black text-emerald-400 font-mono tracking-tight block truncate drop-shadow-[0_0_6px_rgba(16,185,129,0.3)]">
+                      <span className="text-[10px] sm:text-xs font-black text-emerald-400 font-mono tracking-tight block truncate drop-shadow-[0_0_6px_rgba(16,185,129,0.3)]">
                         {formatCurrency(total)}
                       </span>
                     ) : (
-                      <span className="text-[10px] text-slate-600 font-mono group-hover:text-slate-500 transition-colors">
+                      <span className="text-[9px] text-slate-600 font-mono group-hover:text-slate-500 transition-colors hidden sm:block">
                         —
                       </span>
                     )}

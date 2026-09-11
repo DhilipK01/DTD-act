@@ -99,8 +99,8 @@ export default function Navbar({
           </div>
         </div>
 
-        {/* View Switcher Tabs (Modern capsule style) */}
-        <nav className="flex items-center bg-black/40 p-1 rounded-2xl border border-white/[0.08] order-3 sm:order-2 w-full sm:w-auto justify-around backdrop-blur-md">
+        {/* View Switcher Tabs (Hidden on mobile since bottom bar exists, visible on tablet/desktop) */}
+        <nav className="hidden sm:flex items-center bg-black/40 p-1 rounded-2xl border border-white/[0.08] sm:order-2 w-auto justify-around backdrop-blur-md">
           <button
             onClick={() => onTabChange('yearGrid')}
             className={`flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all duration-200 ${
@@ -139,7 +139,7 @@ export default function Navbar({
         </nav>
 
         {/* Actions: Theme Switcher, Search, Budget, Today Log, Profile & Logout */}
-        <div className="flex items-center gap-2 order-2 sm:order-3">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           {/* Theme Palette Switcher Dropdown */}
           <div className="relative" ref={themeMenuRef}>
             <button

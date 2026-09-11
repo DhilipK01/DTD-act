@@ -203,8 +203,8 @@ export default function App() {
         </button>
       </div>
 
-      {/* Mobile Bottom Navigation Bar */}
-      <div className="sm:hidden fixed bottom-0 inset-x-0 glass-panel border-t border-white/10 bg-black/80 backdrop-blur-2xl px-4 py-2.5 z-30 flex items-center justify-around">
+      {/* Mobile Bottom Navigation Bar with Safe Area Support */}
+      <div className="sm:hidden fixed bottom-0 inset-x-0 glass-panel border-t border-white/10 bg-black/90 backdrop-blur-2xl px-4 pt-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))] z-30 flex items-center justify-around shadow-2xl">
         <button
           onClick={() => setActiveTab('yearGrid')}
           className={`flex flex-col items-center gap-1 text-[10px] font-bold transition-colors ${
