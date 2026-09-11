@@ -1,0 +1,322 @@
+import { v4 as uuidv4 } from 'uuid';
+import jwt from 'jsonwebtoken';
+import { usersDb, otpsDb } from '../config/db.js';
+import { generateOtp, hashOtp, verifyOtpHash } from '../utils/otpHelper.js';
+import { hashPassword, verifyPassword } from '../utils/passwordHelper.js';
+import { sendOtpEmail } from '../utils/mailer.js';
+
+const JWT_SECRET = process.env.JWT_SECRET || 'daily-expense-jwt-super-secret-key-321';
+
+/**
+ * Sign Up with Full Name, Gmail ID (email), Password, Age
+ */
+export async function signup(req, res) {
+  try {
+    const { fullName, email: rawEmail, password, age } = req.body;
+
+    const email = (rawEmail || '').toLowerCase().trim();
+    const name = (fullName || '').trim();
+    const pwd = (password || '').trim();
+    const userAge = parseInt(age, 10);
+
+    if (!name) {
+      return res.status(400).json({ error: 'Full name is required.' });
+    }
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({ error: 'Please enter a valid Gmail / email address.' });
+    }
+
+    if (!pwd || pwd.length < 4) {
+      return res.status(400).json({ error: 'Password must be at least 4 characters long.' });
+    }
+
+    if (isNaN(userAge) || userAge < 1 || userAge > 120) {
+      return res.status(400).json({ error: 'Please enter a valid age (1-120).' });
+    }
+
+    // Check if user already exists
+    const existingUser = await usersDb.findOneAsync({ email });
+    if (existingUser) {
+      return res.status(400).json({ error: 'An account with this email already exists. Please sign in.' });
+    }
+
+    const newUser = {
+      user_id: uuidv4(),
+      fullName: name,
+      email,
+      password_hash: hashPassword(pwd),
+      age: userAge,
+      is_verified: true,
+      created_at: new Date().toISOString()
+    };
+
+    const inserted = await usersDb.insertAsync(newUser);
+    console.log(`👤 New user registered via password signup: ${email} (${name}, Age: ${userAge})`);
+
+    // Generate JWT
+    const token = jwt.sign(
+      { user_id: inserted.user_id, email: inserted.email },
+      JWT_SECRET,
+      { expiresIn: '30d' }
+    );
+
+    // Set cookie
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 30 * 24 * 60 * 60 * 1000
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: 'Account created successfully.',
+      token,
+      user: {
+        user_id: inserted.user_id,
+        fullName: inserted.fullName,
+        email: inserted.email,
+        age: inserted.age,
+        is_verified: true,
+        created_at: inserted.created_at
+      }
+    });
+  } catch (error) {
+    console.error('Error in signup:', error);
+    return res.status(500).json({ error: 'Failed to create account. Please try again.' });
+  }
+}
+
+/**
+ * Sign In with Email ID and Password
+ */
+export async function login(req, res) {
+  try {
+    const { email: rawEmail, password } = req.body;
+
+    const email = (rawEmail || '').toLowerCase().trim();
+    const pwd = (password || '').trim();
+
+    if (!email || !pwd) {
+      return res.status(400).json({ error: 'Email and password are required.' });
+    }
+
+    // Find user by email
+    const user = await usersDb.findOneAsync({ email });
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid email or password.' });
+    }
+
+    // Check password
+    if (!user.password_hash) {
+      return res.status(401).json({
+        error: 'This account was created with OTP verification. Please sign up or reset password.'
+      });
+    }
+
+    const isValid = verifyPassword(pwd, user.password_hash);
+    if (!isValid) {
+      return res.status(401).json({ error: 'Invalid email or password.' });
+    }
+
+    // Generate JWT
+    const token = jwt.sign(
+      { user_id: user.user_id, email: user.email },
+      JWT_SECRET,
+      { expiresIn: '30d' }
+    );
+
+    // Set cookie
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 30 * 24 * 60 * 60 * 1000
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: 'Signed in successfully.',
+      token,
+      user: {
+        user_id: user.user_id,
+        fullName: user.fullName || '',
+        email: user.email,
+        age: user.age || '',
+        is_verified: true,
+        created_at: user.created_at
+      }
+    });
+  } catch (error) {
+    console.error('Error in login:', error);
+    return res.status(500).json({ error: 'Failed to sign in. Please try again.' });
+  }
+}
+
+/**
+ * Get currently authenticated user profile
+ */
+export async function getMe(req, res) {
+  try {
+    const user = await usersDb.findOneAsync({ user_id: req.user.user_id });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found.' });
+    }
+
+    return res.status(200).json({
+      user: {
+        user_id: user.user_id,
+        fullName: user.fullName || '',
+        email: user.email,
+        age: user.age || '',
+        is_verified: user.is_verified,
+        created_at: user.created_at
+      }
+    });
+  } catch (error) {
+    console.error('Error in getMe:', error);
+    return res.status(500).json({ error: 'Failed to retrieve profile.' });
+  }
+}
+
+/**
+ * Logout and clear session cookie
+ */
+export async function logout(req, res) {
+  res.clearCookie('token', {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production'
+  });
+  return res.status(200).json({ success: true, message: 'Logged out successfully.' });
+}
+
+/**
+ * Request 6-digit OTP for signup / login (Retained for backwards compatibility)
+ */
+export async function sendOtp(req, res) {
+  try {
+    const rawEmail = req.body.email || '';
+    const email = rawEmail.toLowerCase().trim();
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({ error: 'Please enter a valid email address.' });
+    }
+
+    const otp = generateOtp();
+    const otp_hash = hashOtp(otp, email);
+    const expires_at = new Date(Date.now() + 10 * 60 * 1000).toISOString();
+
+    await otpsDb.updateAsync({ email, used: false }, { $set: { used: true } }, { multi: true });
+
+    await otpsDb.insertAsync({
+      email,
+      otp_hash,
+      expires_at,
+      used: false,
+      created_at: new Date().toISOString()
+    });
+
+    const mailResult = await sendOtpEmail(email, otp);
+
+    return res.status(200).json({
+      success: true,
+      message: mailResult.devMode
+        ? 'Real email sending is disabled because SMTP is not configured in backend/.env. Use the code shown below.'
+        : `A 6-digit verification code was sent to ${email}.`,
+      expiresInMinutes: 10,
+      devOtp: mailResult.devMode ? otp : undefined
+    });
+  } catch (error) {
+    console.error('Error in sendOtp:', error);
+    return res.status(500).json({ error: 'Failed to generate and send OTP. Please try again.' });
+  }
+}
+
+/**
+ * Verify 6-digit OTP and issue JWT session (Retained for backwards compatibility)
+ */
+export async function verifyOtp(req, res) {
+  try {
+    const rawEmail = req.body.email || '';
+    const email = rawEmail.toLowerCase().trim();
+    const otp = (req.body.otp || '').trim();
+
+    if (!email || !otp) {
+      return res.status(400).json({ error: 'Email and 6-digit OTP code are required.' });
+    }
+
+    if (!/^\d{6}$/.test(otp)) {
+      return res.status(400).json({ error: 'OTP must be a 6-digit number.' });
+    }
+
+    const otps = await otpsDb.findAsync({ email, used: false });
+    const now = new Date().toISOString();
+
+    const validOtp = otps
+      .filter(entry => entry.expires_at > now)
+      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0];
+
+    if (!validOtp) {
+      return res.status(400).json({ error: 'Invalid or expired OTP code. Please request a new one.' });
+    }
+
+    const isMatch = verifyOtpHash(otp, email, validOtp.otp_hash);
+    if (!isMatch) {
+      return res.status(400).json({ error: 'Incorrect OTP code. Please check and try again.' });
+    }
+
+    await otpsDb.updateAsync({ _id: validOtp._id }, { $set: { used: true } });
+
+    let user = await usersDb.findOneAsync({ email });
+    const nowIso = new Date().toISOString();
+
+    if (!user) {
+      const newUser = {
+        user_id: uuidv4(),
+        email,
+        fullName: email.split('@')[0],
+        age: '',
+        is_verified: true,
+        created_at: nowIso
+      };
+      user = await usersDb.insertAsync(newUser);
+    } else {
+      if (!user.is_verified) {
+        await usersDb.updateAsync({ user_id: user.user_id }, { $set: { is_verified: true } });
+        user.is_verified = true;
+      }
+    }
+
+    const token = jwt.sign(
+      { user_id: user.user_id, email: user.email },
+      JWT_SECRET,
+      { expiresIn: '30d' }
+    );
+
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 30 * 24 * 60 * 60 * 1000
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: 'Logged in successfully.',
+      token,
+      user: {
+        user_id: user.user_id,
+        fullName: user.fullName || '',
+        email: user.email,
+        age: user.age || '',
+        is_verified: user.is_verified,
+        created_at: user.created_at
+      }
+    });
+  } catch (error) {
+    console.error('Error in verifyOtp:', error);
+    return res.status(500).json({ error: 'Failed to verify OTP. Please try again.' });
+  }
+}
