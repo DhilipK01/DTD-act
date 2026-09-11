@@ -14,6 +14,7 @@ import {
   CheckCircle2,
   ShieldCheck
 } from 'lucide-react';
+import { BatarangIcon, ThanosSwordIcon } from './CustomIcons';
 
 export default function AuthModal() {
   const { loginUser, signupUser } = useAuth();
@@ -222,17 +223,17 @@ export default function AuthModal() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 px-4 btn-theme-primary text-sm transition-all shadow-theme-glow flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer mt-2 rounded-2xl"
+              className="w-full py-3.5 px-4 btn-theme-primary text-sm font-black tracking-wider transition-all shadow-theme-glow flex items-center justify-center gap-2.5 disabled:opacity-50 cursor-pointer mt-2 rounded-2xl uppercase"
             >
               {loading ? (
                 <>
                   <RefreshCw className="w-4 h-4 animate-spin" />
-                  <span>Signing In...</span>
+                  <span>Entering...</span>
                 </>
               ) : (
                 <>
-                  <span>Sign In</span>
-                  <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+                  <span>MEN ARE BRAVE</span>
+                  <BatarangIcon className="w-5 h-5 shrink-0" />
                 </>
               )}
             </button>
@@ -352,17 +353,17 @@ export default function AuthModal() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 px-4 btn-theme-primary text-sm transition-all shadow-theme-glow flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer mt-3 rounded-2xl"
+              className="w-full py-3.5 px-4 btn-theme-primary text-sm font-black tracking-wider transition-all shadow-theme-glow flex items-center justify-center gap-2.5 disabled:opacity-50 cursor-pointer mt-3 rounded-2xl uppercase"
             >
               {loading ? (
                 <>
                   <RefreshCw className="w-4 h-4 animate-spin" />
-                  <span>Creating Account...</span>
+                  <span>Snapping...</span>
                 </>
               ) : (
                 <>
-                  <span>Create Account</span>
-                  <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+                  <span>I AM INEVITABLE</span>
+                  <ThanosSwordIcon className="w-5 h-5 shrink-0" />
                 </>
               )}
             </button>

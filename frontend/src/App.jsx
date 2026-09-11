@@ -12,6 +12,7 @@ import MonthlySummary from './components/MonthlySummary';
 import YearlySummary from './components/YearlySummary';
 import SearchModal from './components/SearchModal';
 import BudgetModal from './components/BudgetModal';
+import { DoctorDoomIcon } from './components/CustomIcons';
 import { LayoutGrid, Calendar, BarChart3, Plus, Sparkles, User } from 'lucide-react';
 
 export default function App() {
@@ -89,13 +90,13 @@ export default function App() {
   // If checking authentication state on boot
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#06080f] text-slate-400">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-14 h-14 rounded-3xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-slate-950 font-black text-2xl animate-pulse shadow-glow">
-            ₹
+      <div className="min-h-screen flex items-center justify-center bg-[#060810] text-slate-400 p-4">
+        <div className="flex flex-col items-center gap-5 text-center max-w-sm">
+          <div className="w-20 h-20 rounded-3xl bg-gradient-to-b from-[#13281b] to-[#07110a] border border-emerald-500/40 flex items-center justify-center shadow-[0_0_35px_-5px_rgba(16,185,129,0.45)] animate-pulse">
+            <DoctorDoomIcon className="w-14 h-14" />
           </div>
-          <span className="text-xs font-mono font-bold tracking-wider uppercase text-emerald-400">
-            Loading your expense workspace...
+          <span className="text-sm sm:text-base font-display font-black tracking-wide text-emerald-400 drop-shadow-[0_0_14px_rgba(16,185,129,0.5)]">
+            "Fear is for lesser men...... Never for DOOM!"
           </span>
         </div>
       </div>
