@@ -58,6 +58,21 @@ export function AuthProvider({ children }) {
     return data;
   };
 
+  const sendOtpCode = async (email) => {
+    return await api.sendOtp(email);
+  };
+
+  const resetPasswordUser = async ({ email, otp, newPassword }) => {
+    const data = await api.resetPassword({ email, otp, newPassword });
+    if (data.token) {
+      localStorage.setItem('token', data.token);
+    }
+    if (data.user) {
+      setUser(data.user);
+    }
+    return data;
+  };
+
   const logoutUser = async () => {
     try {
       await api.logout();
@@ -77,6 +92,8 @@ export function AuthProvider({ children }) {
         loginUser,
         signupUser,
         loginWithOtp,
+        sendOtpCode,
+        resetPasswordUser,
         logoutUser
       }}
     >

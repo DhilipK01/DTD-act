@@ -11,6 +11,9 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Trust proxy for Render / HTTPS reverse proxies
+app.set('trust proxy', 1);
+
 // CORS configuration for frontend credentials support
 const allowedOrigins = [
   'http://localhost:5173',
@@ -23,10 +26,12 @@ app.use(
   cors({
     origin: (origin, callback) => {
       if (!origin) return callback(null, true);
+      const cleanOrigin = origin.replace(/\/$/, '');
+      const cleanClientUrl = (process.env.CLIENT_URL || '').replace(/\/$/, '');
       const isAllowed =
         allowedOrigins.indexOf(origin) !== -1 ||
         origin.endsWith('.vercel.app') ||
-        (process.env.CLIENT_URL && origin === process.env.CLIENT_URL) ||
+        (cleanClientUrl && cleanOrigin === cleanClientUrl) ||
         process.env.NODE_ENV !== 'production';
 
       if (isAllowed) {

@@ -7,6 +7,25 @@ import { sendOtpEmail } from '../utils/mailer.js';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'daily-expense-jwt-super-secret-key-321';
 
+function getCookieOptions() {
+  const isProd = process.env.NODE_ENV === 'production';
+  return {
+    httpOnly: true,
+    secure: isProd,
+    sameSite: isProd ? 'none' : 'lax',
+    maxAge: 30 * 24 * 60 * 60 * 1000
+  };
+}
+
+function getClearCookieOptions() {
+  const isProd = process.env.NODE_ENV === 'production';
+  return {
+    httpOnly: true,
+    secure: isProd,
+    sameSite: isProd ? 'none' : 'lax'
+  };
+}
+
 /**
  * Sign Up with Full Name, Gmail ID (email), Password, Age
  */
@@ -38,7 +57,44 @@ export async function signup(req, res) {
     // Check if user already exists
     const existingUser = await usersDb.findOneAsync({ email });
     if (existingUser) {
-      return res.status(400).json({ error: 'An account with this email already exists. Please sign in.' });
+      // If the account exists but has no password (e.g. created via earlier OTP verification):
+      if (!existingUser.password_hash) {
+        const updateData = {
+          fullName: name || existingUser.fullName || email.split('@')[0],
+          password_hash: hashPassword(pwd),
+          age: userAge || existingUser.age || 20,
+          is_verified: true
+        };
+        await usersDb.updateAsync({ user_id: existingUser.user_id }, { $set: updateData });
+        const updatedUser = await usersDb.findOneAsync({ user_id: existingUser.user_id });
+        console.log(`👤 Legacy/OTP user account upgraded with password on signup: ${email}`);
+
+        // Generate JWT
+        const token = jwt.sign(
+          { user_id: updatedUser.user_id, email: updatedUser.email },
+          JWT_SECRET,
+          { expiresIn: '30d' }
+        );
+
+        // Set cookie
+        res.cookie('token', token, getCookieOptions());
+
+        return res.status(200).json({
+          success: true,
+          message: 'Account updated successfully with your password.',
+          token,
+          user: {
+            user_id: updatedUser.user_id,
+            fullName: updatedUser.fullName,
+            email: updatedUser.email,
+            age: updatedUser.age,
+            is_verified: true,
+            created_at: updatedUser.created_at
+          }
+        });
+      }
+
+      return res.status(400).json({ error: 'An account with this email already exists. Please sign in or reset your password.' });
     }
 
     const newUser = {
@@ -62,12 +118,7 @@ export async function signup(req, res) {
     );
 
     // Set cookie
-    res.cookie('token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 30 * 24 * 60 * 60 * 1000
-    });
+    res.cookie('token', token, getCookieOptions());
 
     return res.status(201).json({
       success: true,
@@ -108,16 +159,25 @@ export async function login(req, res) {
       return res.status(401).json({ error: 'Invalid email or password.' });
     }
 
-    // Check password
+    // If account was created with OTP or doesn't have a password yet, set it now seamlessly
     if (!user.password_hash) {
-      return res.status(401).json({
-        error: 'This account was created with OTP verification. Please sign up or reset password.'
-      });
-    }
-
-    const isValid = verifyPassword(pwd, user.password_hash);
-    if (!isValid) {
-      return res.status(401).json({ error: 'Invalid email or password.' });
+      if (pwd.length < 4) {
+        return res.status(400).json({
+          error: 'Please enter a password with at least 4 characters to set up your account.'
+        });
+      }
+      const newHash = hashPassword(pwd);
+      await usersDb.updateAsync(
+        { user_id: user.user_id },
+        { $set: { password_hash: newHash, fullName: user.fullName || email.split('@')[0] } }
+      );
+      user.password_hash = newHash;
+      console.log(`🔐 Password automatically initialized for legacy/OTP user: ${email}`);
+    } else {
+      const isValid = verifyPassword(pwd, user.password_hash);
+      if (!isValid) {
+        return res.status(401).json({ error: 'Invalid email or password.' });
+      }
     }
 
     // Generate JWT
@@ -128,12 +188,7 @@ export async function login(req, res) {
     );
 
     // Set cookie
-    res.cookie('token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 30 * 24 * 60 * 60 * 1000
-    });
+    res.cookie('token', token, getCookieOptions());
 
     return res.status(200).json({
       success: true,
@@ -151,6 +206,92 @@ export async function login(req, res) {
   } catch (error) {
     console.error('Error in login:', error);
     return res.status(500).json({ error: 'Failed to sign in. Please try again.' });
+  }
+}
+
+/**
+ * Reset password using email verification code (OTP)
+ */
+export async function resetPassword(req, res) {
+  try {
+    const { email: rawEmail, otp, newPassword } = req.body;
+    const email = (rawEmail || '').toLowerCase().trim();
+    const pwd = (newPassword || '').trim();
+    const otpCode = (otp || '').trim();
+
+    if (!email || !otpCode || !pwd) {
+      return res.status(400).json({ error: 'Email, verification code, and new password are required.' });
+    }
+
+    if (pwd.length < 4) {
+      return res.status(400).json({ error: 'Password must be at least 4 characters long.' });
+    }
+
+    const otps = await otpsDb.findAsync({ email, used: false });
+    const now = new Date().toISOString();
+
+    const validOtp = otps
+      .filter(entry => entry.expires_at > now)
+      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0];
+
+    if (!validOtp) {
+      return res.status(400).json({ error: 'Invalid or expired verification code. Please request a new code.' });
+    }
+
+    const isMatch = verifyOtpHash(otpCode, email, validOtp.otp_hash);
+    if (!isMatch) {
+      return res.status(400).json({ error: 'Incorrect verification code. Please try again.' });
+    }
+
+    // Mark OTP used
+    await otpsDb.updateAsync({ _id: validOtp._id }, { $set: { used: true } });
+
+    let user = await usersDb.findOneAsync({ email });
+    const newHash = hashPassword(pwd);
+
+    if (!user) {
+      const newUser = {
+        user_id: uuidv4(),
+        email,
+        fullName: email.split('@')[0],
+        password_hash: newHash,
+        age: '',
+        is_verified: true,
+        created_at: now
+      };
+      user = await usersDb.insertAsync(newUser);
+    } else {
+      await usersDb.updateAsync(
+        { user_id: user.user_id },
+        { $set: { password_hash: newHash, is_verified: true } }
+      );
+      user.password_hash = newHash;
+    }
+
+    const token = jwt.sign(
+      { user_id: user.user_id, email: user.email },
+      JWT_SECRET,
+      { expiresIn: '30d' }
+    );
+
+    res.cookie('token', token, getCookieOptions());
+
+    return res.status(200).json({
+      success: true,
+      message: 'Password reset successfully. You are now logged in.',
+      token,
+      user: {
+        user_id: user.user_id,
+        fullName: user.fullName || '',
+        email: user.email,
+        age: user.age || '',
+        is_verified: true,
+        created_at: user.created_at
+      }
+    });
+  } catch (error) {
+    console.error('Error in resetPassword:', error);
+    return res.status(500).json({ error: 'Failed to reset password. Please try again.' });
   }
 }
 
@@ -184,11 +325,7 @@ export async function getMe(req, res) {
  * Logout and clear session cookie
  */
 export async function logout(req, res) {
-  res.clearCookie('token', {
-    httpOnly: true,
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production'
-  });
+  res.clearCookie('token', getClearCookieOptions());
   return res.status(200).json({ success: true, message: 'Logged out successfully.' });
 }
 
@@ -295,12 +432,7 @@ export async function verifyOtp(req, res) {
       { expiresIn: '30d' }
     );
 
-    res.cookie('token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 30 * 24 * 60 * 60 * 1000
-    });
+    res.cookie('token', token, getCookieOptions());
 
     return res.status(200).json({
       success: true,
