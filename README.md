@@ -49,7 +49,7 @@ A mobile-first personal daily expense tracking web app designed to replace manua
 
 - **Frontend**: React 18 + Vite + Tailwind CSS + Lucide Icons (mobile-first responsive, PWA viewport settings, glassmorphism design tokens)
 - **Backend**: Node.js + Express + JWT in `httpOnly` cookie + rate-limiter
-- **Database**: NeDB persistent file-based datastore (`/backend/data/*.db`) strictly following the required schema, types, and indexes with zero external daemon dependencies.
+- **Database**: MongoDB (via Mongoose) with automatic legacy NeDB data migration, persistent cloud storage (MongoDB Atlas), and index optimization.
 - **Email/OTP**: Nodemailer with SMTP support (e.g. Gmail) + fallback developer console logger and UI preview.
 
 ---
@@ -78,6 +78,7 @@ npm run dev
 
 ```env
 PORT=5000
+MONGODB_URI=mongodb+srv://<user>:<password>@cluster0.mongodb.net/dtd_expenses?retryWrites=true&w=majority
 JWT_SECRET=super_secret_jwt_key_expense_tracker_change_in_prod
 OTP_SECRET=secure_otp_salt_secret_key_change_in_prod
 NODE_ENV=development
@@ -89,4 +90,11 @@ NODE_ENV=development
 # SMTP_PASS=your-google-app-password
 # SMTP_FROM=your-email@gmail.com
 ```
-*Note: If SMTP credentials are not set, the OTP is automatically printed to the terminal and provided in the UI as an Auto-fill button for immediate developer testing.*
+
+### 3. NeDB to MongoDB Data Migration
+If you have existing accounts or expense entries in `backend/data/*.db`, run:
+```bash
+cd backend
+npm run migrate
+```
+*Note: The server also auto-migrates existing `.db` data upon initial startup if your MongoDB collections are empty.*

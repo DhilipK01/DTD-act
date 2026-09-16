@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { expensesDb, budgetsDb } from '../config/db.js';
+import { Expense, Budget } from '../config/db.js';
 
 const VALID_SLOTS = ['morning', 'afternoon', 'night'];
 const VALID_PAYMENT_METHODS = ['GPay', 'Cash', 'Other'];
@@ -25,7 +25,7 @@ export async function getDayExpenses(req, res) {
       return res.status(400).json({ error: 'Valid date in YYYY-MM-DD format is required' });
     }
 
-    const records = await expensesDb.findAsync({ user_id: userId, date });
+    const records = await Expense.find({ user_id: userId, date }).lean();
 
     const slots = {
       morning: { amount: 0, payment_method: 'GPay', food_item: '', category: 'outside', expense_id: null },
@@ -100,14 +100,14 @@ export async function saveDayExpenses(req, res) {
       dailyTotal += amount;
 
       // Find existing entry for this slot
-      const existing = await expensesDb.findOneAsync({
+      const existing = await Expense.findOne({
         user_id: userId,
         date,
         time_slot: slotKey
       });
 
       if (existing) {
-        await expensesDb.updateAsync(
+        await Expense.updateOne(
           { _id: existing._id },
           {
             $set: {
@@ -143,7 +143,7 @@ export async function saveDayExpenses(req, res) {
           created_at: nowIso,
           updated_at: nowIso
         };
-        await expensesDb.insertAsync(newRecord);
+        await Expense.create(newRecord);
         savedSlots[slotKey] = {
           expense_id,
           amount,
@@ -182,11 +182,11 @@ export async function deleteDayExpenses(req, res) {
       return res.status(400).json({ error: 'Valid date in YYYY-MM-DD format is required' });
     }
 
-    const removed = await expensesDb.removeAsync({ user_id: userId, date }, { multi: true });
+    const result = await Expense.deleteMany({ user_id: userId, date });
 
     return res.status(200).json({
       success: true,
-      message: `Deleted ${removed} slot entries for ${date}`,
+      message: `Deleted ${result.deletedCount || 0} slot entries for ${date}`,
       dailyTotal: 0
     });
   } catch (error) {
@@ -204,7 +204,7 @@ export async function searchExpenses(req, res) {
     const userId = req.user.user_id;
     const { q, payment_method, category } = req.query;
 
-    const allUserExpenses = await expensesDb.findAsync({ user_id: userId });
+    const allUserExpenses = await Expense.find({ user_id: userId }).lean();
 
     let filtered = allUserExpenses.filter((item) => item.amount > 0 || (item.food_item && item.food_item.trim()));
 
@@ -246,7 +246,7 @@ export async function searchExpenses(req, res) {
 export async function getFoodSuggestions(req, res) {
   try {
     const userId = req.user.user_id;
-    const records = await expensesDb.findAsync({ user_id: userId });
+    const records = await Expense.find({ user_id: userId }).lean();
 
     const foodMap = new Map();
 
@@ -304,11 +304,11 @@ export async function getMonthlyBudget(req, res) {
     const yearMonth = `${year}-${month.toString().padStart(2, '0')}`;
 
     // First try finding specific month budget
-    let budgetRecord = await budgetsDb.findOneAsync({ user_id: userId, year_month: yearMonth });
-    
+    let budgetRecord = await Budget.findOne({ user_id: userId, year_month: yearMonth }).lean();
+
     // If not found, check if user has a default budget
     if (!budgetRecord) {
-      budgetRecord = await budgetsDb.findOneAsync({ user_id: userId, is_default: true });
+      budgetRecord = await Budget.findOne({ user_id: userId, is_default: true }).lean();
     }
 
     return res.status(200).json({
@@ -336,15 +336,15 @@ export async function setMonthlyBudget(req, res) {
     const m = (month || now.getMonth() + 1).toString().padStart(2, '0');
     const yearMonth = `${y}-${m}`;
 
-    const existing = await budgetsDb.findOneAsync({ user_id: userId, year_month: yearMonth });
+    const existing = await Budget.findOne({ user_id: userId, year_month: yearMonth });
 
     if (existing) {
-      await budgetsDb.updateAsync(
+      await Budget.updateOne(
         { _id: existing._id },
         { $set: { amount: numAmount, updated_at: new Date().toISOString() } }
       );
     } else {
-      await budgetsDb.insertAsync({
+      await Budget.create({
         user_id: userId,
         year_month: yearMonth,
         amount: numAmount,
@@ -354,8 +354,8 @@ export async function setMonthlyBudget(req, res) {
     }
 
     if (setAsDefault) {
-      await budgetsDb.updateAsync({ user_id: userId }, { $set: { is_default: false } }, { multi: true });
-      await budgetsDb.updateAsync({ user_id: userId, year_month: yearMonth }, { $set: { is_default: true } });
+      await Budget.updateMany({ user_id: userId }, { $set: { is_default: false } });
+      await Budget.updateOne({ user_id: userId, year_month: yearMonth }, { $set: { is_default: true } });
     }
 
     return res.status(200).json({

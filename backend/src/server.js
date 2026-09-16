@@ -5,8 +5,12 @@ import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes.js';
 import expenseRoutes from './routes/expenseRoutes.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
+import { connectDb } from './config/db.js';
 
 dotenv.config();
+
+// Connect to MongoDB
+await connectDb();
 
 const app = express();
 const PORT = process.env.PORT || 5000;

@@ -1,4 +1,4 @@
-import { expensesDb, budgetsDb } from '../config/db.js';
+import { Expense, Budget } from '../config/db.js';
 
 /**
  * Get monthly analytics, daily breakdown, payment methods, category breakdown, and budget
@@ -20,10 +20,10 @@ export async function getMonthSummary(req, res) {
 
     // Query all expenses starting with `YYYY-MM`
     const regex = new RegExp(`^${monthPrefix}-\\d{2}$`);
-    const records = await expensesDb.findAsync({
+    const records = await Expense.find({
       user_id: userId,
       date: { $regex: regex }
-    });
+    }).lean();
 
     let monthlyTotal = 0;
     const paymentMethods = {
@@ -123,9 +123,9 @@ export async function getMonthSummary(req, res) {
     };
 
     // Budget calculation
-    let budgetRecord = await budgetsDb.findOneAsync({ user_id: userId, year_month: monthPrefix });
+    let budgetRecord = await Budget.findOne({ user_id: userId, year_month: monthPrefix }).lean();
     if (!budgetRecord) {
-      budgetRecord = await budgetsDb.findOneAsync({ user_id: userId, is_default: true });
+      budgetRecord = await Budget.findOne({ user_id: userId, is_default: true }).lean();
     }
     const budgetAmount = budgetRecord ? budgetRecord.amount : 0;
     const remainingBudget = Math.max(0, budgetAmount - monthlyTotal);
@@ -181,10 +181,10 @@ export async function getYearSummary(req, res) {
     const yearPrefix = `${year}-`;
     const regex = new RegExp(`^${yearPrefix}\\d{2}-\\d{2}$`);
 
-    const records = await expensesDb.findAsync({
+    const records = await Expense.find({
       user_id: userId,
       date: { $regex: regex }
-    });
+    }).lean();
 
     const monthNames = [
       'January', 'February', 'March', 'April', 'May', 'June',

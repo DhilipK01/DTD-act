@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import jwt from 'jsonwebtoken';
-import { usersDb, otpsDb } from '../config/db.js';
+import { User, Otp } from '../config/db.js';
 import { generateOtp, hashOtp, verifyOtpHash } from '../utils/otpHelper.js';
 import { hashPassword, verifyPassword } from '../utils/passwordHelper.js';
 import { sendOtpEmail } from '../utils/mailer.js';
@@ -55,7 +55,7 @@ export async function signup(req, res) {
     }
 
     // Check if user already exists
-    const existingUser = await usersDb.findOneAsync({ email });
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
       // If the account exists but has no password (e.g. created via earlier OTP verification):
       if (!existingUser.password_hash) {
@@ -65,8 +65,8 @@ export async function signup(req, res) {
           age: userAge || existingUser.age || 20,
           is_verified: true
         };
-        await usersDb.updateAsync({ user_id: existingUser.user_id }, { $set: updateData });
-        const updatedUser = await usersDb.findOneAsync({ user_id: existingUser.user_id });
+        await User.updateOne({ user_id: existingUser.user_id }, { $set: updateData });
+        const updatedUser = await User.findOne({ user_id: existingUser.user_id }).lean();
         console.log(`👤 Legacy/OTP user account upgraded with password on signup: ${email}`);
 
         // Generate JWT
@@ -107,7 +107,7 @@ export async function signup(req, res) {
       created_at: new Date().toISOString()
     };
 
-    const inserted = await usersDb.insertAsync(newUser);
+    const inserted = await User.create(newUser);
     console.log(`👤 New user registered via password signup: ${email} (${name}, Age: ${userAge})`);
 
     // Generate JWT
@@ -154,7 +154,7 @@ export async function login(req, res) {
     }
 
     // Find user by email
-    const user = await usersDb.findOneAsync({ email });
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(401).json({ error: 'Invalid email or password.' });
     }
@@ -167,7 +167,7 @@ export async function login(req, res) {
         });
       }
       const newHash = hashPassword(pwd);
-      await usersDb.updateAsync(
+      await User.updateOne(
         { user_id: user.user_id },
         { $set: { password_hash: newHash, fullName: user.fullName || email.split('@')[0] } }
       );
@@ -227,7 +227,7 @@ export async function resetPassword(req, res) {
       return res.status(400).json({ error: 'Password must be at least 4 characters long.' });
     }
 
-    const otps = await otpsDb.findAsync({ email, used: false });
+    const otps = await Otp.find({ email, used: false }).lean();
     const now = new Date().toISOString();
 
     const validOtp = otps
@@ -244,9 +244,9 @@ export async function resetPassword(req, res) {
     }
 
     // Mark OTP used
-    await otpsDb.updateAsync({ _id: validOtp._id }, { $set: { used: true } });
+    await Otp.updateOne({ _id: validOtp._id }, { $set: { used: true } });
 
-    let user = await usersDb.findOneAsync({ email });
+    let user = await User.findOne({ email });
     const newHash = hashPassword(pwd);
 
     if (!user) {
@@ -259,9 +259,9 @@ export async function resetPassword(req, res) {
         is_verified: true,
         created_at: now
       };
-      user = await usersDb.insertAsync(newUser);
+      user = await User.create(newUser);
     } else {
-      await usersDb.updateAsync(
+      await User.updateOne(
         { user_id: user.user_id },
         { $set: { password_hash: newHash, is_verified: true } }
       );
@@ -300,7 +300,7 @@ export async function resetPassword(req, res) {
  */
 export async function getMe(req, res) {
   try {
-    const user = await usersDb.findOneAsync({ user_id: req.user.user_id });
+    const user = await User.findOne({ user_id: req.user.user_id }).lean();
     if (!user) {
       return res.status(404).json({ error: 'User not found.' });
     }
@@ -345,9 +345,9 @@ export async function sendOtp(req, res) {
     const otp_hash = hashOtp(otp, email);
     const expires_at = new Date(Date.now() + 10 * 60 * 1000).toISOString();
 
-    await otpsDb.updateAsync({ email, used: false }, { $set: { used: true } }, { multi: true });
+    await Otp.updateMany({ email, used: false }, { $set: { used: true } });
 
-    await otpsDb.insertAsync({
+    await Otp.create({
       email,
       otp_hash,
       expires_at,
@@ -388,7 +388,7 @@ export async function verifyOtp(req, res) {
       return res.status(400).json({ error: 'OTP must be a 6-digit number.' });
     }
 
-    const otps = await otpsDb.findAsync({ email, used: false });
+    const otps = await Otp.find({ email, used: false }).lean();
     const now = new Date().toISOString();
 
     const validOtp = otps
@@ -404,9 +404,9 @@ export async function verifyOtp(req, res) {
       return res.status(400).json({ error: 'Incorrect OTP code. Please check and try again.' });
     }
 
-    await otpsDb.updateAsync({ _id: validOtp._id }, { $set: { used: true } });
+    await Otp.updateOne({ _id: validOtp._id }, { $set: { used: true } });
 
-    let user = await usersDb.findOneAsync({ email });
+    let user = await User.findOne({ email });
     const nowIso = new Date().toISOString();
 
     if (!user) {
@@ -418,10 +418,10 @@ export async function verifyOtp(req, res) {
         is_verified: true,
         created_at: nowIso
       };
-      user = await usersDb.insertAsync(newUser);
+      user = await User.create(newUser);
     } else {
       if (!user.is_verified) {
-        await usersDb.updateAsync({ user_id: user.user_id }, { $set: { is_verified: true } });
+        await User.updateOne({ user_id: user.user_id }, { $set: { is_verified: true } });
         user.is_verified = true;
       }
     }
