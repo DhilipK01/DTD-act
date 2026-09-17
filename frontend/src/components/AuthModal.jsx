@@ -190,8 +190,12 @@ export default function AuthModal() {
 
         {/* Brand Header */}
         <div className="text-center mb-6 relative z-10">
-          <div className="w-14 h-14 rounded-2xl logo-theme flex items-center justify-center font-black text-base tracking-wider mx-auto mb-3 shadow-theme-glow transition-transform hover:scale-105">
-            DTD
+          <div className="w-16 h-16 rounded-2xl overflow-hidden mx-auto mb-3 shadow-[0_0_30px_rgba(16,185,129,0.35)] border border-white/20 bg-black transition-transform hover:scale-105 duration-200">
+            <img
+              src="/dtd-logo.png"
+              alt="DTD Logo"
+              className="w-full h-full object-cover"
+            />
           </div>
           <h1 className="text-2xl font-display font-black text-white tracking-tight">
             DTD

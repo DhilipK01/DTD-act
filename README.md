@@ -98,3 +98,59 @@ cd backend
 npm run migrate
 ```
 *Note: The server also auto-migrates existing `.db` data upon initial startup if your MongoDB collections are empty.*
+
+---
+
+## 🌐 Production Deployment Guide
+
+### 1. Database: MongoDB Atlas (Free Cloud Database)
+1. Go to [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) and create an account / log in.
+2. Create a new **Free Shared Cluster (M0)**.
+3. In **Database Access**, create a database user (e.g. `dtd_user`) with read and write privileges and save the password.
+4. In **Network Access**, click **Add IP Address** and select **Allow Access from Anywhere** (`0.0.0.0/0`) so Render can connect.
+5. In **Database** -> Click **Connect** -> Choose **Drivers (Node.js)**:
+   - Copy the connection string. It looks like:
+     ```
+     mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/dtd_expenses?retryWrites=true&w=majority
+     ```
+   - Replace `<password>` with your database user password and database name with `dtd_expenses`.
+
+---
+
+### 2. Backend: Render Deployment
+1. Go to [Render.com](https://render.com) and sign in with your GitHub account.
+2. Click **New +** -> **Web Service**.
+3. Connect your **`DTD-act`** repository.
+4. Fill in the settings:
+   - **Name**: `dtd-act-backend`
+   - **Root Directory**: `backend`
+   - **Environment**: `Node`
+   - **Build Command**: `npm install`
+   - **Start Command**: `npm start`
+   - **Instance Type**: `Free`
+5. In the **Environment Variables** section, add:
+   - `NODE_ENV` = `production`
+   - `PORT` = `5000`
+   - `MONGODB_URI` = your MongoDB Atlas connection string from step 1
+   - `JWT_SECRET` = any random secure 32+ character string
+   - `OTP_SECRET` = any random secure string
+   - `CLIENT_URL` = `https://your-frontend-app.vercel.app` (your Vercel URL once deployed)
+   - *(Optional)* SMTP details (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`) for email delivery
+6. Click **Deploy Web Service**.
+7. Once deployed, copy your backend URL (e.g., `https://dtd-act-backend.onrender.com`).
+
+---
+
+### 3. Frontend: Vercel Deployment
+1. Go to [Vercel.com](https://vercel.com) and log in with GitHub.
+2. Click **Add New...** -> **Project**.
+3. Import your **`DTD-act`** repository.
+4. In Project Settings:
+   - **Framework Preset**: `Vite`
+   - **Root Directory**: `./` (or `frontend`)
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `dist` (if Root Directory is `frontend`) or `frontend/dist` (if Root Directory is `./`)
+5. In **Environment Variables**, add:
+   - `VITE_API_URL` = `https://dtd-act-backend.onrender.com` (your Render backend URL)
+6. Click **Deploy**.
+7. Vercel will build and deploy your app. Copy your deployed Vercel URL (e.g., `https://dtd-act.vercel.app`) and optionally set it as `CLIENT_URL` in your Render backend settings.

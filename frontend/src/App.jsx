@@ -12,7 +12,7 @@ import MonthlySummary from './components/MonthlySummary';
 import YearlySummary from './components/YearlySummary';
 import SearchModal from './components/SearchModal';
 import BudgetModal from './components/BudgetModal';
-import { DoctorDoomIcon } from './components/CustomIcons';
+import DoomIntro from './components/DoomIntro';
 import { LayoutGrid, Calendar, BarChart3, Plus, Sparkles, User } from 'lucide-react';
 
 export default function App() {
@@ -33,15 +33,9 @@ export default function App() {
   const [monthData, setMonthData] = useState(null);
   const [dataLoading, setDataLoading] = useState(false);
 
-  // Doctor Doom 5-second splash screen on app boot
-  const [showDoomSplash, setShowDoomSplash] = useState(true);
+  // Doctor Doom cinematic intro on app boot & replayable
+  const [showDoomIntro, setShowDoomIntro] = useState(true);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowDoomSplash(false);
-    }, 5000); // 5 seconds
-    return () => clearTimeout(timer);
-  }, []);
 
   // Load analytics for current year and month
   const loadData = useCallback(async () => {
@@ -97,40 +91,19 @@ export default function App() {
     setEditingDate(todayStr);
   };
 
-  // 5-second Doctor Doom splash screen on boot
-  if (showDoomSplash || authLoading) {
+  // Doctor Doom cinematic intro
+  if (showDoomIntro) {
+    return <DoomIntro onComplete={() => setShowDoomIntro(false)} />;
+  }
+
+  // If loading auth state after intro
+  if (authLoading) {
     return (
-      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#05070d] text-slate-200 p-4 select-none overflow-hidden">
-        {/* Background ambient lighting */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.22)_0%,transparent_70%)] pointer-events-none" />
-
-        <div className="flex flex-col items-center gap-6 text-center max-w-sm relative z-10 animate-in fade-in zoom-in-95 duration-500">
-          {/* Doctor Doom Real Image Frame */}
-          <div className="relative group">
-            <div className="w-48 h-48 sm:w-56 sm:h-56 rounded-3xl overflow-hidden border-2 border-emerald-500/60 shadow-[0_0_50px_-5px_rgba(16,185,129,0.6)] bg-black">
-              <img
-                src="/doom.png"
-                alt="Doctor Doom"
-                className="w-full h-full object-cover object-top filter brightness-105 contrast-110"
-              />
-            </div>
-            {/* Ambient pulse halo */}
-            <div className="absolute -inset-1.5 rounded-[28px] bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-500 opacity-40 blur-lg -z-10 animate-pulse" />
-          </div>
-
-          {/* Doom Dialogue */}
-          <div className="space-y-2">
-            <h2 className="text-lg sm:text-xl font-display font-black tracking-wide text-emerald-400 drop-shadow-[0_0_16px_rgba(16,185,129,0.6)] uppercase px-2 leading-snug">
-              "Fear is for lesser men...... Never for DOOM!"
-            </h2>
-            <div className="flex items-center justify-center gap-2 pt-1">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-              <span className="text-[11px] font-mono font-bold tracking-widest text-slate-400 uppercase">
-                DTD • Latveria Protocol
-              </span>
-            </div>
-          </div>
-        </div>
+      <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#05070d] text-slate-200">
+        <div className="w-12 h-12 rounded-2xl border-2 border-emerald-500/40 border-t-emerald-400 animate-spin mb-4" />
+        <p className="text-xs font-mono tracking-widest text-emerald-400 uppercase">
+          Initializing DTD Dashboard...
+        </p>
       </div>
     );
   }
@@ -152,6 +125,7 @@ export default function App() {
         onOpenSearch={() => setIsSearchOpen(true)}
         onOpenBudget={() => setIsBudgetOpen(true)}
         onOpenProfile={() => setIsProfileOpen(true)}
+        onReplayIntro={() => setShowDoomIntro(true)}
       />
 
       {/* Main Container */}

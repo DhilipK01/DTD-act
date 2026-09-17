@@ -13,6 +13,7 @@ import {
   Check,
   User
 } from 'lucide-react';
+import { DoctorDoomIcon } from './CustomIcons';
 
 export default function Navbar({
   selectedYear,
@@ -22,7 +23,8 @@ export default function Navbar({
   onOpenToday,
   onOpenSearch,
   onOpenBudget,
-  onOpenProfile
+  onOpenProfile,
+  onReplayIntro
 }) {
   const { user, logoutUser } = useAuth();
   const { theme, setTheme, themes } = useTheme();
@@ -63,9 +65,17 @@ export default function Navbar({
       <div className="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
         {/* Brand & Year Selector */}
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2.5 group cursor-default">
-            <div className="w-10 h-10 rounded-2xl logo-theme flex items-center justify-center font-black text-xs tracking-wider transition-transform group-hover:scale-105 duration-200">
-              DTD
+          <div
+            onClick={onReplayIntro}
+            className="flex items-center gap-2.5 group cursor-pointer"
+            title="DTD Act - Click to replay Doom intro"
+          >
+            <div className="relative w-10 h-10 rounded-2xl overflow-hidden shadow-md shadow-black/50 border border-white/15 bg-black transition-transform group-hover:scale-105 duration-200 flex-shrink-0">
+              <img
+                src="/dtd-logo.png"
+                alt="DTD Logo"
+                className="w-full h-full object-cover"
+              />
             </div>
             <div>
               <span className="text-lg font-display font-extrabold tracking-tight text-white flex items-center gap-1.5">
@@ -204,6 +214,16 @@ export default function Navbar({
               </div>
             )}
           </div>
+
+          {/* Doctor Doom Intro Replay */}
+          <button
+            type="button"
+            onClick={onReplayIntro}
+            className="p-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 hover:text-emerald-300 rounded-xl border border-emerald-500/25 transition-all shadow-sm group"
+            title="Replay Doctor Doom Intro"
+          >
+            <DoctorDoomIcon className="w-4 h-4 transition-transform group-hover:scale-110" />
+          </button>
 
           {/* Search Button */}
           <button

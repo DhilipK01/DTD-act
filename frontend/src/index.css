@@ -409,3 +409,185 @@ input[type="number"]::-webkit-outer-spin-button {
 .recording-active {
   animation: radar-pulse 1.4s ease-out infinite;
 }
+
+/* =========================================================
+   CINEMATIC DOCTOR DOOM CRUSH INTRO ANIMATIONS
+   ========================================================= */
+
+@keyframes screen-rumble {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  10% { transform: translate(-10px, -8px) rotate(-1.8deg); }
+  20% { transform: translate(10px, 8px) rotate(1.5deg); }
+  30% { transform: translate(-8px, 6px) rotate(-1.2deg); }
+  40% { transform: translate(8px, -6px) rotate(1.2deg); }
+  50% { transform: translate(-6px, 4px) rotate(-0.8deg); }
+  60% { transform: translate(6px, -4px) rotate(1deg); }
+  70% { transform: translate(-3px, 3px) rotate(-0.5deg); }
+  80% { transform: translate(3px, -2px) rotate(0.4deg); }
+  90% { transform: translate(-1px, 1px) rotate(-0.2deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+.animate-violent-rumble {
+  animation: screen-rumble 0.85s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+/* =========================================================
+   DTD SPLASH — EMBER IRON WARLORD INTRO (v2, 4-second spec)
+   Palette: #000000 black | #3a3a3a iron | #ff4500 ember | #8b0000 blood
+   ========================================================= */
+
+/* Phase 1 (0–0.6s): Logo fades + scales in */
+@keyframes splash-logo-reveal {
+  0%   { opacity: 0; transform: scale(0.72); filter: blur(8px); }
+  60%  { opacity: 1; transform: scale(1.04); filter: blur(0); }
+  100% { opacity: 1; transform: scale(1);    filter: blur(0); }
+}
+.splash-logo-reveal {
+  animation: splash-logo-reveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Metallic sheen sweep across logo after reveal */
+@keyframes splash-sheen {
+  0%   { background-position: -200% center; }
+  100% { background-position: 300% center; }
+}
+.splash-sheen-layer {
+  background: linear-gradient(105deg,
+    transparent 35%,
+    rgba(255,255,255,0.16) 50%,
+    transparent 65%
+  );
+  background-size: 200% 100%;
+  animation: splash-sheen 1s 0.5s ease-in-out forwards;
+}
+
+/* Phase 2 (0.6–1.8s): Gauntlet slides up from bottom — heavy ease-in */
+@keyframes gauntlet-enter {
+  0%   { transform: translateY(115%) rotate(-3deg); opacity: 0; }
+  35%  { opacity: 1; }
+  100% { transform: translateY(0%)   rotate(0deg);  opacity: 1; }
+}
+.gauntlet-enter {
+  animation: gauntlet-enter 0.75s cubic-bezier(0.6, 0, 0.7, 0.4) forwards;
+}
+
+/* Gauntlet fingers closing — sharp ease-out snap */
+@keyframes finger-top-close {
+  0%   { transform: scaleY(1) rotate(0deg); transform-origin: bottom center; }
+  100% { transform: scaleY(0.72) rotate(-14deg); transform-origin: bottom center; }
+}
+@keyframes finger-bot-close {
+  0%   { transform: scaleY(1) rotate(0deg); transform-origin: top center; }
+  100% { transform: scaleY(0.72) rotate(14deg); transform-origin: top center; }
+}
+.finger-top-close { animation: finger-top-close 0.45s 0s cubic-bezier(0.15, 0, 0.1, 1) forwards; }
+.finger-bot-close { animation: finger-bot-close 0.45s 0s cubic-bezier(0.15, 0, 0.1, 1) forwards; }
+
+/* Phase 3 (1.8–2.4s): Logo crumbles under crush */
+@keyframes logo-crumble {
+  0%   { transform: scale(1);             opacity: 1; filter: brightness(1); }
+  18%  { transform: scale(0.94,1.06) skewX(-2deg); filter: brightness(1.8) drop-shadow(0 0 20px #ff4500); }
+  45%  { transform: scale(1.05,0.80) skewX(3deg);  filter: brightness(3.5) drop-shadow(0 0 50px #ff4500); opacity: 1; }
+  72%  { transform: scale(0.45,0.35) rotate(9deg);  filter: brightness(5) blur(3px); opacity: 0.65; }
+  100% { transform: scale(0) rotate(22deg);          filter: brightness(6) blur(12px); opacity: 0; }
+}
+.logo-crumble {
+  animation: logo-crumble 0.58s cubic-bezier(0.18, 0, 0.05, 1) forwards;
+}
+
+/* Orange flash burst on crush impact */
+@keyframes crush-flash {
+  0%   { opacity: 0; }
+  8%   { opacity: 0.9; }
+  38%  { opacity: 0.5; }
+  100% { opacity: 0; }
+}
+.crush-flash {
+  animation: crush-flash 0.52s ease-out forwards;
+  pointer-events: none;
+}
+
+/* Camera shake on crush */
+@keyframes crush-shake {
+  0%   { transform: translate(0,0) rotate(0); }
+  10%  { transform: translate(-11px,-8px) rotate(-1.6deg); }
+  22%  { transform: translate(10px, 7px) rotate(1.3deg); }
+  35%  { transform: translate(-8px, 5px) rotate(-1deg); }
+  48%  { transform: translate(7px, -6px) rotate(0.9deg); }
+  62%  { transform: translate(-5px, 3px) rotate(-0.5deg); }
+  76%  { transform: translate(3px, -2px) rotate(0.3deg); }
+  90%  { transform: translate(-1px, 1px) rotate(-0.1deg); }
+  100% { transform: translate(0,0) rotate(0); }
+}
+.crush-shake {
+  animation: crush-shake 0.52s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+/* Gauntlet pulls back down after crush */
+@keyframes gauntlet-exit {
+  0%   { transform: translateY(0%);   opacity: 1; }
+  100% { transform: translateY(130%); opacity: 0; }
+}
+.gauntlet-exit {
+  animation: gauntlet-exit 0.5s cubic-bezier(0.6, 0, 1, 0.55) forwards;
+}
+
+/* Phase 4 (2.4–3.6s): Tagline — each character ignites individually */
+@keyframes char-ignite {
+  0%   {
+    opacity: 0;
+    color: #ff4500;
+    text-shadow: 0 0 24px #ff4500, 0 0 10px #ff6a00;
+    transform: translateY(7px) scale(0.82);
+    filter: blur(3px);
+  }
+  45%  {
+    opacity: 1;
+    color: #ff6a00;
+    text-shadow: 0 0 32px #ff4500, 0 0 14px #ff6a00, 0 0 40px #8b0000;
+    transform: translateY(-1px) scale(1.06);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    color: #ff5500;
+    text-shadow: 0 0 12px #ff4500, 0 0 4px #8b0000;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+.char-ignite {
+  display: inline-block;
+  animation: char-ignite 0.28s ease-out forwards;
+  opacity: 0;
+}
+
+/* Subtle ember crackle pulse on the fully revealed tagline */
+@keyframes ember-crackle {
+  0%, 100% { text-shadow: 0 0 12px #ff4500, 0 0 4px #8b0000; }
+  28%       { text-shadow: 0 0 24px #ff6a00, 0 0 10px #ff4500, 0 0 3px #fff; }
+  65%       { text-shadow: 0 0 8px #8b0000, 0 0 3px #ff4500; }
+}
+.ember-crackle {
+  animation: ember-crackle 2s ease-in-out infinite;
+}
+
+/* Transition out (3.6–4.0s): fade to black */
+@keyframes splash-fade-out {
+  0%   { opacity: 1; }
+  100% { opacity: 0; pointer-events: none; }
+}
+.splash-fade-out {
+  animation: splash-fade-out 0.4s ease-in forwards;
+}
+
+/* Skip hint fade */
+@keyframes skip-hint-in {
+  0%   { opacity: 0; transform: translateY(4px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.skip-hint-in {
+  animation: skip-hint-in 0.4s 1.5s ease-out forwards;
+  opacity: 0;
+}

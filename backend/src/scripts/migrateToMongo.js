@@ -55,7 +55,7 @@ async function runMigration() {
           );
           uCount++;
         }
-      } catch (e) {}
+      } catch (e) { }
     }
     console.log(`👤 Users processed: ${uCount}`);
   } else {
@@ -92,7 +92,7 @@ async function runMigration() {
           );
           eCount++;
         }
-      } catch (e) {}
+      } catch (e) { }
     }
     console.log(`💰 Expenses processed: ${eCount}`);
   } else {
@@ -124,7 +124,7 @@ async function runMigration() {
           );
           bCount++;
         }
-      } catch (e) {}
+      } catch (e) { }
     }
     console.log(`📊 Budgets processed: ${bCount}`);
   } else {

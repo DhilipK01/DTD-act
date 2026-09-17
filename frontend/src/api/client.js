@@ -1,4 +1,7 @@
-const API_BASE = (import.meta.env.VITE_API_URL || '/api').replace(/\/$/, '');
+const rawApiBase = (import.meta.env.VITE_API_URL || '/api').trim().replace(/\/$/, '');
+const API_BASE = rawApiBase.startsWith('http') && !rawApiBase.endsWith('/api')
+  ? `${rawApiBase}/api`
+  : rawApiBase;
 
 /**
  * Generic fetch wrapper with credentials & JSON parsing
