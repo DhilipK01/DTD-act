@@ -11,7 +11,9 @@ import {
   Target,
   Palette,
   Check,
-  User
+  User,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { DoctorDoomIcon } from './CustomIcons';
 
@@ -27,7 +29,7 @@ export default function Navbar({
   onReplayIntro
 }) {
   const { user, logoutUser } = useAuth();
-  const { theme, setTheme, themes } = useTheme();
+  const { theme, setTheme, themeMode, toggleThemeMode, themes } = useTheme();
   const [themeMenuOpen, setThemeMenuOpen] = useState(false);
   const themeMenuRef = useRef(null);
 
@@ -41,6 +43,21 @@ export default function Navbar({
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  // Keyboard shortcut '/' or 'Ctrl+K' to open search
+  useEffect(() => {
+    function handleKeyDown(e) {
+      if (e.key === '/' && !['INPUT', 'TEXTAREA'].includes(e.target.tagName)) {
+        e.preventDefault();
+        onOpenSearch();
+      } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        onOpenSearch();
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onOpenSearch]);
 
   // Generate years from 2000 to 2100
   const years = [];
@@ -61,102 +78,104 @@ export default function Navbar({
     : 'U';
 
   return (
-    <header className="sticky top-0 z-30 glass-panel border-b border-white/[0.08] backdrop-blur-2xl bg-dark-900/80">
-      <div className="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
-        {/* Brand & Year Selector */}
-        <div className="flex items-center gap-3">
+    <header className="sticky top-0 z-30 glass-panel border-b border-white/[0.08] backdrop-blur-2xl">
+      <div className="max-w-6xl mx-auto px-3.5 sm:px-5 py-2.5 flex items-center justify-between gap-2 sm:gap-4">
+        {/* Left: YouTube-style Brand & Year Selector */}
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <div
             onClick={onReplayIntro}
             className="flex items-center gap-2.5 group cursor-pointer"
             title="DTD Act - Click to replay Doom intro"
           >
-            <div className="relative w-10 h-10 rounded-2xl overflow-hidden shadow-md shadow-black/50 border border-white/15 bg-black transition-transform group-hover:scale-105 duration-200 flex-shrink-0">
+            {/* DTD App Logo */}
+            <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-xl overflow-hidden shadow-sm border border-black/10 dark:border-white/15 bg-white dark:bg-surface-950 transition-transform group-hover:scale-105 duration-200 flex-shrink-0">
               <img
                 src="/dtd-logo.png"
                 alt="DTD Logo"
                 className="w-full h-full object-cover"
               />
             </div>
-            <div>
-              <span className="text-lg font-display font-extrabold tracking-tight text-white flex items-center gap-1.5">
+            <div className="flex items-baseline gap-1">
+              <span className="text-xl sm:text-2xl font-display font-black tracking-tighter leading-none">
                 DTD
               </span>
-              <span className="hidden sm:inline-block text-[11px] font-semibold text-theme-light tracking-wide">
-                Personal Tracker
+              <span className="hidden md:inline-block text-[10px] font-bold text-slate-500 dark:text-slate-400 tracking-wider uppercase">
+                Tracker
               </span>
             </div>
           </div>
 
-          {/* Custom Year Dropdown */}
+          {/* Custom Year Dropdown Pill */}
           <div className="relative">
             <select
               value={selectedYear}
               onChange={(e) => onYearChange(parseInt(e.target.value, 10))}
-              className="appearance-none bg-white/[0.04] hover:bg-white/[0.08] text-white font-mono font-bold text-xs pl-3 pr-8 py-1.5 rounded-xl border border-white/10 hover:border-white/25 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all cursor-pointer shadow-sm"
+              className="appearance-none yt-pill font-mono font-bold text-xs pl-3 pr-7 py-1 rounded-full cursor-pointer focus:outline-none shadow-sm"
               title="Select Year (2000-2100)"
             >
               {years.map((y) => (
-                <option key={y} value={y} className="bg-slate-900 text-white font-sans">
+                <option key={y} value={y}>
                   {y}
                 </option>
               ))}
             </select>
             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400">
-              <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20">
+              <svg className="w-3 h-3 fill-current" viewBox="0 0 20 20">
                 <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
               </svg>
             </div>
           </div>
         </div>
 
-        {/* View Switcher Tabs (Hidden on mobile since bottom bar exists, visible on tablet/desktop) */}
-        <nav className="hidden sm:flex items-center bg-black/50 p-1 rounded-2xl border border-white/[0.08] sm:order-2 w-auto justify-around backdrop-blur-md">
-          <button
-            onClick={() => onTabChange('yearGrid')}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all duration-200 ${
-              activeTab === 'yearGrid'
-                ? 'tab-theme-active'
-                : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
-            }`}
+        {/* Center: YouTube-Style Search Bar Pill */}
+        <div className="flex-1 max-w-md mx-1 sm:mx-3">
+          <div
+            onClick={onOpenSearch}
+            className="yt-search-pill px-3 sm:px-4 py-1.5 sm:py-2 cursor-pointer flex items-center justify-between text-xs sm:text-sm group"
+            title="Search expenses & meals (Press /)"
           >
-            <LayoutGrid className="w-3.5 h-3.5" />
-            <span>Months</span>
+            <div className="flex items-center gap-2.5 text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors min-w-0">
+              <Search className="w-4 h-4 shrink-0" />
+              <span className="truncate text-slate-400 font-normal">
+                Search spending, meals, notes...
+              </span>
+            </div>
+            <kbd className="hidden sm:inline-flex items-center px-2 py-0.5 text-[10px] font-mono font-bold rounded-md bg-black/5 dark:bg-white/10 text-slate-500 dark:text-slate-400 border border-black/5 dark:border-white/10">
+              /
+            </kbd>
+          </div>
+        </div>
+
+        {/* Right: Mode Toggle, Log Today, Theme, Profile & Logout */}
+        <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+          {/* 1. YouTube Light / Dark Mode Toggle */}
+          <button
+            onClick={toggleThemeMode}
+            className="w-9 h-9 rounded-full flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-black/5 dark:hover:bg-white/10 active:scale-95 transition-all"
+            title={
+              themeMode === 'light'
+                ? 'Switch to YouTube Dark Mode'
+                : 'Switch to YouTube Clean Light Mode'
+            }
+          >
+            {themeMode === 'light' ? (
+              <Moon className="w-4 h-4 text-slate-700" />
+            ) : (
+              <Sun className="w-4 h-4 text-amber-400" />
+            )}
           </button>
 
-          <button
-            onClick={() => onTabChange('monthView')}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all duration-200 ${
-              activeTab === 'monthView'
-                ? 'tab-theme-active'
-                : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
-            }`}
-          >
-            <Calendar className="w-3.5 h-3.5" />
-            <span>Calendar</span>
-          </button>
-
-          <button
-            onClick={() => onTabChange('analytics')}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all duration-200 ${
-              activeTab === 'analytics'
-                ? 'tab-theme-active'
-                : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
-            }`}
-          >
-            <BarChart3 className="w-3.5 h-3.5" />
-            <span>Analytics</span>
-          </button>
-        </nav>
-
-        {/* Actions: Theme Switcher, Search, Budget, Today Log, Profile & Logout */}
-        <div className="flex items-center gap-1.5 sm:gap-2">
-          {/* Theme Palette Switcher Dropdown */}
+          {/* 2. Theme Palette Switcher Dropdown */}
           <div className="relative" ref={themeMenuRef}>
             <button
               onClick={() => setThemeMenuOpen(!themeMenuOpen)}
-              className="p-2 bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-white rounded-xl border border-white/10 transition-all"
-              title="Change Aesthetic Color Theme"
-              style={themeMenuOpen ? { color: 'var(--theme-accent)', borderColor: 'var(--theme-accent)' } : {}}
+              className="w-9 h-9 rounded-full flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-black/5 dark:hover:bg-white/10 active:scale-95 transition-all"
+              title="Change Accent Color"
+              style={
+                themeMenuOpen
+                  ? { color: 'var(--theme-accent)', backgroundColor: 'rgba(var(--theme-accent-rgb), 0.12)' }
+                  : {}
+              }
             >
               <Palette className="w-4 h-4" />
             </button>
@@ -164,16 +183,16 @@ export default function Navbar({
             {themeMenuOpen && (
               <div className="fixed inset-x-3.5 top-16 sm:absolute sm:top-full sm:right-0 sm:left-auto sm:inset-x-auto sm:mt-2 sm:w-80 theme-dropdown-popover rounded-2xl overflow-hidden max-h-[calc(100vh-85px)] flex flex-col z-[100] shadow-2xl">
                 {/* Header */}
-                <div className="px-4 py-3 border-b border-white/10 flex items-center justify-between bg-black/40 shrink-0">
-                  <span className="text-[11px] font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                <div className="px-4 py-3 border-b border-white/10 flex items-center justify-between shrink-0">
+                  <span className="text-[11px] font-black uppercase tracking-wider flex items-center gap-1.5 font-display">
                     <Palette className="w-3.5 h-3.5 text-theme" />
-                    Choose Your Theme
+                    Color Palette
                   </span>
                   <span className="text-[10px] text-slate-400 font-semibold">{themes.length} themes</span>
                 </div>
 
-                {/* 2-column theme grid with solid items */}
-                <div className="p-2 grid grid-cols-2 gap-1.5 overflow-y-auto bg-[#080b14] flex-1">
+                {/* 2-column theme grid */}
+                <div className="p-2.5 grid grid-cols-2 gap-1.5 overflow-y-auto flex-1">
                   {themes.map((t) => (
                     <button
                       key={t.id}
@@ -183,19 +202,17 @@ export default function Navbar({
                       }}
                       className={`flex items-center gap-2 px-2.5 py-2 rounded-xl transition-all text-left group ${
                         theme === t.id
-                          ? 'bg-white/[0.14] font-bold border border-white/30 shadow-sm'
-                          : 'bg-white/[0.02] hover:bg-white/[0.08] border border-white/[0.05] hover:border-white/15'
+                          ? 'bg-black/10 dark:bg-white/15 font-bold border border-black/15 dark:border-white/30 shadow-sm'
+                          : 'hover:bg-black/5 dark:hover:bg-white/5 border border-transparent'
                       }`}
                     >
                       {/* Color dot */}
                       <span
-                        className={`w-4 h-4 rounded-full shrink-0 shadow-md border-2 border-black/40 ${t.dot}`}
-                        style={{ boxShadow: `0 0 10px 2px ${t.color}88` }}
+                        className={`w-4 h-4 rounded-full shrink-0 shadow-sm border border-black/20 ${t.dot}`}
+                        style={{ boxShadow: `0 0 8px 1px ${t.color}66` }}
                       />
                       <div className="min-w-0 flex-1">
-                        <span className={`text-[11px] font-bold block truncate ${
-                          theme === t.id ? 'text-white' : 'text-slate-300 group-hover:text-white'
-                        }`}>
+                        <span className="text-[11px] font-bold block truncate">
                           {t.name}
                         </span>
                         <span className="text-[9px] text-slate-400 block font-medium">{t.label}</span>
@@ -208,71 +225,45 @@ export default function Navbar({
                 </div>
 
                 {/* Footer hint */}
-                <div className="px-4 py-2.5 border-t border-white/10 text-[10px] text-slate-400 text-center bg-black/40 font-medium shrink-0">
+                <div className="px-4 py-2 border-t border-black/5 dark:border-white/10 text-[10px] text-slate-400 text-center font-medium shrink-0">
                   Theme saved automatically ✓
                 </div>
               </div>
             )}
           </div>
 
-          {/* Doctor Doom Intro Replay */}
-          <button
-            type="button"
-            onClick={onReplayIntro}
-            className="p-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 hover:text-emerald-300 rounded-xl border border-emerald-500/25 transition-all shadow-sm group"
-            title="Replay Doctor Doom Intro"
-          >
-            <DoctorDoomIcon className="w-4 h-4 transition-transform group-hover:scale-110" />
-          </button>
-
-          {/* Search Button */}
-          <button
-            onClick={onOpenSearch}
-            className="p-2 bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-white rounded-xl border border-white/10 transition-all"
-            title="Search expenses & meals"
-          >
-            <Search className="w-4 h-4" />
-          </button>
-
-          {/* Monthly Budget Target */}
+          {/* 3. Monthly Budget Target Button */}
           <button
             onClick={onOpenBudget}
-            className="p-2 bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-theme-light rounded-xl border border-white/10 transition-all"
+            className="w-9 h-9 rounded-full flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-black/5 dark:hover:bg-white/10 active:scale-95 transition-all"
             title="Set Monthly Budget Target"
           >
             <Target className="w-4 h-4" />
           </button>
 
-          {/* Quick "Log Today" with glowing theme styling */}
+          {/* 4. YouTube Red "Log Today" Pill Button */}
           <button
             onClick={onOpenToday}
-            className="relative group flex items-center gap-1.5 px-3.5 py-1.5 text-xs btn-theme-primary rounded-xl cursor-pointer"
+            className="hidden sm:inline-flex items-center gap-1.5 px-4 py-1.5 text-xs btn-youtube-red active:scale-95 transition-all"
             title="Log Today's Spending"
           >
             <Sparkles className="w-3.5 h-3.5 fill-current" />
-            <span>Log Today</span>
+            <span>+ Today</span>
           </button>
 
-          {/* User Profile Pill */}
+          {/* 5. User Profile Circular Button */}
           <button
             onClick={onOpenProfile}
-            className="flex items-center gap-2 px-2.5 py-1 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 transition-all cursor-pointer group"
-            title="View User Profile (Read-Only)"
+            className="w-9 h-9 rounded-full bg-red-600/10 text-red-600 dark:bg-red-500/20 dark:text-red-400 border border-red-500/30 flex items-center justify-center text-xs font-black font-display hover:scale-105 active:scale-95 transition-all"
+            title="View User Profile"
           >
-            <div className="w-6 h-6 rounded-lg bg-theme-subtle border border-theme-subtle flex items-center justify-center text-[11px] font-black text-theme-light font-display">
-              {initials}
-            </div>
-            <span
-              className="text-xs font-bold text-slate-300 group-hover:text-white hidden md:inline-block max-w-[120px] truncate"
-            >
-              {user?.fullName || user?.email?.split('@')[0]}
-            </span>
+            {initials}
           </button>
 
-          {/* Logout Button */}
+          {/* 6. Logout Button */}
           <button
             onClick={logoutUser}
-            className="p-2 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-xl transition-all border border-transparent hover:border-rose-500/20"
+            className="w-9 h-9 rounded-full flex items-center justify-center text-slate-400 hover:text-rose-500 hover:bg-rose-500/10 active:scale-95 transition-all"
             title="Logout"
           >
             <LogOut className="w-4 h-4" />

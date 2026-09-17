@@ -182,25 +182,21 @@ export default function AuthModal() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="w-full max-w-md bg-gradient-to-b from-[#0f1424] to-[#07090f] border border-white/10 rounded-[32px] p-6 sm:p-8 shadow-2xl relative overflow-hidden">
-        {/* Ambient Glowing Orbs */}
-        <div className="absolute -top-24 -right-24 w-48 h-48 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none" />
-
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="w-full max-w-md bg-surface-950 border border-black/10 dark:border-white/10 rounded-[28px] sm:rounded-[32px] p-6 sm:p-8 shadow-2xl relative overflow-hidden">
         {/* Brand Header */}
         <div className="text-center mb-6 relative z-10">
-          <div className="w-16 h-16 rounded-2xl overflow-hidden mx-auto mb-3 shadow-[0_0_30px_rgba(16,185,129,0.35)] border border-white/20 bg-black transition-transform hover:scale-105 duration-200">
+          <div className="w-16 h-16 rounded-2xl overflow-hidden mx-auto mb-3 border border-black/10 dark:border-white/20 bg-surface-950 transition-transform hover:scale-105 duration-200 shadow-md">
             <img
               src="/dtd-logo.png"
               alt="DTD Logo"
               className="w-full h-full object-cover"
             />
           </div>
-          <h1 className="text-2xl font-display font-black text-white tracking-tight">
+          <h1 className="text-2xl font-display font-black tracking-tight">
             DTD
           </h1>
-          <p className="text-xs text-slate-400 mt-1 font-medium">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">
             {mode === 'signin' && 'Sign in to access your personal spending dashboard'}
             {mode === 'signup' && 'Create your account to start tracking daily expenses'}
             {mode === 'reset' && 'Reset your password or sign in with email OTP code'}
@@ -208,7 +204,7 @@ export default function AuthModal() {
         </div>
 
         {/* Tab Switcher: Sign In vs Sign Up vs Reset/OTP */}
-        <div className="flex bg-black/50 p-1 rounded-2xl border border-white/10 mb-5 relative z-10">
+        <div className="flex items-center gap-1.5 p-1 bg-black/5 dark:bg-white/5 rounded-full mb-5 relative z-10">
           <button
             type="button"
             onClick={() => {
@@ -216,10 +212,10 @@ export default function AuthModal() {
               setError('');
               setSuccessMsg('');
             }}
-            className={`flex-1 py-2.5 text-xs font-bold rounded-xl transition-all duration-200 ${
+            className={`yt-pill flex-1 justify-center py-2 text-xs font-bold transition-all duration-200 ${
               mode === 'signin'
-                ? 'tab-theme-active font-black'
-                : 'text-slate-400 hover:text-white'
+                ? 'yt-pill-active font-black'
+                : ''
             }`}
           >
             Sign In
@@ -231,10 +227,10 @@ export default function AuthModal() {
               setError('');
               setSuccessMsg('');
             }}
-            className={`flex-1 py-2.5 text-xs font-bold rounded-xl transition-all duration-200 ${
+            className={`yt-pill flex-1 justify-center py-2 text-xs font-bold transition-all duration-200 ${
               mode === 'signup'
-                ? 'tab-theme-active font-black'
-                : 'text-slate-400 hover:text-white'
+                ? 'yt-pill-active font-black'
+                : ''
             }`}
           >
             Sign Up
@@ -247,10 +243,10 @@ export default function AuthModal() {
               setSuccessMsg('');
               if (loginEmail && !resetEmail) setResetEmail(loginEmail);
             }}
-            className={`flex-1 py-2.5 text-xs font-bold rounded-xl transition-all duration-200 ${
+            className={`yt-pill flex-1 justify-center py-2 text-xs font-bold transition-all duration-200 ${
               mode === 'reset'
-                ? 'tab-theme-active font-black'
-                : 'text-slate-400 hover:text-white'
+                ? 'yt-pill-active font-black'
+                : ''
             }`}
           >
             Reset / OTP
@@ -259,10 +255,23 @@ export default function AuthModal() {
 
         {/* Error Notification */}
         {error && (
-          <div className="mb-4 p-3.5 rounded-2xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs flex items-start gap-2.5 relative z-10">
+          <div className="mb-4 p-3.5 rounded-2xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs flex items-start gap-2.5 relative z-10 shadow-sm">
             <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-400" />
             <div className="flex-1">
               <span className="font-medium">{error}</span>
+              {error.toLowerCase().includes('already exists') && mode === 'signup' && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMode('signin');
+                    if (signupEmail) setLoginEmail(signupEmail);
+                    setError('');
+                  }}
+                  className="block mt-1.5 text-theme-light underline font-bold hover:brightness-110"
+                >
+                  Switch to Sign In →
+                </button>
+              )}
               {mode === 'signin' && (
                 <button
                   type="button"
@@ -293,7 +302,7 @@ export default function AuthModal() {
           <form onSubmit={handleSignIn} className="space-y-4 relative z-10">
             {/* Email ID */}
             <div>
-              <label className="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">
+              <label className="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider font-display">
                 Gmail / Email ID
               </label>
               <div className="relative">
@@ -307,7 +316,7 @@ export default function AuthModal() {
                   value={loginEmail}
                   onChange={(e) => setLoginEmail(e.target.value)}
                   placeholder="yourname@gmail.com"
-                  className="w-full bg-black/60 border border-white/10 text-white rounded-2xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 transition-all placeholder:text-slate-600 shadow-inner"
+                  className="w-full bg-surface-950/80 border border-white/10 text-white rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-theme focus:ring-2 focus:ring-[rgba(var(--theme-accent-rgb),0.25)] transition-all placeholder:text-slate-600 shadow-inner"
                 />
               </div>
             </div>
@@ -315,7 +324,7 @@ export default function AuthModal() {
             {/* Password */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider font-display">
                   Password
                 </label>
                 <button
@@ -341,7 +350,7 @@ export default function AuthModal() {
                   value={loginPassword}
                   onChange={(e) => setLoginPassword(e.target.value)}
                   placeholder="Enter your password"
-                  className="w-full bg-black/60 border border-white/10 text-white rounded-2xl pl-10 pr-10 py-3 text-sm focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 transition-all placeholder:text-slate-600 shadow-inner"
+                  className="w-full bg-surface-950/80 border border-white/10 text-white rounded-xl pl-10 pr-10 py-2.5 text-sm focus:outline-none focus:border-theme focus:ring-2 focus:ring-[rgba(var(--theme-accent-rgb),0.25)] transition-all placeholder:text-slate-600 shadow-inner"
                 />
                 <button
                   type="button"
@@ -358,23 +367,17 @@ export default function AuthModal() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 px-4 btn-theme-primary text-sm font-black tracking-wider transition-all shadow-theme-glow flex items-center justify-center gap-3 disabled:opacity-50 cursor-pointer mt-2 rounded-2xl uppercase group"
+              className="w-full py-3.5 px-4 btn-theme-primary text-sm font-black tracking-wider transition-all shadow-theme-glow flex items-center justify-center gap-2.5 disabled:opacity-50 cursor-pointer mt-2 rounded-2xl group font-display"
             >
               {loading ? (
                 <>
                   <RefreshCw className="w-4 h-4 animate-spin" />
-                  <span>Entering...</span>
+                  <span>Signing in...</span>
                 </>
               ) : (
                 <>
-                  <span>MEN ARE BRAVE</span>
-                  <div className="h-7 w-14 rounded-lg overflow-hidden bg-black/60 border border-white/20 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0 shadow-[0_0_8px_rgba(255,255,255,0.1)]">
-                    <img
-                      src="/batarang.png"
-                      alt="Batarang"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
+                  <span>Sign In</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </>
               )}
             </button>
@@ -401,7 +404,7 @@ export default function AuthModal() {
           <form onSubmit={handleSignUp} className="space-y-3.5 relative z-10">
             {/* Full Name */}
             <div>
-              <label className="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">
+              <label className="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider font-display">
                 Full Name
               </label>
               <div className="relative">
@@ -415,14 +418,14 @@ export default function AuthModal() {
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   placeholder="e.g. Arun Kumar"
-                  className="w-full bg-black/60 border border-white/10 text-white rounded-2xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 transition-all placeholder:text-slate-600 shadow-inner"
+                  className="w-full bg-surface-950/80 border border-white/10 text-white rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-theme focus:ring-2 focus:ring-[rgba(var(--theme-accent-rgb),0.25)] transition-all placeholder:text-slate-600 shadow-inner"
                 />
               </div>
             </div>
 
             {/* Gmail ID */}
             <div>
-              <label className="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">
+              <label className="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider font-display">
                 Gmail ID
               </label>
               <div className="relative">
@@ -435,7 +438,7 @@ export default function AuthModal() {
                   value={signupEmail}
                   onChange={(e) => setSignupEmail(e.target.value)}
                   placeholder="arun@gmail.com"
-                  className="w-full bg-black/60 border border-white/10 text-white rounded-2xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 transition-all placeholder:text-slate-600 shadow-inner"
+                  className="w-full bg-surface-950/80 border border-white/10 text-white rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-theme focus:ring-2 focus:ring-[rgba(var(--theme-accent-rgb),0.25)] transition-all placeholder:text-slate-600 shadow-inner"
                 />
               </div>
             </div>
@@ -444,7 +447,7 @@ export default function AuthModal() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {/* Password */}
               <div>
-                <label className="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">
+                <label className="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider font-display">
                   Password
                 </label>
                 <div className="relative">
@@ -457,7 +460,7 @@ export default function AuthModal() {
                     value={signupPassword}
                     onChange={(e) => setSignupPassword(e.target.value)}
                     placeholder="Min 4 chars"
-                    className="w-full bg-black/60 border border-white/10 text-white rounded-2xl pl-9 pr-9 py-2.5 text-sm focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 transition-all placeholder:text-slate-600 shadow-inner"
+                    className="w-full bg-surface-950/80 border border-white/10 text-white rounded-xl pl-9 pr-9 py-2.5 text-sm focus:outline-none focus:border-theme focus:ring-2 focus:ring-[rgba(var(--theme-accent-rgb),0.25)] transition-all placeholder:text-slate-600 shadow-inner"
                   />
                   <button
                     type="button"
@@ -471,7 +474,7 @@ export default function AuthModal() {
 
               {/* Age */}
               <div>
-                <label className="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">
+                <label className="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider font-display">
                   Age
                 </label>
                 <div className="relative">
@@ -486,7 +489,7 @@ export default function AuthModal() {
                     value={age}
                     onChange={(e) => setAge(e.target.value)}
                     placeholder="e.g. 24"
-                    className="w-full bg-black/60 border border-white/10 text-white rounded-2xl pl-9 pr-3 py-2.5 text-sm focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 transition-all placeholder:text-slate-600 shadow-inner font-mono"
+                    className="w-full bg-surface-950/80 border border-white/10 text-white rounded-xl pl-9 pr-3 py-2.5 text-sm focus:outline-none focus:border-theme focus:ring-2 focus:ring-[rgba(var(--theme-accent-rgb),0.25)] transition-all placeholder:text-slate-600 shadow-inner font-mono"
                   />
                 </div>
               </div>
@@ -496,23 +499,17 @@ export default function AuthModal() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 px-4 btn-theme-primary text-sm font-black tracking-wider transition-all shadow-theme-glow flex items-center justify-center gap-3 disabled:opacity-50 cursor-pointer mt-3 rounded-2xl uppercase group"
+              className="w-full py-3.5 px-4 btn-theme-primary text-sm font-black tracking-wider transition-all shadow-theme-glow flex items-center justify-center gap-2.5 disabled:opacity-50 cursor-pointer mt-3 rounded-2xl group font-display"
             >
               {loading ? (
                 <>
                   <RefreshCw className="w-4 h-4 animate-spin" />
-                  <span>Snapping...</span>
+                  <span>Creating Account...</span>
                 </>
               ) : (
                 <>
-                  <span>I AM INEVITABLE</span>
-                  <div className="h-7 w-14 rounded-lg overflow-hidden bg-black/60 border border-purple-500/40 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0 shadow-[0_0_10px_rgba(168,85,247,0.3)]">
-                    <img
-                      src="/thanos-sword.png"
-                      alt="Thanos Sword"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
+                  <span>Create Account</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </>
               )}
             </button>
@@ -553,14 +550,14 @@ export default function AuthModal() {
                     value={resetEmail}
                     onChange={(e) => setResetEmail(e.target.value)}
                     placeholder="dhilip17mk@gmail.com"
-                    className="w-full bg-black/60 border border-white/10 text-white rounded-2xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all placeholder:text-slate-600 shadow-inner"
+                    className="w-full bg-surface-950/80 border border-white/10 text-white rounded-2xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-theme-primary focus:ring-2 focus:ring-theme-primary/20 transition-all placeholder:text-slate-500 shadow-inner"
                   />
                 </div>
                 <button
                   type="button"
                   onClick={handleSendOtp}
                   disabled={sendingOtp || !resetEmail.trim()}
-                  className="px-4 py-2.5 bg-cyan-600/30 hover:bg-cyan-600/50 border border-cyan-500/40 text-cyan-300 rounded-2xl text-xs font-bold transition-all disabled:opacity-40 shrink-0 flex items-center gap-1.5"
+                  className="px-4 py-2.5 btn-theme-soft rounded-2xl text-xs font-bold transition-all disabled:opacity-40 shrink-0 flex items-center gap-1.5"
                 >
                   {sendingOtp ? (
                     <RefreshCw className="w-3.5 h-3.5 animate-spin" />
@@ -604,12 +601,12 @@ export default function AuthModal() {
                   value={otp}
                   onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
                   placeholder="e.g. 123456"
-                  className="w-full bg-black/60 border border-white/10 text-white font-mono tracking-widest text-center rounded-2xl pl-10 pr-4 py-2.5 text-base focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all placeholder:tracking-normal placeholder:text-slate-600 shadow-inner"
+                  className="w-full bg-surface-950/80 border border-white/10 text-white font-mono tracking-widest text-center rounded-2xl pl-10 pr-4 py-2.5 text-base focus:outline-none focus:border-theme-primary focus:ring-2 focus:ring-theme-primary/20 transition-all placeholder:tracking-normal placeholder:text-slate-500 shadow-inner"
                 />
               </div>
             </div>
 
-            {/* New Password field (Optional if just doing quick OTP login, or required for reset) */}
+            {/* New Password field */}
             <div>
               <label className="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">
                 New Password (To Reset)
@@ -623,7 +620,7 @@ export default function AuthModal() {
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   placeholder="Enter new password (min 4 chars)"
-                  className="w-full bg-black/60 border border-white/10 text-white rounded-2xl pl-10 pr-10 py-2.5 text-sm focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all placeholder:text-slate-600 shadow-inner"
+                  className="w-full bg-surface-950/80 border border-white/10 text-white rounded-2xl pl-10 pr-10 py-2.5 text-sm focus:outline-none focus:border-theme-primary focus:ring-2 focus:ring-theme-primary/20 transition-all placeholder:text-slate-500 shadow-inner"
                 />
                 <button
                   type="button"
@@ -641,7 +638,7 @@ export default function AuthModal() {
                 type="button"
                 onClick={handleResetPassword}
                 disabled={loading || !otp || !newPassword || !resetEmail}
-                className="w-full py-3 px-4 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white text-xs font-black tracking-wider transition-all rounded-2xl uppercase flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/25 disabled:opacity-40"
+                className="w-full py-3.5 px-4 btn-theme-primary text-sm font-black tracking-wider transition-all rounded-2xl flex items-center justify-center gap-2 shadow-theme-glow disabled:opacity-40 font-display cursor-pointer"
               >
                 {loading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />}
                 <span>Set New Password & Sign In</span>
@@ -651,7 +648,7 @@ export default function AuthModal() {
                 type="button"
                 onClick={handleOtpDirectLogin}
                 disabled={loading || !otp || !resetEmail}
-                className="w-full py-2.5 px-4 bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white text-xs font-bold transition-all rounded-2xl flex items-center justify-center gap-2 disabled:opacity-40"
+                className="w-full py-2.5 px-4 bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white text-xs font-bold transition-all rounded-2xl flex items-center justify-center gap-2 disabled:opacity-40 cursor-pointer"
               >
                 <span>Instant Sign In with Code Only</span>
               </button>

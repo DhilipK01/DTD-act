@@ -19,18 +19,18 @@ export default function YearPickerGrid({
   return (
     <div className="space-y-6">
       {/* Year Overview Hero Card */}
-      <div className="glass-panel p-6 sm:p-8 rounded-[32px] border border-white/10 relative overflow-hidden bg-gradient-to-br from-white/[0.04] via-white/[0.01] to-black/40 shadow-2xl">
-        <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
-          <Calendar className="w-48 h-48 text-emerald-400" />
+      <div className="glass-panel p-6 sm:p-8 rounded-[32px] border border-white/10 relative overflow-hidden bg-gradient-to-br from-surface-850/80 via-surface-900/80 to-surface-950/90 shadow-2xl">
+        <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+          <Calendar className="w-48 h-48 text-theme" />
         </div>
 
         <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           <div>
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-400 mb-1.5">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-theme-light mb-1.5 font-display">
               <Sparkles className="w-3.5 h-3.5 fill-current" />
               <span>Yearly Overview</span>
             </div>
-            <h1 className="text-3xl sm:text-5xl font-display font-black text-white tracking-tight">
+            <h1 className="text-3xl sm:text-5xl font-display font-black text-white tracking-tight leading-tight">
               {year} Spending
             </h1>
             <p className="text-xs sm:text-sm text-slate-400 mt-1 font-medium">
@@ -38,12 +38,12 @@ export default function YearPickerGrid({
             </p>
           </div>
 
-          <div className="bg-black/50 border border-emerald-500/25 p-5 rounded-[24px] flex items-center gap-5 shrink-0 shadow-glow backdrop-blur-xl">
+          <div className="bg-surface-950/75 border border-theme-subtle p-5 rounded-[24px] flex items-center gap-5 shrink-0 shadow-theme-glow backdrop-blur-xl">
             <div>
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-0.5">
                 Grand Total
               </span>
-              <span className="text-2xl sm:text-4xl font-black text-emerald-400 font-mono tracking-tight drop-shadow-[0_0_12px_rgba(16,185,129,0.3)]">
+              <span className="text-2xl sm:text-4xl font-black text-theme-light font-mono tracking-tight drop-shadow-[0_0_12px_var(--theme-glow)]">
                 {formatCurrency(yearData?.yearlyTotal || 0)}
               </span>
             </div>
@@ -117,7 +117,7 @@ export default function YearPickerGrid({
 
                 {/* Bottom: Relative Spend Progress Bar */}
                 <div className="w-full">
-                  <div className="w-full bg-black/40 h-1.5 rounded-full overflow-hidden border border-white/[0.04]">
+                  <div className="w-full bg-surface-950/70 h-1.5 rounded-full overflow-hidden border border-white/[0.06]">
                     <div
                       className="h-full rounded-full transition-all duration-500 shadow-sm"
                       style={{

@@ -99,9 +99,9 @@ export default function App() {
   // If loading auth state after intro
   if (authLoading) {
     return (
-      <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#05070d] text-slate-200">
-        <div className="w-12 h-12 rounded-2xl border-2 border-emerald-500/40 border-t-emerald-400 animate-spin mb-4" />
-        <p className="text-xs font-mono tracking-widest text-emerald-400 uppercase">
+      <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-surface-950 text-slate-900 dark:text-slate-200">
+        <div className="w-12 h-12 rounded-full border-2 border-t-red-600 border-black/10 dark:border-white/10 animate-spin mb-5" />
+        <p className="text-xs font-mono font-bold tracking-widest uppercase text-red-600 dark:text-red-400">
           Initializing DTD Dashboard...
         </p>
       </div>
@@ -128,8 +128,75 @@ export default function App() {
         onReplayIntro={() => setShowDoomIntro(true)}
       />
 
+      {/* YouTube-Style Category Filter Chips Row (Sticky below Navbar) */}
+      <div className="sticky top-[57px] sm:top-[61px] z-20 bg-yt-bg/95 backdrop-blur-md border-b border-black/[0.06] dark:border-white/[0.08] py-2 px-3.5 sm:px-6">
+        <div className="max-w-5xl mx-auto flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth">
+          <button
+            onClick={() => setActiveTab('monthView')}
+            className={`yt-pill ${
+              activeTab === 'monthView' ? 'yt-pill-active' : ''
+            }`}
+          >
+            <Calendar className="w-3.5 h-3.5" />
+            <span>Calendar</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('yearGrid')}
+            className={`yt-pill ${
+              activeTab === 'yearGrid' ? 'yt-pill-active' : ''
+            }`}
+          >
+            <LayoutGrid className="w-3.5 h-3.5" />
+            <span>All Months</span>
+          </button>
+
+          <button
+            onClick={() => {
+              setActiveTab('analytics');
+              setAnalyticsSubTab('monthly');
+            }}
+            className={`yt-pill ${
+              activeTab === 'analytics' && analyticsSubTab === 'monthly' ? 'yt-pill-active' : ''
+            }`}
+          >
+            <BarChart3 className="w-3.5 h-3.5" />
+            <span>Monthly Summary</span>
+          </button>
+
+          <button
+            onClick={() => {
+              setActiveTab('analytics');
+              setAnalyticsSubTab('yearly');
+            }}
+            className={`yt-pill ${
+              activeTab === 'analytics' && analyticsSubTab === 'yearly' ? 'yt-pill-active' : ''
+            }`}
+          >
+            <span>Yearly Breakdown</span>
+          </button>
+
+          <div className="w-px h-5 bg-black/10 dark:bg-white/10 shrink-0 mx-1" />
+
+          <button
+            onClick={() => setIsBudgetOpen(true)}
+            className="yt-pill shrink-0"
+          >
+            <span>Budget</span>
+          </button>
+
+          <button
+            onClick={handleOpenToday}
+            className="yt-pill yt-pill-red shrink-0"
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>+ Today</span>
+          </button>
+        </div>
+      </div>
+
       {/* Main Container */}
-      <main className="flex-1 max-w-5xl w-full mx-auto px-3.5 sm:px-6 py-5 sm:py-7">
+      <main className="flex-1 max-w-5xl w-full mx-auto px-3.5 sm:px-6 py-4 sm:py-6">
         {/* Tab 1: 12-Month Overview Grid */}
         {activeTab === 'yearGrid' && (
           <YearPickerGrid
@@ -156,24 +223,20 @@ export default function App() {
         {/* Tab 3: Analytics (Monthly & Yearly Breakdown) */}
         {activeTab === 'analytics' && (
           <div className="space-y-6">
-            {/* Sub-navigation for Analytics */}
-            <div className="flex items-center justify-between bg-black/40 p-1.5 rounded-2xl border border-white/10 max-w-xs mx-auto backdrop-blur-xl">
+            {/* YouTube-Style Pill Sub-navigation for Analytics */}
+            <div className="flex items-center justify-center gap-2 max-w-xs mx-auto">
               <button
                 onClick={() => setAnalyticsSubTab('monthly')}
-                className={`flex-1 py-2 text-xs font-bold rounded-xl transition-all duration-200 ${
-                  analyticsSubTab === 'monthly'
-                    ? 'bg-gradient-to-r from-emerald-500 to-teal-400 text-slate-950 font-extrabold shadow-glow'
-                    : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
+                className={`yt-pill flex-1 justify-center ${
+                  analyticsSubTab === 'monthly' ? 'yt-pill-active' : ''
                 }`}
               >
                 Monthly Summary
               </button>
               <button
                 onClick={() => setAnalyticsSubTab('yearly')}
-                className={`flex-1 py-2 text-xs font-bold rounded-xl transition-all duration-200 ${
-                  analyticsSubTab === 'yearly'
-                    ? 'bg-gradient-to-r from-emerald-500 to-teal-400 text-slate-950 font-extrabold shadow-glow'
-                    : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
+                className={`yt-pill flex-1 justify-center ${
+                  analyticsSubTab === 'yearly' ? 'yt-pill-active' : ''
                 }`}
               >
                 Yearly Summary
@@ -203,29 +266,19 @@ export default function App() {
       <div className="fixed bottom-20 right-4 sm:hidden z-20">
         <button
           onClick={handleOpenToday}
-          className="w-14 h-14 rounded-2xl btn-theme-primary flex items-center justify-center shadow-theme-glow active:scale-95 transition-all"
+          className="w-14 h-14 rounded-full btn-youtube-red flex items-center justify-center shadow-lg active:scale-95 transition-all"
           title="Log Today's Spending"
         >
           <Plus className="w-7 h-7 stroke-[3]" />
         </button>
       </div>
 
-      {/* Mobile Bottom Navigation Bar with Safe Area Support */}
-      <div className="sm:hidden fixed bottom-0 inset-x-0 glass-panel border-t border-white/10 bg-black/90 backdrop-blur-2xl px-4 pt-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))] z-30 flex items-center justify-around shadow-2xl">
-        <button
-          onClick={() => setActiveTab('yearGrid')}
-          className={`flex flex-col items-center gap-1 text-[10px] font-bold transition-colors ${
-            activeTab === 'yearGrid' ? 'text-theme-light drop-shadow-[0_0_8px_var(--theme-glow)]' : 'text-slate-400'
-          }`}
-        >
-          <LayoutGrid className="w-5 h-5" />
-          <span>Months</span>
-        </button>
-
+      {/* Mobile Bottom Navigation Bar with YouTube Styling */}
+      <div className="sm:hidden fixed bottom-0 inset-x-0 glass-panel border-t border-black/5 dark:border-white/10 px-4 pt-2 pb-[max(0.625rem,env(safe-area-inset-bottom))] z-30 flex items-center justify-around shadow-2xl">
         <button
           onClick={() => setActiveTab('monthView')}
           className={`flex flex-col items-center gap-1 text-[10px] font-bold transition-colors ${
-            activeTab === 'monthView' ? 'text-theme-light drop-shadow-[0_0_8px_var(--theme-glow)]' : 'text-slate-400'
+            activeTab === 'monthView' ? 'text-red-600 dark:text-red-400 font-extrabold' : 'text-slate-500 dark:text-slate-400'
           }`}
         >
           <Calendar className="w-5 h-5" />
@@ -233,9 +286,19 @@ export default function App() {
         </button>
 
         <button
+          onClick={() => setActiveTab('yearGrid')}
+          className={`flex flex-col items-center gap-1 text-[10px] font-bold transition-colors ${
+            activeTab === 'yearGrid' ? 'text-red-600 dark:text-red-400 font-extrabold' : 'text-slate-500 dark:text-slate-400'
+          }`}
+        >
+          <LayoutGrid className="w-5 h-5" />
+          <span>Months</span>
+        </button>
+
+        <button
           onClick={() => setActiveTab('analytics')}
           className={`flex flex-col items-center gap-1 text-[10px] font-bold transition-colors ${
-            activeTab === 'analytics' ? 'text-theme-light drop-shadow-[0_0_8px_var(--theme-glow)]' : 'text-slate-400'
+            activeTab === 'analytics' ? 'text-red-600 dark:text-red-400 font-extrabold' : 'text-slate-500 dark:text-slate-400'
           }`}
         >
           <BarChart3 className="w-5 h-5" />
@@ -244,7 +307,7 @@ export default function App() {
 
         <button
           onClick={() => setIsProfileOpen(true)}
-          className="flex flex-col items-center gap-1 text-[10px] font-bold transition-colors text-slate-400 hover:text-theme-light"
+          className="flex flex-col items-center gap-1 text-[10px] font-bold transition-colors text-slate-500 dark:text-slate-400 hover:text-red-600"
         >
           <User className="w-5 h-5" />
           <span>Profile</span>

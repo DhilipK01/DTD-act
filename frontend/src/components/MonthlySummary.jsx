@@ -44,10 +44,10 @@ export default function MonthlySummary({
       {/* Top Action Bar: Export & Budget Target */}
       <div className="flex flex-wrap items-center justify-between gap-3 glass-panel p-3.5 sm:p-4 rounded-[24px] border border-white/10 shadow-lg">
         <div className="flex items-center gap-2.5 text-xs text-slate-400">
-          <div className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+          <div className="p-1.5 rounded-lg badge-theme">
             <Sparkles className="w-3.5 h-3.5" />
           </div>
-          <span>Financial summary for <strong className="text-white font-bold">{MONTH_NAMES[month - 1]} {year}</strong></span>
+          <span>Financial summary for <strong className="text-white font-bold font-display">{MONTH_NAMES[month - 1]} {year}</strong></span>
         </div>
 
         <div className="flex items-center gap-2">
@@ -55,13 +55,13 @@ export default function MonthlySummary({
             onClick={onOpenBudgetModal}
             className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-slate-200 text-xs font-bold transition-all border border-white/10"
           >
-            <Target className="w-3.5 h-3.5 text-emerald-400" />
+            <Target className="w-3.5 h-3.5 text-theme-light" />
             <span>{budget.amount > 0 ? 'Adjust Budget' : 'Set Budget'}</span>
           </button>
 
           <button
             onClick={handleExport}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-emerald-500 text-slate-950 text-xs font-black transition-all shadow-glow hover:brightness-110 active:scale-95"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl btn-theme-primary text-xs font-black transition-all shadow-theme-glow hover:brightness-110 active:scale-95"
             title="Download CSV spreadsheet"
           >
             <Download className="w-3.5 h-3.5 stroke-[2.5]" />
@@ -73,16 +73,16 @@ export default function MonthlySummary({
       {/* Hero Overview: 3 Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {/* Total Spend */}
-        <div className="glass-panel p-5 sm:p-6 rounded-[28px] border border-white/10 relative overflow-hidden bg-gradient-to-br from-white/[0.03] to-transparent shadow-xl">
+        <div className="glass-panel p-5 sm:p-6 rounded-[28px] border border-white/10 relative overflow-hidden bg-gradient-to-br from-surface-850/80 to-surface-950/80 shadow-xl">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-theme-light font-display">
               Total Spent
             </span>
-            <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-white/[0.05] text-slate-400 border border-white/[0.06]">
+            <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-white/[0.05] text-slate-400 border border-white/[0.06]">
               {daysInMonth} days
             </span>
           </div>
-          <span className="text-3xl sm:text-4xl font-black text-white font-mono tracking-tight block drop-shadow-[0_0_12px_rgba(255,255,255,0.15)]">
+          <span className="text-3xl sm:text-5xl font-black text-white font-mono tracking-tight block drop-shadow-[0_0_12px_rgba(255,255,255,0.12)]">
             {formatCurrency(monthlyTotal)}
           </span>
           <p className="text-xs text-slate-400 mt-2 font-medium">
@@ -91,17 +91,17 @@ export default function MonthlySummary({
         </div>
 
         {/* Daily Average */}
-        <div className="glass-panel p-5 sm:p-6 rounded-[28px] border border-white/10 flex flex-col justify-between bg-gradient-to-br from-white/[0.03] to-transparent shadow-xl">
+        <div className="glass-panel p-5 sm:p-6 rounded-[28px] border border-white/10 flex flex-col justify-between bg-gradient-to-br from-surface-850/80 to-surface-950/80 shadow-xl">
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1 font-display">
               Daily Average
             </span>
-            <span className="text-2xl sm:text-3xl font-black text-emerald-400 font-mono tracking-tight drop-shadow-[0_0_10px_rgba(16,185,129,0.3)]">
+            <span className="text-2xl sm:text-4xl font-black text-theme-light font-mono tracking-tight drop-shadow-[0_0_10px_var(--theme-glow)]">
               {formatCurrency(avgDaily)}
             </span>
           </div>
           <div className="text-xs text-slate-400 mt-3 flex items-center gap-1.5 font-medium">
-            <TrendingUp className="w-4 h-4 text-emerald-400" />
+            <TrendingUp className="w-4 h-4 text-theme" />
             <span>Average expenditure per day</span>
           </div>
         </div>
@@ -111,12 +111,12 @@ export default function MonthlySummary({
           budget.isOverBudget
             ? 'border-rose-500/40 bg-rose-950/20 shadow-glow-rose'
             : budget.amount > 0
-            ? 'border-emerald-500/30 bg-emerald-950/15 shadow-glow'
-            : 'border-white/10 bg-white/[0.02]'
+            ? 'border-theme-subtle shadow-theme-glow'
+            : 'border-white/10 bg-surface-900/60'
         }`}>
           <div>
             <div className="flex items-center justify-between mb-1">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-display">
                 Safe Daily Spend
               </span>
               {budget.isOverBudget && (
@@ -145,7 +145,7 @@ export default function MonthlySummary({
                 </span>
                 <button
                   onClick={onOpenBudgetModal}
-                  className="text-xs text-emerald-400 hover:text-emerald-300 font-bold mt-1.5 block"
+                  className="text-xs text-theme-light hover:brightness-110 font-bold mt-1.5 block"
                 >
                   + Set a target budget
                 </button>
@@ -154,14 +154,14 @@ export default function MonthlySummary({
           </div>
 
           {budget.amount > 0 && (
-            <div className="w-full bg-black/40 h-2 rounded-full overflow-hidden mt-3 border border-white/[0.05]">
+            <div className="w-full bg-surface-950/70 h-2 rounded-full overflow-hidden mt-3 border border-white/[0.05]">
               <div
                 className={`h-full rounded-full transition-all duration-500 ${
                   budget.isOverBudget
                     ? 'bg-rose-500 shadow-glow-rose'
                     : budget.percentage > 80
                     ? 'bg-amber-400 shadow-glow-amber'
-                    : 'bg-emerald-400 shadow-glow'
+                    : 'bg-[var(--theme-accent)] shadow-theme-glow'
                 }`}
                 style={{ width: `${Math.min(100, budget.percentage)}%` }}
               />
@@ -182,7 +182,7 @@ export default function MonthlySummary({
         </div>
 
         {/* Visual Distribution Bar */}
-        <div className="w-full h-3 bg-black/50 rounded-full overflow-hidden flex gap-1 p-0.5 border border-white/[0.06]">
+        <div className="w-full h-3 bg-surface-950/70 rounded-full overflow-hidden flex gap-1 p-0.5 border border-white/[0.06]">
           <div
             className="bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-500 rounded-l-full"
             style={{ width: `${gpay.percentage}%` }}
@@ -203,7 +203,7 @@ export default function MonthlySummary({
         {/* 3 Metric Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
           {/* GPay Card */}
-          <div className="bg-black/40 border border-blue-500/25 p-4 rounded-2xl flex items-center justify-between shadow-sm">
+          <div className="bg-surface-950/60 border border-blue-500/25 p-4 rounded-2xl flex items-center justify-between shadow-sm">
             <div className="flex items-center gap-3">
               <div className="p-2.5 rounded-xl bg-blue-500/15 text-blue-400 border border-blue-500/25">
                 <Smartphone className="w-4 h-4" />
@@ -221,7 +221,7 @@ export default function MonthlySummary({
           </div>
 
           {/* Cash Card */}
-          <div className="bg-black/40 border border-emerald-500/25 p-4 rounded-2xl flex items-center justify-between shadow-sm">
+          <div className="bg-surface-950/60 border border-emerald-500/25 p-4 rounded-2xl flex items-center justify-between shadow-sm">
             <div className="flex items-center gap-3">
               <div className="p-2.5 rounded-xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/25">
                 <Banknote className="w-4 h-4" />
@@ -239,7 +239,7 @@ export default function MonthlySummary({
           </div>
 
           {/* Other Card */}
-          <div className="bg-black/40 border border-purple-500/25 p-4 rounded-2xl flex items-center justify-between shadow-sm">
+          <div className="bg-surface-950/60 border border-purple-500/25 p-4 rounded-2xl flex items-center justify-between shadow-sm">
             <div className="flex items-center gap-3">
               <div className="p-2.5 rounded-xl bg-purple-500/15 text-purple-400 border border-purple-500/25">
                 <CreditCard className="w-4 h-4" />
@@ -271,7 +271,7 @@ export default function MonthlySummary({
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div className="bg-gradient-to-br from-amber-500/15 to-transparent border border-amber-500/30 p-4 rounded-2xl">
-            <span className="text-[11px] font-bold text-amber-400 uppercase tracking-wider block">
+            <span className="text-[11px] font-bold text-amber-400 uppercase tracking-wider block font-display">
               Morning 🌅
             </span>
             <span className="text-xl font-black text-white font-mono mt-1.5 block">
@@ -280,7 +280,7 @@ export default function MonthlySummary({
           </div>
 
           <div className="bg-gradient-to-br from-sky-500/15 to-transparent border border-sky-500/30 p-4 rounded-2xl">
-            <span className="text-[11px] font-bold text-sky-400 uppercase tracking-wider block">
+            <span className="text-[11px] font-bold text-sky-400 uppercase tracking-wider block font-display">
               Afternoon ☀️
             </span>
             <span className="text-xl font-black text-white font-mono mt-1.5 block">
@@ -289,7 +289,7 @@ export default function MonthlySummary({
           </div>
 
           <div className="bg-gradient-to-br from-purple-500/15 to-transparent border border-purple-500/30 p-4 rounded-2xl">
-            <span className="text-[11px] font-bold text-purple-400 uppercase tracking-wider block">
+            <span className="text-[11px] font-bold text-purple-400 uppercase tracking-wider block font-display">
               Night 🌙
             </span>
             <span className="text-xl font-black text-white font-mono mt-1.5 block">
@@ -328,7 +328,7 @@ export default function MonthlySummary({
                   title={`Day ${d.day}: ${formatCurrency(d.total)}`}
                 >
                   {/* Tooltip on hover */}
-                  <div className="opacity-0 group-hover:opacity-100 transition-opacity absolute -top-8 bg-black/90 text-white text-[10px] font-mono font-bold px-2 py-1 rounded-lg shadow-xl pointer-events-none whitespace-nowrap z-20 border border-white/20">
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity absolute -top-8 bg-surface-950 text-white text-[10px] font-mono font-bold px-2 py-1 rounded-lg shadow-xl pointer-events-none whitespace-nowrap z-20 border border-white/20">
                     Day {d.day}: {formatCurrency(d.total)}
                   </div>
 
@@ -336,14 +336,14 @@ export default function MonthlySummary({
                   <div
                     className={`w-full rounded-t-lg transition-all duration-300 ${
                       hasSpend
-                        ? 'bg-gradient-to-t from-emerald-500 to-teal-400 group-hover:from-emerald-400 group-hover:to-teal-300 shadow-glow'
+                        ? 'bg-gradient-to-t from-[var(--theme-accent-dark)] to-[var(--theme-accent-light)] group-hover:brightness-110 shadow-theme-glow'
                         : 'bg-white/[0.04] group-hover:bg-white/[0.08]'
                     }`}
                     style={{ height: `${hasSpend ? Math.max(8, heightPercent) : 4}%` }}
                   />
 
                   {/* Day Label */}
-                  <span className="text-[10px] font-mono text-slate-500 group-hover:text-emerald-400 mt-2 font-medium">
+                  <span className="text-[10px] font-mono text-slate-500 group-hover:text-theme-light mt-2 font-medium">
                     {d.day}
                   </span>
                 </button>

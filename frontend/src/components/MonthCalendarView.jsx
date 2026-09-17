@@ -85,7 +85,7 @@ export default function MonthCalendarView({
         {/* Right: Controls & Monthly Total Pill */}
         <div className="flex items-center justify-between sm:justify-end gap-2 flex-wrap w-full sm:w-auto">
           {/* Monthly Total Pill */}
-          <div className="bg-black/50 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-2xl border flex items-center gap-2 shadow-inner" style={{ borderColor: 'rgba(var(--theme-accent-rgb), 0.35)' }}>
+          <div className="bg-surface-950/75 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-2xl border border-theme-subtle flex items-center gap-2 shadow-inner">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total:</span>
             <span className="text-base sm:text-lg font-black text-theme-light font-mono tracking-tight" style={{ textShadow: '0 0 10px var(--theme-glow)' }}>
               {formatCurrency(monthData?.monthlyTotal || 0)}
@@ -94,7 +94,7 @@ export default function MonthCalendarView({
 
           <div className="flex items-center gap-1.5 ml-auto sm:ml-0">
             {/* Grid vs List toggle */}
-            <div className="flex bg-black/40 p-1 rounded-2xl border border-white/10">
+            <div className="flex bg-surface-950/70 p-1 rounded-2xl border border-white/10">
               <button
                 onClick={() => setViewMode('grid')}
                 className={`p-1.5 sm:p-2 rounded-xl transition-all ${
@@ -122,7 +122,7 @@ export default function MonthCalendarView({
             {/* Action Buttons: Budget & Export */}
             <button
               onClick={onOpenBudget}
-              className="p-1.5 sm:p-2 bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-emerald-400 rounded-xl transition-all border border-white/10"
+              className="p-1.5 sm:p-2 bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-theme-light rounded-xl transition-all border border-white/10"
               title="Set / Adjust Budget Target"
             >
               <Target className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -130,7 +130,7 @@ export default function MonthCalendarView({
 
             <button
               onClick={() => exportMonthToCsv(year, month, MONTH_NAMES[month - 1], monthData?.dailyTotals || [])}
-              className="p-1.5 sm:p-2 bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-emerald-400 rounded-xl transition-all border border-white/10"
+              className="p-1.5 sm:p-2 bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-theme-light rounded-xl transition-all border border-white/10"
               title="Export Month as CSV Spreadsheet"
             >
               <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -168,7 +168,7 @@ export default function MonthCalendarView({
             <div className={`p-2.5 rounded-2xl ${
               monthData.budget.isOverBudget
                 ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
-                : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 shadow-glow'
+                : 'badge-theme shadow-theme-glow'
             }`}>
               <Target className="w-5 h-5" />
             </div>
@@ -178,7 +178,7 @@ export default function MonthCalendarView({
                 <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full font-bold ${
                   monthData.budget.isOverBudget
                     ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
-                    : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                    : 'badge-theme'
                 }`}>
                   {monthData.budget.percentage}% spent
                 </span>
@@ -193,7 +193,7 @@ export default function MonthCalendarView({
 
           <button
             onClick={onOpenBudget}
-            className="text-xs text-emerald-400 hover:text-emerald-300 font-bold px-3 py-1.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 transition-all"
+            className="text-xs text-theme-light hover:brightness-110 font-bold px-3 py-1.5 rounded-xl badge-theme transition-all"
           >
             Adjust Target
           </button>

@@ -63,10 +63,141 @@ const budgetSchema = new mongoose.Schema(
   { versionKey: false, timestamps: false }
 );
 
-export const User = mongoose.models.User || mongoose.model('User', userSchema);
-export const Otp = mongoose.models.Otp || mongoose.model('Otp', otpSchema);
-export const Expense = mongoose.models.Expense || mongoose.model('Expense', expenseSchema);
-export const Budget = mongoose.models.Budget || mongoose.model('Budget', budgetSchema);
+import Datastore from '@seald-io/nedb';
+
+const dataDir = process.env.DATA_DIR || path.resolve(__dirname, '../../data');
+if (!fs.existsSync(dataDir)) {
+  fs.mkdirSync(dataDir, { recursive: true });
+}
+
+export const usersDb = new Datastore({
+  filename: path.join(dataDir, 'users.db'),
+  autoload: true
+});
+export const otpsDb = new Datastore({
+  filename: path.join(dataDir, 'otps.db'),
+  autoload: true
+});
+export const expensesDb = new Datastore({
+  filename: path.join(dataDir, 'expenses.db'),
+  autoload: true
+});
+export const budgetsDb = new Datastore({
+  filename: path.join(dataDir, 'budgets.db'),
+  autoload: true
+});
+
+const MongooseUser = mongoose.models.User || mongoose.model('User', userSchema);
+const MongooseOtp = mongoose.models.Otp || mongoose.model('Otp', otpSchema);
+const MongooseExpense = mongoose.models.Expense || mongoose.model('Expense', expenseSchema);
+const MongooseBudget = mongoose.models.Budget || mongoose.model('Budget', budgetSchema);
+
+let isUsingMongo = false;
+
+function normalizeQuery(query) {
+  if (!query || typeof query !== 'object') return query;
+  const q = { ...query };
+  for (const key of Object.keys(q)) {
+    if (q[key] && typeof q[key] === 'object' && q[key].$regex) {
+      q[key] = q[key].$regex;
+    }
+  }
+  return q;
+}
+
+function makeQueryPromise(fn) {
+  function wrap(promise) {
+    promise.lean = function() {
+      return wrap(promise);
+    };
+    promise.sort = function(sortObj) {
+      const sorted = promise.then(arr => {
+        if (!Array.isArray(arr) || !sortObj) return arr;
+        const [field, order] = Object.entries(sortObj)[0] || [];
+        if (!field) return arr;
+        return [...arr].sort((a, b) => {
+          if (a[field] < b[field]) return order === 1 ? -1 : 1;
+          if (a[field] > b[field]) return order === 1 ? 1 : -1;
+          return 0;
+        });
+      });
+      return wrap(sorted);
+    };
+    return promise;
+  }
+  return wrap(fn());
+}
+
+function createModelAdapter(mongooseModel, nedbStore) {
+  return {
+    findOne(query) {
+      if (isUsingMongo) {
+        return mongooseModel.findOne(query);
+      }
+      return makeQueryPromise(async () => {
+        const q = normalizeQuery(query);
+        const doc = await nedbStore.findOneAsync(q);
+        return doc || null;
+      });
+    },
+    find(query) {
+      if (isUsingMongo) {
+        return mongooseModel.find(query);
+      }
+      return makeQueryPromise(async () => {
+        const q = normalizeQuery(query);
+        const docs = await nedbStore.findAsync(q || {});
+        return docs || [];
+      });
+    },
+    async create(doc) {
+      if (isUsingMongo) {
+        return await mongooseModel.create(doc);
+      }
+      return await nedbStore.insertAsync(doc);
+    },
+    async updateOne(query, update, options = {}) {
+      if (isUsingMongo) {
+        return await mongooseModel.updateOne(query, update, options);
+      }
+      const q = normalizeQuery(query);
+      return await nedbStore.updateAsync(q, update, { multi: false, ...options });
+    },
+    async updateMany(query, update, options = {}) {
+      if (isUsingMongo) {
+        return await mongooseModel.updateMany(query, update, options);
+      }
+      const q = normalizeQuery(query);
+      return await nedbStore.updateAsync(q, update, { multi: true, ...options });
+    },
+    async deleteOne(query) {
+      if (isUsingMongo) {
+        return await mongooseModel.deleteOne(query);
+      }
+      const q = normalizeQuery(query);
+      return await nedbStore.removeAsync(q, { multi: false });
+    },
+    async deleteMany(query) {
+      if (isUsingMongo) {
+        return await mongooseModel.deleteMany(query);
+      }
+      const q = normalizeQuery(query);
+      return await nedbStore.removeAsync(q, { multi: true });
+    },
+    async countDocuments(query) {
+      if (isUsingMongo) {
+        return await mongooseModel.countDocuments(query);
+      }
+      const q = normalizeQuery(query);
+      return await nedbStore.countAsync(q || {});
+    }
+  };
+}
+
+export const User = createModelAdapter(MongooseUser, usersDb);
+export const Otp = createModelAdapter(MongooseOtp, otpsDb);
+export const Expense = createModelAdapter(MongooseExpense, expensesDb);
+export const Budget = createModelAdapter(MongooseBudget, budgetsDb);
 
 // ==========================================
 // Database Connection & Auto-Migration
@@ -74,19 +205,22 @@ export const Budget = mongoose.models.Budget || mongoose.model('Budget', budgetS
 
 export async function connectDb() {
   const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/dtd_expenses';
-  const maskedUri = uri.replace(/\/\/[^@]+@/, '//***:***@');
+  const isLocal = uri.includes('127.0.0.1') || uri.includes('localhost');
 
   try {
+    // For local URI, use quick 1.5s timeout so backend doesn't freeze if MongoDB daemon is absent
     await mongoose.connect(uri, {
-      serverSelectionTimeoutMS: 5000
+      serverSelectionTimeoutMS: isLocal ? 1500 : 5000
     });
+    isUsingMongo = true;
+    const maskedUri = uri.replace(/\/\/[^@]+@/, '//***:***@');
     console.log(`📦 MongoDB connected successfully to ${maskedUri}`);
 
     // Auto-migrate legacy NeDB data if MongoDB is fresh
     await autoMigrateFromNeDb();
   } catch (err) {
-    console.error(`⚠️ MongoDB connection error: ${err.message}`);
-    console.error(`👉 Configure MONGODB_URI in backend/.env with your MongoDB Atlas connection string.`);
+    isUsingMongo = false;
+    console.log(`📂 Local MongoDB not reachable (${err.message}). Seamlessly using persistent NeDB data storage (/backend/data).`);
   }
 }
 

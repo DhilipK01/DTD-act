@@ -306,16 +306,16 @@ export default function DayEntrySheet({
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/75 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="w-full sm:max-w-2xl bg-gradient-to-b from-[#0e1320] to-[#080b12] border-t sm:border border-white/10 rounded-t-[32px] sm:rounded-[32px] shadow-2xl flex flex-col max-h-[94vh] sm:max-h-[90vh] overflow-hidden">
+      <div className="w-full sm:max-w-2xl bg-gradient-to-b from-surface-850 to-surface-900 border-t sm:border border-white/10 rounded-t-[32px] sm:rounded-[32px] shadow-2xl flex flex-col max-h-[94vh] sm:max-h-[90vh] overflow-hidden">
         {/* Top Header Bar */}
-        <div className="p-4 sm:p-5 border-b border-white/[0.08] flex items-center justify-between bg-white/[0.02] backdrop-blur-xl shrink-0">
+        <div className="p-4 sm:p-5 border-b border-white/[0.08] flex items-center justify-between bg-surface-950/40 backdrop-blur-xl shrink-0">
           <div>
             <div className="flex items-center gap-2.5">
               <h2 className="text-lg sm:text-xl font-display font-black text-white tracking-tight">
                 {formatDisplayDate(date)}
               </h2>
               {dayOfWeek && (
-                <span className="text-xs px-2.5 py-0.5 rounded-full badge-theme font-bold uppercase tracking-wider">
+                <span className="text-xs px-2.5 py-0.5 rounded-full badge-theme font-bold uppercase tracking-wider font-display">
                   {dayOfWeek}
                 </span>
               )}
@@ -378,7 +378,7 @@ export default function DayEntrySheet({
                           <Icon className="w-4 h-4" />
                         </div>
                         <div>
-                          <span className="text-sm font-bold text-white block">
+                          <span className="text-sm font-bold text-white block font-display">
                             {config.title}
                           </span>
                           <span className="text-[11px] text-slate-400 font-medium">
@@ -394,7 +394,7 @@ export default function DayEntrySheet({
                           onChange={(e) =>
                             handleSlotChange(config.key, 'payment_method', e.target.value)
                           }
-                          className="bg-black/50 text-xs font-bold text-white px-3 py-1.5 rounded-xl border border-white/10 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 cursor-pointer shadow-inner"
+                          className="bg-surface-950/80 text-xs font-bold text-white px-3 py-1.5 rounded-xl border border-white/10 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-[rgba(var(--theme-accent-rgb),0.3)] cursor-pointer shadow-inner"
                         >
                           <option value="GPay">GPay</option>
                           <option value="Cash">Cash</option>
@@ -408,7 +408,7 @@ export default function DayEntrySheet({
                           className={`p-2 rounded-xl border transition-all ${
                             isListening
                               ? 'bg-rose-500 text-white recording-active border-rose-400 shadow-glow-rose'
-                              : 'bg-black/40 text-slate-400 hover:text-white hover:bg-white/[0.08] border-white/10'
+                              : 'bg-surface-950/70 text-slate-400 hover:text-white hover:bg-white/[0.08] border-white/10'
                           }`}
                           title={isListening ? 'Listening... Speak now!' : 'Voice input (Speak amount & food)'}
                         >
@@ -420,12 +420,12 @@ export default function DayEntrySheet({
                     {/* Inputs: Amount and Food item */}
                     <div className="grid grid-cols-1 sm:grid-cols-12 gap-3.5">
                       {/* Amount Input */}
-                      <div className="sm:col-span-4">
-                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+                      <div className="sm:col-span-5">
+                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1 font-display">
                           Amount (₹)
                         </label>
                         <div className="relative">
-                          <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 font-mono font-black text-sm">
+                          <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-theme font-mono font-black text-base">
                             ₹
                           </span>
                           <input
@@ -437,7 +437,7 @@ export default function DayEntrySheet({
                             onChange={(e) =>
                               handleSlotChange(config.key, 'amount', e.target.value)
                             }
-                            className="w-full bg-black/60 border border-white/10 rounded-xl pl-8 pr-3 py-2 text-sm font-mono font-bold text-white focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 transition-all placeholder:text-slate-600 shadow-inner"
+                            className="w-full bg-surface-950/80 border border-white/10 rounded-xl pl-8 pr-3 py-2.5 text-base font-mono font-black text-white focus:outline-none focus:border-theme focus:ring-2 focus:ring-[rgba(var(--theme-accent-rgb),0.25)] transition-all placeholder:text-slate-600 shadow-inner"
                           />
                         </div>
 
@@ -457,9 +457,9 @@ export default function DayEntrySheet({
                       </div>
 
                       {/* Food Item / Description */}
-                      <div className="sm:col-span-8">
+                      <div className="sm:col-span-7">
                         <div className="flex items-center justify-between mb-1">
-                          <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                          <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider font-display">
                             What was eaten?
                           </label>
                           {isListening && (
@@ -475,7 +475,7 @@ export default function DayEntrySheet({
                           onChange={(e) =>
                             handleSlotChange(config.key, 'food_item', e.target.value)
                           }
-                          className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 transition-all placeholder:text-slate-600 shadow-inner"
+                          className="w-full bg-surface-950/80 border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-theme focus:ring-2 focus:ring-[rgba(var(--theme-accent-rgb),0.25)] transition-all placeholder:text-slate-600 shadow-inner"
                         />
 
                         {/* Autocomplete suggestions chips */}
@@ -490,11 +490,11 @@ export default function DayEntrySheet({
                                 key={sug.food_item}
                                 type="button"
                                 onClick={() => handleApplySuggestion(config.key, sug)}
-                                className="text-[11px] px-2.5 py-0.5 rounded-full bg-white/[0.05] hover:bg-white/[0.1] text-slate-300 hover:text-emerald-300 border border-white/10 transition-all flex items-center gap-1.5 active:scale-95"
+                                className="text-[11px] px-2.5 py-0.5 rounded-full bg-white/[0.05] hover:bg-white/[0.1] text-slate-300 hover:text-theme-light border border-white/10 transition-all flex items-center gap-1.5 active:scale-95"
                               >
                                 <span>{sug.food_item}</span>
                                 {sug.amount > 0 && (
-                                  <span className="text-emerald-400 font-mono font-bold">
+                                  <span className="text-theme-light font-mono font-bold">
                                     ₹{sug.amount}
                                   </span>
                                 )}
@@ -512,7 +512,7 @@ export default function DayEntrySheet({
         </div>
 
         {/* Footer: Live Daily Total & Actions */}
-        <div className="p-4 sm:p-5 border-t border-white/[0.08] bg-black/60 backdrop-blur-2xl shrink-0 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="p-4 sm:p-5 border-t border-white/[0.08] bg-surface-950/80 backdrop-blur-2xl shrink-0 flex flex-col sm:flex-row items-center justify-between gap-4">
           {/* Daily Total Display */}
           <div className="flex items-center justify-between w-full sm:w-auto gap-4">
             <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">

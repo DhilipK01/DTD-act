@@ -36,19 +36,19 @@ export default function SearchModal({ onClose, onSelectDate }) {
   }, [searchTerm, paymentMethod]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/75 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="w-full max-w-2xl bg-gradient-to-b from-[#0e1320] to-[#080b12] border border-white/10 rounded-[32px] shadow-2xl flex flex-col max-h-[88vh] overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="w-full max-w-2xl bg-surface-950 border border-black/10 dark:border-white/10 rounded-[28px] sm:rounded-[32px] shadow-2xl flex flex-col max-h-[88vh] overflow-hidden">
         {/* Header */}
-        <div className="p-4 sm:p-5 border-b border-white/[0.08] flex items-center justify-between bg-white/[0.02] backdrop-blur-xl shrink-0">
+        <div className="p-4 sm:p-5 border-b border-black/[0.06] dark:border-white/[0.08] flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-2xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+            <div className="p-2.5 rounded-2xl bg-red-600/10 text-red-600 dark:bg-red-500/20 dark:text-red-400 border border-red-500/20">
               <Search className="w-5 h-5 stroke-[2.5]" />
             </div>
             <div>
-              <h2 className="text-lg font-display font-black text-white tracking-tight">
+              <h2 className="text-lg font-display font-black tracking-tight">
                 Search Expenses
               </h2>
-              <p className="text-xs text-slate-400 font-medium">
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
                 Search by food item or filter by payment method
               </p>
             </div>
@@ -56,14 +56,14 @@ export default function SearchModal({ onClose, onSelectDate }) {
 
           <button
             onClick={onClose}
-            className="p-2 text-slate-400 hover:text-white hover:bg-white/[0.06] rounded-2xl transition-all"
+            className="p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white rounded-2xl hover:bg-black/5 dark:hover:bg-white/10 transition-all"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Search Input & Payment Filter */}
-        <div className="p-4 sm:p-5 border-b border-white/[0.08] space-y-3.5 bg-black/20 shrink-0">
+        <div className="p-4 sm:p-5 border-b border-black/[0.06] dark:border-white/[0.08] space-y-3.5 shrink-0 bg-black/[0.02] dark:bg-white/[0.02]">
           {/* Text Input */}
           <div className="relative">
             <Search className="w-4 h-4 text-slate-400 absolute left-4 top-3.5" />
@@ -73,12 +73,12 @@ export default function SearchModal({ onClose, onSelectDate }) {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search food eaten (e.g. Biryani, Dosa, Tea, Coffee)..."
-              className="w-full bg-black/60 border border-white/10 text-white rounded-2xl pl-11 pr-10 py-3 text-sm focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 transition-all placeholder:text-slate-500 shadow-inner"
+              className="w-full glass-input rounded-2xl pl-11 pr-10 py-3 text-sm transition-all shadow-sm"
             />
             {searchTerm && (
               <button
                 onClick={() => setSearchTerm('')}
-                className="absolute right-3.5 top-3.5 text-slate-400 hover:text-white"
+                className="absolute right-3.5 top-3.5 text-slate-400 hover:text-slate-700 dark:hover:text-white"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -87,18 +87,16 @@ export default function SearchModal({ onClose, onSelectDate }) {
 
           {/* Payment Method Filter Pills */}
           <div className="flex items-center gap-2 pt-1 text-xs">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+            <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
               Payment:
             </span>
-            <div className="flex items-center gap-1 bg-black/40 p-1 rounded-2xl border border-white/10">
+            <div className="flex items-center gap-1.5 flex-wrap">
               {['all', 'GPay', 'Cash', 'Other'].map((m) => (
                 <button
                   key={m}
                   onClick={() => setPaymentMethod(m)}
-                  className={`px-3 py-1.5 rounded-xl font-bold transition-all ${
-                    paymentMethod === m
-                      ? 'bg-emerald-500 text-slate-950 shadow-glow font-black'
-                      : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
+                  className={`yt-pill ${
+                    paymentMethod === m ? 'yt-pill-active' : ''
                   }`}
                 >
                   {m === 'all' ? 'All' : m}
@@ -109,20 +107,20 @@ export default function SearchModal({ onClose, onSelectDate }) {
         </div>
 
         {/* Results Stats Bar */}
-        <div className="px-5 py-3 bg-black/50 border-b border-white/[0.06] flex items-center justify-between text-xs text-slate-400 shrink-0">
+        <div className="px-5 py-3 border-b border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 shrink-0 bg-black/[0.01] dark:bg-white/[0.01]">
           <span>
-            Found <strong className="text-white font-bold">{results.length}</strong> entries
+            Found <strong className="text-slate-900 dark:text-white font-bold">{results.length}</strong> entries
           </span>
           <span>
-            Total Spent: <strong className="text-emerald-400 font-mono font-bold">{formatCurrency(totalSpend)}</strong>
+            Total Spent: <strong className="text-red-600 dark:text-red-400 font-mono font-bold">{formatCurrency(totalSpend)}</strong>
           </span>
         </div>
 
         {/* Results List */}
-        <div className="p-3 sm:p-4 overflow-y-auto flex-1 divide-y divide-white/[0.06] space-y-1">
+        <div className="p-3 sm:p-4 overflow-y-auto flex-1 divide-y divide-black/[0.06] dark:divide-white/[0.06] space-y-1">
           {loading ? (
             <div className="py-14 text-center text-slate-400 flex flex-col items-center gap-2.5">
-              <RefreshCw className="w-6 h-6 animate-spin text-emerald-400" />
+              <RefreshCw className="w-6 h-6 animate-spin text-red-600" />
               <span className="text-xs font-medium">Searching expenses...</span>
             </div>
           ) : results.length === 0 ? (

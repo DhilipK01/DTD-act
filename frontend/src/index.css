@@ -3,16 +3,39 @@
 @import "tailwindcss/utilities";
 
 :root {
-  color-scheme: dark;
-  /* Default: Neon Emerald */
+  /* Default: YouTube Red */
+  --theme-accent: #ff0000;
+  --theme-accent-light: #ff4d4d;
+  --theme-accent-dark: #cc0000;
+  --theme-accent-rgb: 255, 0, 0;
+  --theme-glow: rgba(255, 0, 0, 0.45);
+  --theme-mesh-1: rgba(255, 0, 0, 0.35);
+  --theme-mesh-2: rgba(239, 68, 68, 0.22);
+  --theme-mesh-3: rgba(249, 115, 22, 0.18);
+}
+
+/* 1. YouTube Red Theme */
+[data-theme="youtube"] {
+  --theme-accent: #ff0000;
+  --theme-accent-light: #ff4d4d;
+  --theme-accent-dark: #cc0000;
+  --theme-accent-rgb: 255, 0, 0;
+  --theme-glow: rgba(255, 0, 0, 0.45);
+  --theme-mesh-1: rgba(255, 0, 0, 0.35);
+  --theme-mesh-2: rgba(239, 68, 68, 0.22);
+  --theme-mesh-3: rgba(249, 115, 22, 0.18);
+}
+
+/* 1b. Neon Emerald */
+[data-theme="emerald"] {
   --theme-accent: #10b981;
   --theme-accent-light: #34d399;
   --theme-accent-dark: #059669;
   --theme-accent-rgb: 16, 185, 129;
-  --theme-glow: rgba(16, 185, 129, 0.50);
-  --theme-mesh-1: rgba(16, 185, 129, 0.32);
-  --theme-mesh-2: rgba(99, 102, 241, 0.18);
-  --theme-mesh-3: rgba(6, 182, 212, 0.16);
+  --theme-glow: rgba(16, 185, 129, 0.55);
+  --theme-mesh-1: rgba(16, 185, 129, 0.42);
+  --theme-mesh-2: rgba(99, 102, 241, 0.25);
+  --theme-mesh-3: rgba(6, 182, 212, 0.22);
 }
 
 /* 2. Electric Violet */
@@ -21,10 +44,10 @@
   --theme-accent-light: #c084fc;
   --theme-accent-dark: #9333ea;
   --theme-accent-rgb: 168, 85, 247;
-  --theme-glow: rgba(168, 85, 247, 0.55);
-  --theme-mesh-1: rgba(168, 85, 247, 0.34);
-  --theme-mesh-2: rgba(236, 72, 153, 0.20);
-  --theme-mesh-3: rgba(99, 102, 241, 0.18);
+  --theme-glow: rgba(168, 85, 247, 0.60);
+  --theme-mesh-1: rgba(168, 85, 247, 0.48);
+  --theme-mesh-2: rgba(236, 72, 153, 0.30);
+  --theme-mesh-3: rgba(99, 102, 241, 0.26);
 }
 
 /* 3. Crimson Blaze */
@@ -33,10 +56,10 @@
   --theme-accent-light: #f87171;
   --theme-accent-dark: #dc2626;
   --theme-accent-rgb: 239, 68, 68;
-  --theme-glow: rgba(239, 68, 68, 0.55);
-  --theme-mesh-1: rgba(239, 68, 68, 0.32);
-  --theme-mesh-2: rgba(249, 115, 22, 0.18);
-  --theme-mesh-3: rgba(236, 72, 153, 0.16);
+  --theme-glow: rgba(239, 68, 68, 0.60);
+  --theme-mesh-1: rgba(239, 68, 68, 0.45);
+  --theme-mesh-2: rgba(249, 115, 22, 0.28);
+  --theme-mesh-3: rgba(236, 72, 153, 0.24);
 }
 
 /* 4. Cyber Pink */
@@ -45,10 +68,10 @@
   --theme-accent-light: #f472b6;
   --theme-accent-dark: #db2777;
   --theme-accent-rgb: 236, 72, 153;
-  --theme-glow: rgba(236, 72, 153, 0.55);
-  --theme-mesh-1: rgba(236, 72, 153, 0.34);
-  --theme-mesh-2: rgba(168, 85, 247, 0.20);
-  --theme-mesh-3: rgba(251, 113, 133, 0.16);
+  --theme-glow: rgba(236, 72, 153, 0.60);
+  --theme-mesh-1: rgba(236, 72, 153, 0.46);
+  --theme-mesh-2: rgba(168, 85, 247, 0.28);
+  --theme-mesh-3: rgba(251, 113, 133, 0.24);
 }
 
 /* 5. Sapphire Ocean */
@@ -57,10 +80,10 @@
   --theme-accent-light: #38bdf8;
   --theme-accent-dark: #0284c7;
   --theme-accent-rgb: 14, 165, 233;
-  --theme-glow: rgba(14, 165, 233, 0.55);
-  --theme-mesh-1: rgba(14, 165, 233, 0.32);
-  --theme-mesh-2: rgba(99, 102, 241, 0.18);
-  --theme-mesh-3: rgba(20, 184, 166, 0.16);
+  --theme-glow: rgba(14, 165, 233, 0.60);
+  --theme-mesh-1: rgba(14, 165, 233, 0.44);
+  --theme-mesh-2: rgba(99, 102, 241, 0.28);
+  --theme-mesh-3: rgba(20, 184, 166, 0.24);
 }
 
 /* 6. Sunset Gold */
@@ -69,10 +92,10 @@
   --theme-accent-light: #fbbf24;
   --theme-accent-dark: #d97706;
   --theme-accent-rgb: 245, 158, 11;
-  --theme-glow: rgba(245, 158, 11, 0.55);
-  --theme-mesh-1: rgba(245, 158, 11, 0.32);
-  --theme-mesh-2: rgba(239, 68, 68, 0.18);
-  --theme-mesh-3: rgba(249, 115, 22, 0.16);
+  --theme-glow: rgba(245, 158, 11, 0.60);
+  --theme-mesh-1: rgba(245, 158, 11, 0.44);
+  --theme-mesh-2: rgba(239, 68, 68, 0.26);
+  --theme-mesh-3: rgba(249, 115, 22, 0.24);
 }
 
 /* 7. Lime Fresh */
@@ -81,10 +104,10 @@
   --theme-accent-light: #a3e635;
   --theme-accent-dark: #65a30d;
   --theme-accent-rgb: 132, 204, 22;
-  --theme-glow: rgba(132, 204, 22, 0.55);
-  --theme-mesh-1: rgba(132, 204, 22, 0.32);
-  --theme-mesh-2: rgba(16, 185, 129, 0.18);
-  --theme-mesh-3: rgba(234, 179, 8, 0.16);
+  --theme-glow: rgba(132, 204, 22, 0.60);
+  --theme-mesh-1: rgba(132, 204, 22, 0.44);
+  --theme-mesh-2: rgba(16, 185, 129, 0.26);
+  --theme-mesh-3: rgba(234, 179, 8, 0.24);
 }
 
 /* 8. Neon Orange */
@@ -93,10 +116,10 @@
   --theme-accent-light: #fb923c;
   --theme-accent-dark: #ea580c;
   --theme-accent-rgb: 249, 115, 22;
-  --theme-glow: rgba(249, 115, 22, 0.55);
-  --theme-mesh-1: rgba(249, 115, 22, 0.34);
-  --theme-mesh-2: rgba(239, 68, 68, 0.20);
-  --theme-mesh-3: rgba(245, 158, 11, 0.16);
+  --theme-glow: rgba(249, 115, 22, 0.60);
+  --theme-mesh-1: rgba(249, 115, 22, 0.46);
+  --theme-mesh-2: rgba(239, 68, 68, 0.28);
+  --theme-mesh-3: rgba(245, 158, 11, 0.24);
 }
 
 /* 9. Teal Aqua */
@@ -105,10 +128,10 @@
   --theme-accent-light: #2dd4bf;
   --theme-accent-dark: #0d9488;
   --theme-accent-rgb: 20, 184, 166;
-  --theme-glow: rgba(20, 184, 166, 0.55);
-  --theme-mesh-1: rgba(20, 184, 166, 0.32);
-  --theme-mesh-2: rgba(6, 182, 212, 0.18);
-  --theme-mesh-3: rgba(16, 185, 129, 0.16);
+  --theme-glow: rgba(20, 184, 166, 0.60);
+  --theme-mesh-1: rgba(20, 184, 166, 0.44);
+  --theme-mesh-2: rgba(6, 182, 212, 0.28);
+  --theme-mesh-3: rgba(16, 185, 129, 0.24);
 }
 
 /* 10. Rose Petal */
@@ -117,10 +140,10 @@
   --theme-accent-light: #fda4af;
   --theme-accent-dark: #f43f5e;
   --theme-accent-rgb: 251, 113, 133;
-  --theme-glow: rgba(251, 113, 133, 0.55);
-  --theme-mesh-1: rgba(251, 113, 133, 0.32);
-  --theme-mesh-2: rgba(236, 72, 153, 0.18);
-  --theme-mesh-3: rgba(239, 68, 68, 0.16);
+  --theme-glow: rgba(251, 113, 133, 0.60);
+  --theme-mesh-1: rgba(251, 113, 133, 0.44);
+  --theme-mesh-2: rgba(236, 72, 153, 0.28);
+  --theme-mesh-3: rgba(239, 68, 68, 0.24);
 }
 
 /* 11. Deep Indigo */
@@ -129,10 +152,10 @@
   --theme-accent-light: #818cf8;
   --theme-accent-dark: #4f46e5;
   --theme-accent-rgb: 99, 102, 241;
-  --theme-glow: rgba(99, 102, 241, 0.55);
-  --theme-mesh-1: rgba(99, 102, 241, 0.34);
-  --theme-mesh-2: rgba(168, 85, 247, 0.20);
-  --theme-mesh-3: rgba(14, 165, 233, 0.16);
+  --theme-glow: rgba(99, 102, 241, 0.60);
+  --theme-mesh-1: rgba(99, 102, 241, 0.46);
+  --theme-mesh-2: rgba(168, 85, 247, 0.30);
+  --theme-mesh-3: rgba(14, 165, 233, 0.24);
 }
 
 /* 12. Cyber Yellow */
@@ -141,10 +164,10 @@
   --theme-accent-light: #facc15;
   --theme-accent-dark: #ca8a04;
   --theme-accent-rgb: 234, 179, 8;
-  --theme-glow: rgba(234, 179, 8, 0.55);
-  --theme-mesh-1: rgba(234, 179, 8, 0.32);
-  --theme-mesh-2: rgba(249, 115, 22, 0.18);
-  --theme-mesh-3: rgba(132, 204, 22, 0.16);
+  --theme-glow: rgba(234, 179, 8, 0.60);
+  --theme-mesh-1: rgba(234, 179, 8, 0.44);
+  --theme-mesh-2: rgba(249, 115, 22, 0.28);
+  --theme-mesh-3: rgba(132, 204, 22, 0.24);
 }
 
 /* 13. Fuchsia Pulse */
@@ -153,10 +176,10 @@
   --theme-accent-light: #e879f9;
   --theme-accent-dark: #c026d3;
   --theme-accent-rgb: 217, 70, 239;
-  --theme-glow: rgba(217, 70, 239, 0.55);
-  --theme-mesh-1: rgba(217, 70, 239, 0.34);
-  --theme-mesh-2: rgba(168, 85, 247, 0.20);
-  --theme-mesh-3: rgba(236, 72, 153, 0.16);
+  --theme-glow: rgba(217, 70, 239, 0.60);
+  --theme-mesh-1: rgba(217, 70, 239, 0.46);
+  --theme-mesh-2: rgba(168, 85, 247, 0.30);
+  --theme-mesh-3: rgba(236, 72, 153, 0.24);
 }
 
 /* 14. Arctic Cyan */
@@ -165,70 +188,413 @@
   --theme-accent-light: #22d3ee;
   --theme-accent-dark: #0891b2;
   --theme-accent-rgb: 6, 182, 212;
-  --theme-glow: rgba(6, 182, 212, 0.55);
-  --theme-mesh-1: rgba(6, 182, 212, 0.32);
-  --theme-mesh-2: rgba(14, 165, 233, 0.18);
-  --theme-mesh-3: rgba(20, 184, 166, 0.16);
+  --theme-glow: rgba(6, 182, 212, 0.60);
+  --theme-mesh-1: rgba(6, 182, 212, 0.44);
+  --theme-mesh-2: rgba(14, 165, 233, 0.28);
+  --theme-mesh-3: rgba(20, 184, 166, 0.24);
+}
+
+/* ============================================================
+   YOUTUBE THEME MODES SYSTEM: Clean Light & Refined Dark
+   ============================================================ */
+
+:root, [data-theme-mode="light"] {
+  color-scheme: light;
+  --surface-950: #ffffff;
+  --surface-900: #f9f9f9;
+  --surface-850: #f2f2f2;
+  --surface-800: #e5e5e5;
+  --surface-750: #d9d9d9;
+  --surface-700: #cccccc;
+
+  --yt-bg: #f9f9f9;
+  --yt-card: #ffffff;
+  --yt-border: #e5e5e5;
+  --yt-chip: #f2f2f2;
+  --yt-chip-hover: #e5e5e5;
+  --yt-chip-active: #0f0f0f;
+  --yt-text: #0f0f0f;
+  --yt-subtext: #606060;
+  --yt-input-bg: #ffffff;
+  --yt-input-border: #d3d3d3;
+}
+
+[data-theme-mode="dark"] {
+  color-scheme: dark;
+  --surface-950: #0f0f0f;
+  --surface-900: #181818;
+  --surface-850: #212121;
+  --surface-800: #272727;
+  --surface-750: #303030;
+  --surface-700: #383838;
+
+  --yt-bg: #0f0f0f;
+  --yt-card: #212121;
+  --yt-border: #303030;
+  --yt-chip: #272727;
+  --yt-chip-hover: #3f3f3f;
+  --yt-chip-active: #ffffff;
+  --yt-text: #f1f1f1;
+  --yt-subtext: #aaaaaa;
+  --yt-input-bg: #121212;
+  --yt-input-border: #383838;
 }
 
 body {
   margin: 0;
   padding: 0;
   -webkit-tap-highlight-color: transparent;
-  background-color: #060810;
-  background-image:
-    radial-gradient(ellipse 95% 65% at 50% -12%, var(--theme-mesh-1), transparent 75%),
-    radial-gradient(ellipse 75% 55% at 100% 25%, var(--theme-mesh-2), transparent 75%),
-    radial-gradient(ellipse 70% 55% at 0% 75%, var(--theme-mesh-3), transparent 75%);
-  background-attachment: fixed;
   min-height: 100vh;
-  color: #f1f5f9;
-  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
+  position: relative;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
-/* Subtle dot-matrix overlay */
+/* Light Mode Body Styling */
+:root body,
+[data-theme-mode="light"] body {
+  background-color: #f9f9f9;
+  color: #0f0f0f;
+}
+
+/* Dark Mode Body Styling */
+[data-theme-mode="dark"] body {
+  background-color: #0f0f0f;
+  color: #f1f1f1;
+}
+
+/* Aurora Layer — active gently only in dark mode, hidden in clean light mode */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  background-image:
+    radial-gradient(ellipse 90% 70% at 10% -5%,  var(--theme-mesh-1), transparent 70%),
+    radial-gradient(ellipse 70% 55% at 92% 8%,   var(--theme-mesh-2), transparent 65%),
+    radial-gradient(ellipse 65% 55% at 4%  92%,  var(--theme-mesh-3), transparent 68%),
+    radial-gradient(ellipse 55% 45% at 88% 96%,  rgba(var(--theme-accent-rgb), 0.18), transparent 70%);
+  transition: opacity 0.3s ease;
+}
+
+[data-theme-mode="dark"] body::before {
+  opacity: 0.18;
+}
+
+/* Subtle Film Grain — disabled in light mode */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23grain)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  background-repeat: repeat;
+}
+
+[data-theme-mode="dark"] body::after {
+  opacity: 0.035;
+}
+
+/* Root content layer */
+#root {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}
+
+/* Global heading typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Bricolage Grotesque', Outfit, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Crosshatch dots */
 .bg-ambient-dots {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: 28px 28px;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.025) 1px, transparent 1px);
+  background-size: 40px 40px;
 }
 
-/* State of the art glassmorphic surface */
+[data-theme-mode="dark"] .bg-ambient-dots {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+}
+
+/* YouTube Clean Card Surface (glass-panel adapted to both themes) */
 .glass-panel {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.008) 100%), rgba(11, 15, 25, 0.75);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.55), inset 0 1px 0 0 rgba(255, 255, 255, 0.09);
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.03);
+  transition: all 0.2s ease;
+}
+
+[data-theme-mode="dark"] .glass-panel {
+  background: #1e1e1e !important;
+  border: 1px solid #2e2e2e !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
 }
 
 .glass-panel-interactive {
-  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.glass-panel-interactive:hover {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.015) 100%), rgba(17, 23, 38, 0.85);
-  border-color: rgba(var(--theme-accent-rgb), 0.45);
-  transform: translateY(-2px);
-  box-shadow: 0 20px 48px -12px rgba(0, 0, 0, 0.7), 0 0 22px -5px var(--theme-glow), inset 0 1px 0 0 rgba(255, 255, 255, 0.16);
-}
-
-/* Modern Glass Inputs */
-.glass-input {
-  background: rgba(8, 12, 21, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #ffffff;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.glass-panel-interactive:hover {
+  transform: translateY(-2px);
+  border-color: #d1d5db;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme-mode="dark"] .glass-panel-interactive:hover {
+  background: #252525 !important;
+  border-color: #3e3e3e !important;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* YouTube Clean Inputs */
+.glass-input {
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  color: #0f0f0f;
+  transition: all 0.2s ease;
+}
+
+.glass-input::placeholder {
+  color: #94a3b8;
+}
+
 .glass-input:hover {
-  border-color: rgba(255, 255, 255, 0.18);
+  border-color: #9ca3af;
 }
 
 .glass-input:focus {
-  border-color: var(--theme-accent-light);
-  box-shadow: 0 0 0 3px rgba(var(--theme-accent-rgb), 0.22), 0 0 20px -6px var(--theme-glow);
+  border-color: var(--theme-accent);
+  box-shadow: 0 0 0 3px rgba(var(--theme-accent-rgb), 0.16);
   outline: none;
+}
+
+[data-theme-mode="dark"] .glass-input {
+  background: #121212 !important;
+  border-color: #383838 !important;
+  color: #f1f1f1 !important;
+}
+
+[data-theme-mode="dark"] .glass-input::placeholder {
+  color: #64748b !important;
+}
+
+[data-theme-mode="dark"] .glass-input:focus {
+  border-color: var(--theme-accent) !important;
+  box-shadow: 0 0 0 3px rgba(var(--theme-accent-rgb), 0.25) !important;
+}
+
+/* ============================================================
+   YOUTUBE UI UTILITIES: PILLS, SEARCH PILL, CARDS & RED ACCENTS
+   ============================================================ */
+
+/* YouTube Pill Filter Buttons */
+.yt-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  background-color: #f2f2f2;
+  color: #0f0f0f;
+  border: 1px solid transparent;
+  transition: all 0.16s ease;
+}
+
+.yt-pill:hover {
+  background-color: #e5e5e5;
+}
+
+.yt-pill:active {
+  transform: scale(0.97);
+}
+
+[data-theme-mode="dark"] .yt-pill {
+  background-color: #272727;
+  color: #f1f1f1;
+}
+
+[data-theme-mode="dark"] .yt-pill:hover {
+  background-color: #383838;
+}
+
+/* Active YouTube Pill */
+:root .yt-pill-active,
+[data-theme-mode="light"] .yt-pill-active {
+  background-color: #0f0f0f !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme-mode="dark"] .yt-pill-active {
+  background-color: #ffffff !important;
+  color: #0f0f0f !important;
+  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Red YouTube Pill */
+.yt-pill-red {
+  background-color: #ff0000 !important;
+  color: #ffffff !important;
+  border-color: #ff0000 !important;
+  box-shadow: 0 2px 8px rgba(255, 0, 0, 0.3) !important;
+}
+
+.yt-pill-red:hover {
+  background-color: #cc0000 !important;
+}
+
+/* YouTube Center Search Bar Pill */
+.yt-search-pill {
+  display: flex;
+  align-items: center;
+  border-radius: 9999px;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.yt-search-pill:focus-within {
+  border-color: #065fd4;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06), 0 0 0 1px #065fd4;
+}
+
+[data-theme-mode="dark"] .yt-search-pill {
+  background-color: #121212;
+  border-color: #303030;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme-mode="dark"] .yt-search-pill:focus-within {
+  border-color: #3ea6ff;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4), 0 0 0 1px #3ea6ff;
+}
+
+/* Primary Button in YouTube Red */
+.btn-youtube-red {
+  background: linear-gradient(135deg, #ff1a1a 0%, #ff0000 60%, #cc0000 100%) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  border-radius: 9999px !important;
+  transition: all 0.18s ease !important;
+  box-shadow: 0 2px 8px rgba(255, 0, 0, 0.25) !important;
+}
+
+.btn-youtube-red:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(255, 0, 0, 0.35) !important;
+}
+
+.btn-youtube-red:active {
+  transform: scale(0.97);
+}
+
+/* ============================================================
+   LIGHT MODE TEXT & BORDER ADAPTERS
+   ============================================================ */
+:root h1, :root h2, :root h3, :root h4,
+[data-theme-mode="light"] h1,
+[data-theme-mode="light"] h2,
+[data-theme-mode="light"] h3,
+[data-theme-mode="light"] h4,
+[data-theme-mode="light"] .text-white {
+  color: #0f0f0f !important;
+}
+
+/* Elements that must retain white text even in light mode */
+:root .btn-theme-primary,
+:root .btn-theme-primary *,
+:root .btn-youtube-red,
+:root .btn-youtube-red *,
+:root .yt-pill-active,
+:root .badge-theme-solid,
+:root .bg-red-600,
+:root .bg-red-600 *,
+[data-theme-mode="light"] .btn-theme-primary,
+[data-theme-mode="light"] .btn-theme-primary *,
+[data-theme-mode="light"] .btn-youtube-red,
+[data-theme-mode="light"] .btn-youtube-red *,
+[data-theme-mode="light"] .yt-pill-active,
+[data-theme-mode="light"] .badge-theme-solid,
+[data-theme-mode="light"] .bg-red-600,
+[data-theme-mode="light"] .bg-red-600 *,
+[data-theme-mode="light"] [class*="bg-emerald-600"] *,
+[data-theme-mode="light"] [class*="bg-sky-600"] *,
+[data-theme-mode="light"] [class*="bg-amber-600"] *,
+[data-theme-mode="light"] [class*="bg-purple-600"] * {
+  color: #ffffff !important;
+}
+
+:root .text-slate-100, :root .text-slate-200,
+[data-theme-mode="light"] .text-slate-100,
+[data-theme-mode="light"] .text-slate-200 {
+  color: #1a1a1a !important;
+}
+
+:root .text-slate-300, :root .text-slate-400,
+[data-theme-mode="light"] .text-slate-300,
+[data-theme-mode="light"] .text-slate-400 {
+  color: #606060 !important;
+}
+
+:root .text-slate-500,
+[data-theme-mode="light"] .text-slate-500 {
+  color: #767676 !important;
+}
+
+:root .border-white\/10, :root .border-white\/15, :root .border-white\/20,
+:root .border-white\/25, :root .border-white\/5, :root .border-white\/\[0\.06\],
+:root .border-white\/\[0\.08\],
+[data-theme-mode="light"] .border-white\/10,
+[data-theme-mode="light"] .border-white\/15,
+[data-theme-mode="light"] .border-white\/20,
+[data-theme-mode="light"] .border-white\/25,
+[data-theme-mode="light"] .border-white\/5,
+[data-theme-mode="light"] .border-white\/\[0\.06\],
+[data-theme-mode="light"] .border-white\/\[0\.08\] {
+  border-color: #e5e5e5 !important;
+}
+
+:root .bg-white\/\[0\.04\], :root .bg-white\/\[0\.06\], :root .bg-white\/\[0\.08\],
+:root .bg-white\/5, :root .bg-white\/10,
+[data-theme-mode="light"] .bg-white\/\[0\.04\],
+[data-theme-mode="light"] .bg-white\/\[0\.06\],
+[data-theme-mode="light"] .bg-white\/\[0\.08\],
+[data-theme-mode="light"] .bg-white\/5,
+[data-theme-mode="light"] .bg-white\/10 {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+:root .bg-white\/\[0\.04\]:hover, :root .bg-white\/\[0\.06\]:hover, :root .bg-white\/\[0\.08\]:hover,
+[data-theme-mode="light"] .bg-white\/\[0\.04\]:hover,
+[data-theme-mode="light"] .bg-white\/\[0\.06\]:hover,
+[data-theme-mode="light"] .bg-white\/\[0\.08\]:hover {
+  background-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Monospace with tabular numbers for currency alignment */
+.font-mono {
+  font-feature-settings: "tnum" 1;
+  font-variant-numeric: tabular-nums;
 }
 
 /* ============================================================
@@ -237,19 +603,42 @@ body {
 
 /* 1. Theme Primary Button */
 .btn-theme-primary {
-  background: linear-gradient(135deg, var(--theme-accent-light) 0%, var(--theme-accent) 100%) !important;
-  color: #040711 !important;
+  background: linear-gradient(135deg, var(--theme-accent-light) 0%, var(--theme-accent) 55%, var(--theme-accent-dark) 100%) !important;
+  color: #030710 !important;
   font-weight: 900 !important;
-  box-shadow: 0 0 24px -2px var(--theme-glow), 0 4px 14px rgba(0, 0, 0, 0.4) !important;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  letter-spacing: 0.01em;
+  box-shadow: 0 0 28px -3px var(--theme-glow), 0 4px 16px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255,255,255,0.25) !important;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 .btn-theme-primary:hover {
-  filter: brightness(1.12);
-  transform: translateY(-1px);
-  box-shadow: 0 0 32px -1px var(--theme-glow), 0 6px 20px rgba(0, 0, 0, 0.5) !important;
+  filter: brightness(1.1) saturate(1.1);
+  transform: translateY(-1.5px);
+  box-shadow: 0 0 38px -2px var(--theme-glow), 0 8px 24px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.3) !important;
 }
 .btn-theme-primary:active {
-  transform: scale(0.96) !important;
+  transform: scale(0.97) translateY(0) !important;
+  filter: brightness(0.95) !important;
+}
+
+/* 1b. Soft Secondary Theme Button */
+.btn-theme-soft {
+  background: rgba(var(--theme-accent-rgb), 0.12) !important;
+  color: var(--theme-accent-light) !important;
+  border: 1px solid rgba(var(--theme-accent-rgb), 0.35) !important;
+  font-weight: 700 !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.btn-theme-soft:hover {
+  background: rgba(var(--theme-accent-rgb), 0.22) !important;
+  border-color: rgba(var(--theme-accent-rgb), 0.55) !important;
+  box-shadow: 0 0 18px -4px var(--theme-glow) !important;
+}
+.btn-theme-soft:active {
+  transform: scale(0.97) !important;
+}
+.btn-theme-soft:disabled {
+  opacity: 0.4 !important;
+  pointer-events: none;
 }
 
 /* 2. Theme Active Navigation Tab */
@@ -299,25 +688,39 @@ body {
 /* 7. Theme Today Calendar Cell */
 .cell-theme-today {
   border-color: var(--theme-accent) !important;
+  background: rgba(var(--theme-accent-rgb), 0.08) !important;
+  box-shadow: 0 0 14px -3px var(--theme-glow) !important;
+}
+
+[data-theme-mode="dark"] .cell-theme-today {
   background: linear-gradient(135deg, rgba(var(--theme-accent-rgb), 0.22) 0%, rgba(var(--theme-accent-rgb), 0.06) 100%) !important;
   box-shadow: 0 0 24px -4px var(--theme-glow) !important;
 }
 
-/* 8. Fully Opaque Theme Dropdown (NO merging with background!) */
+/* 8. YouTube Clean Theme Dropdown Popover */
 .theme-dropdown-popover {
-  background: #080b14 !important;
-  background-color: #080b14 !important;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #0f0f0f !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
-  border: 1px solid rgba(255, 255, 255, 0.18) !important;
-  box-shadow: 0 25px 65px -8px rgba(0, 0, 0, 0.98), 0 0 32px -8px var(--theme-glow) !important;
+  border: 1px solid #e5e5e5 !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12) !important;
   z-index: 100 !important;
   isolation: isolate;
 }
 
+[data-theme-mode="dark"] .theme-dropdown-popover {
+  background: #1e1e1e !important;
+  background-color: #1e1e1e !important;
+  color: #f1f1f1 !important;
+  border: 1px solid #333333 !important;
+  box-shadow: 0 25px 65px -8px rgba(0, 0, 0, 0.9), 0 0 32px -8px var(--theme-glow) !important;
+}
+
 /* Custom glow accents */
 .accent-glow {
-  box-shadow: 0 0 24px -4px var(--theme-glow);
+  box-shadow: 0 0 20px -4px var(--theme-glow);
 }
 
 .accent-bg {
@@ -334,6 +737,13 @@ body {
 
 /* Typography Gradient utility */
 .text-gradient-display {
+  background: linear-gradient(135deg, #0f0f0f 30%, #64748b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme-mode="dark"] .text-gradient-display {
   background: linear-gradient(135deg, #ffffff 30%, #94a3b8 100%);
   -webkit-background-clip: text;
   background-clip: text;
@@ -341,7 +751,7 @@ body {
 }
 
 .text-gradient-accent {
-  background: linear-gradient(135deg, var(--theme-accent-light) 0%, var(--theme-accent) 50%, #38bdf8 100%);
+  background: linear-gradient(135deg, var(--theme-accent-light) 0%, var(--theme-accent) 50%, #ff4d4d 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -349,8 +759,8 @@ body {
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -358,8 +768,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.14);
+  background: rgba(0, 0, 0, 0.2);
   border-radius: 9999px;
+}
+
+[data-theme-mode="dark"] ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
 }
 
 ::-webkit-scrollbar-thumb:hover {
